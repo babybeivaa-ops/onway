@@ -1,5 +1,8 @@
-export interface SharedSession {token:string;role:'admin'|'guide'}
+export interface SharedSession {token:string;role:'admin'|'guide'|'viewer'}
 export function sharedSession():SharedSession|null{
+ const viewerParams=new URLSearchParams(location.hash.slice(1));const viewerToken=viewerParams.get('viewer');
+ if(viewerToken){sessionStorage.setItem('onway-viewer-access',viewerToken);history.replaceState(null,'',location.pathname+location.search+'#viewer');return {token:viewerToken,role:'viewer'};}
+ if(location.hash==='#viewer')return {token:sessionStorage.getItem('onway-viewer-access')||'',role:'viewer'};
  const params=new URLSearchParams(location.hash.slice(1));const token=params.get('guide');
  if(token){sessionStorage.setItem('onway-guide-access',token);history.replaceState(null,'',location.pathname+location.search+'#guide');return {token,role:'guide'};}
  if(location.hash==='#guide'){const saved=sessionStorage.getItem('onway-guide-access');return saved?{token:saved,role:'guide'}:{token:'',role:'guide'};}

@@ -17,7 +17,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
   fs.renameSync(tmp,file);db=next;
  };
  const json=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
- const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin'};const key=hash(token);const entry=db.links[key];return entry&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
+ const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin'};const key=hash(token);const entry=db.links[key];return entry&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:entry.role==='viewer'?'viewer':'guide',groupId:entry.groupId}:null;};
  const snapshot=actor=>({role:actor.role,revision:db.revision,workspace:actor.role==='admin'?db.workspace:{version:2,view:'guide',activeGroupId:actor.groupId,groups:db.workspace.groups.filter(g=>g.id===actor.groupId)}});
  async function body(req){let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>10000000)throw Object.assign(Error('요청이 너무 커요.'),{status:413});}try{return JSON.parse(raw)}catch{throw Object.assign(Error('잘못된 요청이에요.'),{status:400})}}
  const denied=()=>Object.assign(Error('이 작업의 권한이 없어요.'),{status:403});
@@ -28,6 +28,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
    if(store){db=await store.load();if(!validWorkspace(db.workspace)||!Number.isSafeInteger(db.revision)||!db.links)throw Error('invalid stored state');}
    const actor=auth(req);if(!actor){json(res,401,{error:'접속 코드가 잘못되었거나 만료된 링크예요.'});return true;}
    if(url.pathname==='/api/shared/workspace'&&req.method==='GET'){json(res,200,snapshot(actor));return true;}
+   if(actor.role==='viewer')throw denied();
    if(url.pathname==='/api/shared/workspace'&&req.method==='PUT'){
     const input=await body(req);if(input.revision!==db.revision){json(res,409,{error:'다른 기기에서 변경했어요. 최신 기록을 불러온 뒤 다시 수정해주세요.'});return true;}
     if(!validWorkspace(input.workspace))throw Object.assign(Error('저장할 기록 형식이 올바르지 않아요.'),{status:400});
@@ -62,10 +63,10 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
     await persist({...db,revision:db.revision+1,workspace:{...db.workspace,activeGroupId:group.id,groups:[...db.workspace.groups,group]}});json(res,200,snapshot(actor));return true;
    }
    if(url.pathname==='/api/shared/link'&&req.method==='POST'){
-    const {groupId,revoke=false}=await body(req);if(!db.workspace.groups.some(g=>g.id===groupId))throw Object.assign(Error('단체를 찾지 못했어요.'),{status:404});
-    const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.groupId!==groupId));
+    const {groupId,revoke=false,role='guide'}=await body(req);if(!['guide','viewer'].includes(role))throw Object.assign(Error('지원하지 않는 링크 유형이에요.'),{status:400});if(!db.workspace.groups.some(g=>g.id===groupId))throw Object.assign(Error('단체를 찾지 못했어요.'),{status:404});
+    const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.groupId!==groupId||(v.role||'guide')!==role));
     const token=randomBytes(32).toString('base64url'),expires=now()+30*86400000;
-    if(!revoke)links[hash(token)]={groupId,expires};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;
+    if(!revoke)links[hash(token)]={groupId,expires,role};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;
    }
    json(res,404,{error:'지원하지 않는 공유 요청이에요.'});
   }catch(e){json(res,e.status||500,{error:e.status?e.message:'공유 기록을 처리하지 못했어요. 원래 기록은 유지됩니다.'});}

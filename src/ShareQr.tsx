@@ -1,0 +1,4 @@
+import {useEffect,useState} from 'react';
+let ready:Promise<void>|undefined;
+function load(){if((window as any).qrcode)return Promise.resolve();if(!ready)ready=new Promise<void>((resolve,reject)=>{const s=document.createElement('script');s.src='/vendor/qrcode.js';s.onload=()=>resolve();s.onerror=()=>{s.remove();ready=undefined;reject(Error('QR 도구를 불러오지 못했어요.'))};document.head.append(s)});return ready;}
+export function ShareQr({url}:{url:string}){const [src,setSrc]=useState(''),[error,setError]=useState('');useEffect(()=>{let alive=true;load().then(()=>{const qr=(window as any).qrcode(0,'M');qr.addData(url);qr.make();if(alive)setSrc(qr.createDataURL(5,16))}).catch(e=>{if(alive)setError(e.message)});return()=>{alive=false}},[url]);return <div className="share-qr">{src?<img src={src} alt="공유 여정 링크 QR 코드" style={{maxWidth:'100%',height:'auto'}}/>:<p role="status">{error||'QR 생성 중…'}</p>}</div>}

@@ -60,3 +60,12 @@ Render Free는 15분 동안 요청이 없으면 쉬었다가 다음 접속 때 �
 
 ## 카카오 지도 전환
 Render Environment에 KAKAO_JAVASCRIPT_KEY를 추가합니다. 카카오 플랫폼 키의 JavaScript SDK 도메인에 http://127.0.0.1:4183 과 https://onway-demo.onrender.com 을 등록합니다. 장소 검색과 길찾기는 서버의 KAKAO_REST_API_KEY를 사용합니다. 지도 화면은 KAKAO_JAVASCRIPT_KEY를 사용하며 VWORLD_API_KEY/VWORLD_DOMAIN은 더 이상 사용하지 않습니다.
+
+## 공유 시연 사용
+- 인솔자 링크는 해당 단체의 기록을 수정할 수 있습니다.
+- 관람용 링크는 보기 전용입니다. 서버에서도 모든 쓰기 요청을 거절합니다.
+- 두 링크 유형의 재발급·해제는 각각 독립적으로 동작합니다. 같은 유형을 재발급하면 이전 링크가 무효화됩니다.
+- 링크 복사와 QR 보기는 새 링크를 발급하지 않습니다. 발급된 주소는 현재 탭의 세션에 보관됩니다.
+- 공유 인솔자·관람자 화면에는 시연 초기화 버튼을 표시하지 않습니다.
+- 전화하기는 현재 시연 번호 061-830-1588로 고정합니다.
+- QR 생성 라이브러리: kazuhikoarase/qrcode-generator, MIT. 원본 라이선스는 public/vendor/qrcode.js에 포함합니다. QR 코드는 브라우저 내부에서 생성합니다.
