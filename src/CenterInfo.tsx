@@ -1,6 +1,6 @@
 import {Cloud} from './Visuals';
 
-import {useEffect,useState} from 'react';
+import {useState} from 'react';
 const key='onway-center-info-v2';const blank={contactName:'',phone:'',address:'전남 고흥군 동일면 덕흥양쪽길200',dropoff:'체험관 앞'};
 export function CenterInfo({editable=false}:{editable?:boolean}){
  const [info,setInfo]=useState(()=>{try{const saved=JSON.parse(localStorage.getItem(key)||'{}');return Object.fromEntries(Object.entries(blank).map(([field,fallback])=>[field,typeof saved[field]==='string'?saved[field]:fallback])) as typeof blank}catch{return blank}}),[message,setMessage]=useState('');
@@ -9,10 +9,7 @@ export function CenterInfo({editable=false}:{editable?:boolean}){
 }
 
 export function CenterCallButton(){
- const read=()=>{try{const phone=JSON.parse(localStorage.getItem(key)||'{}').phone;return typeof phone==='string'&&/^[0-9+() -]+$/.test(phone)&&/\d/.test(phone)?phone.replace(/[^0-9+]/g,''):''}catch{return ''}};
- const [phone,setPhone]=useState(read);
- useEffect(()=>{const refresh=()=>setPhone(read());window.addEventListener('storage',refresh);window.addEventListener('focus',refresh);window.addEventListener('onway-center-info-change',refresh);return()=>{window.removeEventListener('storage',refresh);window.removeEventListener('focus',refresh);window.removeEventListener('onway-center-info-change',refresh)}},[]);
- return <div className="header-center-contact">{phone?<a href={'tel:'+phone} className="center-call-button" aria-label="센터에 전화하기"><span className="calling-cloud" aria-hidden="true"><Cloud calling/></span><span>전화하기</span></a>:<button type="button" className="center-call-button" aria-label="센터에 전화하기" disabled><span className="calling-cloud" aria-hidden="true"><Cloud calling/></span><span>전화하기</span></button>}{!phone&&<small>센터 연락처 등록 전</small>}</div>;
+ return <div className="header-center-contact"><a href="tel:0618301588" className="center-call-button" aria-label="센터에 전화하기 061-830-1588" title="061-830-1588"><span className="calling-cloud" aria-hidden="true"><Cloud calling/></span><span>전화하기</span></a></div>;
 }
 
 export function HeartMascot({calling=false}:{calling?:boolean}){return <svg className="calling-heart" width={calling?34:30} height="30" viewBox={calling?"0 0 46 40":"0 0 40 40"} aria-hidden="true"><path d="M20 35C15 31 3 23 3 13C3 3 15 2 20 10C25 2 37 3 37 13C37 23 25 31 20 35Z" fill="#f399ab" stroke="#dd7a91" strokeWidth="1.4"/><ellipse cx="14" cy="17" rx="2" ry="3" fill="#633c54"/><ellipse cx="26" cy="17" rx="2" ry="3" fill="#633c54"/><path d="M16 24q4 4 8 0" fill="none" stroke="#633c54" strokeWidth="1.7" strokeLinecap="round"/><ellipse cx="10" cy="23" rx="3" ry="1.5" fill="#f7bdc9"/><ellipse cx="30" cy="23" rx="3" ry="1.5" fill="#f7bdc9"/>{calling&&<><path d="M36 8C31 13 31 24 37 29L41 26L37 21L35 22Q33 18 35 14L37 15L40 10Z" fill="#375b76" stroke="#274760" strokeWidth="1.2" strokeLinejoin="round"/><ellipse cx="33" cy="23" rx="3.3" ry="2.8" fill="#f399ab" stroke="#dd7a91" strokeWidth="1"/><path d="M43 11q3 5 0 10" fill="none" stroke="#8a718a" strokeWidth="1.5" strokeLinecap="round"/></>}</svg>}
