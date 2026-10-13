@@ -17,7 +17,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
   fs.renameSync(tmp,file);db=next;
  };
  const json=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
- const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin'};const key=hash(token);const entry=db.links[key];return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
+ const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin',owner:true};const key=hash(token);const entry=db.links[key];if(entry?.role==='admin'&&entry.expires>now())return {role:'admin',owner:false};return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
  const snapshot=actor=>({role:actor.role,revision:db.revision,workspace:actor.role==='admin'?db.workspace:{version:2,view:'guide',activeGroupId:actor.groupId,groups:db.workspace.groups.filter(g=>g.id===actor.groupId)}});
  async function body(req){let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>10000000)throw Object.assign(Error('요청이 너무 커요.'),{status:413});}try{return JSON.parse(raw)}catch{throw Object.assign(Error('잘못된 요청이에요.'),{status:400})}}
  const denied=()=>Object.assign(Error('이 작업의 권한이 없어요.'),{status:403});
@@ -51,10 +51,16 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      workspace={...db.workspace,groups:db.workspace.groups.map(x=>x.id===g.id?g:x)};
     }
     const next={...db,revision:db.revision+1,workspace};
-    next.links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>workspace.groups.some(g=>g.id===v.groupId)));
+    next.links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role==='admin'||workspace.groups.some(g=>g.id===v.groupId)));
     await persist(next);json(res,200,snapshot(actor));return true;
    }
    if(actor.role!=='admin')throw denied();
+   if(url.pathname==='/api/shared/admin-invite'){
+    if(!actor.owner)throw denied();
+    if(req.method==='GET'){const entry=Object.values(db.links).find(v=>v.role==='admin'&&v.expires>now());json(res,200,{expires:entry?.expires||null});return true;}
+    if(req.method==='POST'){const {revoke=false}=await body(req);const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role!=='admin'));const token=randomBytes(32).toString('base64url'),expires=now()+86400000;if(!revoke)links[hash(token)]={role:'admin',expires};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;}
+    json(res,405,{error:'허용되지 않은 요청이에요.'});return true;
+   }
    if(url.pathname==='/api/shared/publish'&&req.method==='POST'){
     const {group}=await body(req);if(!validGroup(group))throw Object.assign(Error('단체 정보가 올바르지 않아요.'),{status:400});
     if(db.workspace.groups.some(g=>g.id===group.id)){json(res,409,{error:'이미 공유한 단체예요. 공유 관리 화면에서 수정해주세요.'});return true;}

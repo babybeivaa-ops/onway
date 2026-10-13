@@ -22,3 +22,26 @@ test('expired guide links cannot be used',async t=>{const {dir}=fixture(t);let c
 test('retired viewer links cannot be created and guide links remain usable',async t=>{const {handler:h}=fixture(t,true);const group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;assert.equal((await request(h,'link',admin,'POST',{groupId:group.id,role:'viewer'})).status,400);assert.equal((await request(h,'workspace',token)).status,200);});
 import {createHash} from 'node:crypto';
 test('previously issued viewer tokens are rejected without changing records',async()=>{const g=makeGroup(),token='retired-viewer-token';const db={revision:1,workspace:{version:2,view:'admin',activeGroupId:g.id,groups:[g]},links:{[createHash('sha256').update(token).digest('hex')]:{groupId:g.id,role:'viewer',expires:Date.now()+86400000}}};const h=createSharingHandler({adminToken:admin,store:{async load(){return structuredClone(db)},async save(){throw Error('unexpected write')}}});assert.equal((await request(h,'workspace',token)).status,401);assert.deepEqual((await request(h,'workspace')).body.workspace.groups,[g]);});
+
+test('admin invitations grant workspace access but cannot issue more admin invitations',async t=>{
+ const {handler:h}=fixture(t,true);const a=makeGroup(),b=makeGroup();await request(h,'publish',admin,'POST',{group:a});await request(h,'publish',admin,'POST',{group:b});
+ const guide=(await request(h,'link',admin,'POST',{groupId:a.id})).body.token;
+ assert.equal((await request(h,'admin-invite',guide,'POST',{})).status,403);
+ const issued=await request(h,'admin-invite',admin,'POST',{});assert.equal(issued.status,200);assert.ok(!JSON.stringify(issued).includes(admin));const token=issued.body.token;
+ const read=await request(h,'workspace',token);assert.equal(read.body.role,'admin');assert.equal(read.body.workspace.groups.length,2);
+ assert.equal((await request(h,'admin-invite',token,'POST',{})).status,403);assert.equal((await request(h,'admin-invite',token)).status,403);
+ const w=read.body.workspace;w.groups[0].state.counts.youth=29;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:w,revision:read.body.revision})).status,200);
+ assert.equal((await request(h,'workspace',token)).status,200);
+ assert.equal((await request(h,'admin-invite',admin,'POST',{revoke:true})).status,200);
+ assert.equal((await request(h,'workspace',token)).status,401);assert.equal((await request(h,'workspace',guide)).status,200);
+});
+test('admin invitation survives storage reload and expires after 24 hours',async()=>{
+ let clock=Date.now();let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};
+ const store={async load(){return structuredClone(db)},async save(next){db=structuredClone(next)}};
+ const h=createSharingHandler({adminToken:admin,store,now:()=>clock});const issued=(await request(h,'admin-invite',admin,'POST',{})).body;
+ assert.equal(issued.expires,clock+86400000);assert.ok(!JSON.stringify(db).includes(issued.token));
+ const reloaded=createSharingHandler({adminToken:admin,store,now:()=>clock});assert.equal((await request(reloaded,'workspace',issued.token)).status,200);
+ clock+=86400000;assert.equal((await request(reloaded,'workspace',issued.token)).status,401);assert.equal((await request(reloaded,'workspace')).status,200);
+});
+test('admin invitation rotation invalidates previous invitation',async t=>{const {handler:h}=fixture(t,true);const first=(await request(h,'admin-invite',admin,'POST',{})).body.token;const second=(await request(h,'admin-invite',admin,'POST',{})).body.token;assert.equal((await request(h,'workspace',first)).status,401);assert.equal((await request(h,'workspace',second)).status,200)});

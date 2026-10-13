@@ -1,5 +1,7 @@
 export interface SharedSession {token:string;role:'admin'|'guide'|'viewer'}
 export function sharedSession():SharedSession|null{
+ const invite=new URLSearchParams(location.hash.slice(1)).get('admin-invite');
+ if(invite){sessionStorage.setItem('onway-admin-access',invite);history.replaceState(null,'',location.pathname+location.search+'#shared-admin');return {token:invite,role:'admin'};}
  const viewerParams=new URLSearchParams(location.hash.slice(1));const viewerToken=viewerParams.get('viewer');
  if(viewerToken){sessionStorage.setItem('onway-viewer-access',viewerToken);history.replaceState(null,'',location.pathname+location.search+'#viewer');return {token:viewerToken,role:'viewer'};}
  if(location.hash==='#viewer')return {token:sessionStorage.getItem('onway-viewer-access')||'',role:'viewer'};
@@ -12,5 +14,5 @@ export function sharedSession():SharedSession|null{
 export async function sharedRequest(token:string,path:string,method='GET',body?:unknown){
  const r=await fetch('/api/shared/'+path,{method,headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
  let d;try{d=await r.json()}catch{throw Error('공유 서버에 연결하지 못했어요.')}
- if(!r.ok)throw Error(d.error||'공유 서버 요청에 실패했어요.');return d;
+ if(!r.ok)throw Object.assign(Error(d.error||'공유 서버 요청에 실패했어요.'),{status:r.status});return d;
 }
