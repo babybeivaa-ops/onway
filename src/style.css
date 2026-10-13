@@ -268,3 +268,16 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 .share-link-card{padding:12px;margin:12px 0;border:1px solid #dce7f5;border-radius:12px}.share-link-card input{width:100%;box-sizing:border-box}.share-link-card button{margin:6px 6px 6px 0}.viewer-journey .location-setup,.viewer-journey .map-find-place,.viewer-journey .timeline-edit-button{display:none}
 
 .admin-tools-wrap{box-sizing:border-box;width:100%;max-width:1040px;margin:0 auto;padding:0 26px;min-width:0}.admin-tools-wrap .data-tools{min-width:0}.admin-tools-wrap input{max-width:100%;min-width:0;box-sizing:border-box}@media(max-width:759px){.admin-tools-wrap{padding:0 16px}}
+
+/* One shared content boundary for every administrator section. */
+.workspace-shell.admin{--admin-gutter:26px}
+.workspace-shell.admin>.workspace-edit-scope{width:100%;max-width:1040px;margin:0 auto;padding:0 var(--admin-gutter);box-sizing:border-box}
+.workspace-shell.admin .admin-page{width:100%;max-width:none;padding:32px 0 48px;margin:0}
+.workspace-shell.admin .admin-tools-wrap{width:100%;max-width:none;padding:0;margin:0}
+.workspace-shell.admin .demo-toolbar.demo-toolbar-fold{width:100%;max-width:none;margin:12px 0;padding:0;border:1px solid #dce5f1;border-radius:12px;background:#fff}
+.workspace-shell.admin .demo-toolbar-fold>summary{padding:0 18px}
+.workspace-shell.admin .demo-toolbar-content{padding:4px 18px 14px}
+.workspace-shell.admin>.shared-status,.workspace-shell.admin>.workspace-lock-note,.workspace-shell.admin>.save-failure-banner{width:calc(100% - 2 * var(--admin-gutter));max-width:988px;margin:12px auto;box-sizing:border-box;border-radius:12px}
+.demo-toolbar-content .demo-example-toggle{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:8px;margin:12px 0 4px;min-height:32px;font-size:12px}
+.demo-example-toggle input[type=checkbox]{appearance:auto;display:inline-block;flex:0 0 18px;width:18px;height:18px;min-height:0;margin:0;padding:0;accent-color:#2069ed}
+@media(max-width:759px){.workspace-shell.admin{--admin-gutter:16px}.workspace-shell.admin .admin-page{padding:23px 0 32px}.workspace-shell.admin>.shared-status,.workspace-shell.admin>.workspace-lock-note,.workspace-shell.admin>.save-failure-banner{max-width:none}}
