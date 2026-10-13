@@ -19,9 +19,7 @@ services:
         sync: false
       - key: SUPABASE_SECRET_KEY
         sync: false
-      - key: VWORLD_API_KEY
-        sync: false
-      - key: VWORLD_DOMAIN
+      - key: KAKAO_JAVASCRIPT_KEY
         sync: false
       - key: KAKAO_REST_API_KEY
         sync: false

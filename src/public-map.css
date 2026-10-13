@@ -103,3 +103,5 @@
 .journey-overview .timeline-edit-button{grid-column:2;grid-row:3;position:relative;align-self:center;min-height:32px;padding:4px 6px;font-size:12px;line-height:24px}
 .journey-overview .timeline-edit-button::after{content:'';position:absolute;inset:-6px 0}
 .journey-overview .is-destination{min-height:0;padding-bottom:8px}
+
+.kakao-journey-pin{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;background:transparent;box-shadow:none;cursor:pointer}.kakao-place-popup{background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 12px #0003;white-space:nowrap}

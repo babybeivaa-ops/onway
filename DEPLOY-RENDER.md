@@ -57,3 +57,6 @@
 Render Free는 15분 동안 요청이 없으면 쉬었다가 다음 접속 때 다시 시작하여 첫 화면이 늦을 수 있습니다. 시연 전에 미리 접속하세요. Supabase Free도 사용량 제한과 비활성 프로젝트 일시 중지가 있습니다. 이 설정은 소규모 시연용이며 상시 운영을 보장하지 않습니다. Supabase 모드에서는 기존 로컬 날짜별 파일 백업이 생성되지 않으므로 앱의 JSON 백업을 사용합니다.
 
 공식 문서: https://render.com/docs/free · https://supabase.com/pricing · https://supabase.com/docs/guides/api
+
+## 카카오 지도 전환
+Render Environment에 KAKAO_JAVASCRIPT_KEY를 추가합니다. 카카오 플랫폼 키의 JavaScript SDK 도메인에 http://127.0.0.1:4183 과 https://onway-demo.onrender.com 을 등록합니다. 장소 검색과 길찾기는 서버의 KAKAO_REST_API_KEY를 사용합니다. 지도 화면은 KAKAO_JAVASCRIPT_KEY를 사용하며 VWORLD_API_KEY/VWORLD_DOMAIN은 더 이상 사용하지 않습니다.

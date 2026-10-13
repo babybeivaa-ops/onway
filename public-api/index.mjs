@@ -10,14 +10,11 @@ import {fileURLToPath} from 'node:url';
 import {createRouteHandler} from './routes.mjs';
 import {createMapHandler} from './gateway.mjs';
 
-// VWORLD_KEY_FILE is local-only; production uses VWORLD_API_KEY.
-let key=process.env.VWORLD_API_KEY?.trim()||'';
-if(!key&&process.env.VWORLD_KEY_FILE){try{key=fs.readFileSync(process.env.VWORLD_KEY_FILE,'utf8').trim();}catch{console.error('지도 키 파일을 읽을 수 없습니다.');process.exit(1);}}
-const domain=process.env.VWORLD_DOMAIN||'';
-if(key&&!/^https?:\/\/[^\s]+$/.test(domain)){console.error('VWORLD_DOMAIN에 등록된 서비스 주소를 설정해주세요.');process.exit(1);}
-const handler=createMapHandler({key,domain});
 let kakaoKey=process.env.KAKAO_REST_API_KEY?.trim()||'';
 if(!kakaoKey&&process.env.KAKAO_KEY_FILE){try{kakaoKey=fs.readFileSync(process.env.KAKAO_KEY_FILE,'utf8').trim();}catch{console.error('카카오 키 파일을 읽을 수 없습니다.');process.exit(1);}}
+let javascriptKey=process.env.KAKAO_JAVASCRIPT_KEY?.trim()||'';
+if(!javascriptKey&&process.env.KAKAO_JS_KEY_FILE){javascriptKey=fs.readFileSync(process.env.KAKAO_JS_KEY_FILE,'utf8').trim();}
+const handler=createMapHandler({kakaoKey,javascriptKey});
 const routeHandler=createRouteHandler({key:kakaoKey});
 let weatherKey=process.env.KMA_SERVICE_KEY?.trim()||'';
 if(!weatherKey&&process.env.KMA_KEY_FILE){try{weatherKey=fs.readFileSync(process.env.KMA_KEY_FILE,'utf8').trim()}catch{console.error('날씨 키 파일을 읽을 수 없습니다.')}}
