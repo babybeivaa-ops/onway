@@ -1,0 +1,1 @@
+export function durationLabel(seconds:number){if(!Number.isFinite(seconds)||seconds<0)return '';const minutes=Math.max(1,Math.ceil(seconds/60));return minutes>=60?Math.floor(minutes/60)+'시간'+(minutes%60?' '+minutes%60+'분':''):minutes+'분';}

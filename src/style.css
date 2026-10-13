@@ -15,7 +15,7 @@
 .arrival-card .fine{margin-top:4px;line-height:1.45}
 
 /* Compact alert: details remain available without occupying the first screen. */
-.urgent-notices{margin-bottom:14px}.urgent-notice{display:block;padding:0;border-left-width:4px;border-radius:10px}.urgent-notice summary{display:flex;align-items:center;gap:8px;min-height:48px;padding:10px 11px;list-style:none;cursor:pointer}.urgent-notice summary:before{content:none}.urgent-notice summary::-webkit-details-marker{display:none}.urgent-notice summary>svg{flex-shrink:0}.urgent-message{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.45}.urgent-demo{font-size:10px;border:1px solid currentColor;border-radius:4px;padding:1px 4px;white-space:nowrap}.urgent-chevron{transition:transform .15s}.urgent-notice[open] .urgent-chevron{transform:rotate(90deg)}.urgent-detail{padding:0 12px 12px 38px;font-size:12px;line-height:1.5}.urgent-detail strong{font-size:12px}.urgent-detail p{font-size:12px;font-weight:400;margin:4px 0 0}
+.urgent-notices{margin-bottom:14px}.urgent-notice{display:block;padding:0;border-left-width:4px;border-radius:10px}.urgent-notice summary{display:flex;align-items:center;gap:8px;min-height:38px;padding:6px 11px;list-style:none;cursor:pointer}.urgent-notice summary:before{content:none}.urgent-notice summary::-webkit-details-marker{display:none}.urgent-notice summary>svg{flex-shrink:0}.urgent-message{flex:1;min-width:0;font-size:14px;font-weight:700;line-height:1.45}.urgent-demo{font-size:10px;border:1px solid currentColor;border-radius:4px;padding:1px 4px;white-space:nowrap}.urgent-chevron{transition:transform .15s}.urgent-notice[open] .urgent-chevron{transform:rotate(90deg)}.urgent-detail{padding:0 12px 12px 38px;font-size:12px;line-height:1.5}.urgent-detail strong{font-size:12px}.urgent-detail p{font-size:12px;font-weight:400;margin:4px 0 0}
 
 .checkpoint-row{gap:12px;padding:12px 0}.checkpoint-content{min-width:0}.checkpoint-title{display:flex;align-items:center;gap:4px;min-height:32px}.checkpoint-title>b{line-height:1.5}.checkpoint-title .icon-button{height:44px;min-width:44px;color:#71849c}.checkpoint-check{flex:none;width:54px;min-height:58px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}.checkpoint-check span{font-size:11px;font-weight:600}.checkpoint-check.complete{color:#fff;background:#246ced}.checkpoint-check.pending{color:#718096;background:#e8edf4;border:1px solid #dbe3ed}.checkpoint-check.pending:active{background:#d7e6fc}.record-details,.cancelled-history{font-size:12px;color:#6b809a}.record-details summary{min-height:44px;width:fit-content}.record-details .text-button{color:#985039}.checkpoint-content>small{margin-top:0}
 
@@ -37,3 +37,222 @@
 .notice-link{width:100%;text-align:left;border:1px solid transparent}.notice-link:active{border-color:#8bb4e9}.notice-pictogram{display:flex;align-items:center;justify-content:center;width:43px;height:43px;flex-shrink:0;border-radius:13px;background:#dcecff}.notice-pictogram.traffic{background:#ffe8b6}.notice-copy{flex:1;min-width:0}.notice-arrow{flex-shrink:0;color:#7287a3}.notice-link.notice{gap:10px}.notice-detail-heading{display:flex;align-items:center;gap:13px;margin:18px 0}.notice-detail-heading>div{min-width:0}.notice-detail h3{font-size:18px;line-height:1.5;margin-top:8px}.notice-detail dl{background:#f3f6fa;border-radius:12px;padding:15px;margin:18px 0}.notice-detail dl>div{display:flex;gap:14px;margin:8px 0;font-size:14px}.notice-detail dt{flex:0 0 64px;color:#64788e}.notice-detail dd{margin:0;overflow-wrap:anywhere}.notice-detail>p,.notice-detail li{font-size:16px;line-height:1.75}.notice-detail .notice-advice-title{font-size:16px;margin-top:24px}.notice-detail ul{padding-left:21px;margin-top:10px}.notice-detail li+li{margin-top:8px}.notice-detail>p.fine{font-size:12px;margin-top:18px}
 
 .status[data-status='출발 전']{color:#626d7b;background:#e9edf2}.status[data-status='이동 중']{color:#2167df;background:#e7efff}
+
+.checkpoint-nav{display:flex;align-items:center;gap:3px}.checkpoint-nav button{display:grid;place-items:center;width:36px;height:36px;border:0;background:rgba(255,255,255,.7);color:#2165db;border-radius:50%;cursor:pointer}.checkpoint-nav button:disabled{opacity:.3;cursor:default}.checkpoint-nav .step-count{white-space:nowrap;padding:0 3px}.checkpoint-saved{display:flex;align-items:center;gap:5px;color:#26614b;font-size:13px;margin:8px 0}.checkpoint-nav button:focus-visible{outline:2px solid #2165db;outline-offset:2px}
+
+.map-edit-point{cursor:pointer;touch-action:manipulation}.map-edit-point:focus-visible{outline:none}.map-edit-point:focus-visible rect{stroke:#2165db;stroke-width:2}.map-edit-point:hover rect{fill:#f2f7ff}
+
+dialog .checkpoint-editor>h3{display:none}dialog .checkpoint-editor{margin-top:0}dialog .route-drag-ghost{z-index:1000}
+
+.missed-points{margin-top:16px;border-top:1px solid #cbdcf4;padding-top:12px;color:#587298;font-size:12px}.missed-points summary{cursor:pointer;min-height:36px;display:flex;align-items:center}.missed-points p{font-size:12px;line-height:1.7;margin:4px 0 8px}.missed-points button{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;padding:9px 10px;margin:5px 0;border-radius:8px;background:#ffffffb8;color:#254c7d;text-align:left}.missed-points button span{display:flex;align-items:center;white-space:nowrap;color:#336ec5;font-size:12px}
+
+.workspace-edit-scope{border:0;padding:0;margin:0;min-width:0}.workspace-lock-note{padding:14px 20px;margin:0;background:#fff3d8;color:#665229;font-size:14px;line-height:1.6}.inline-undo span{white-space:normal;overflow-wrap:anywhere}
+
+.record-undo-row{display:flex;align-items:center;gap:12px;margin-top:10px;color:#5c7494;font-size:12px}.record-undo-copy{flex:1;min-width:0;overflow-wrap:anywhere}.record-undo-copy b{font-weight:600;color:#365779}.record-undo-copy small{display:block;font-size:11px;margin-top:3px}.record-undo-button{display:inline-flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0;min-height:44px;padding:8px 10px;background:transparent;color:#486a95;font-size:12px;white-space:nowrap;border-radius:8px}.record-undo-button:hover{background:#ffffff80}.record-undo-button:focus-visible{outline:2px solid #2165db;outline-offset:2px}
+
+.baseline-times{margin-top:24px;padding-top:20px;border-top:1px solid #e1e9f4}.baseline-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:10px 0}.baseline-row>span:first-child{min-width:0;overflow-wrap:anywhere}.baseline-row>span:last-child{flex:none;white-space:nowrap}.baseline-row input{display:inline-block;width:90px;margin:0;padding:9px}.baseline-review{padding:12px;background:#fff7e8;border-radius:10px;font-size:13px}.estimate-empty{font-size:15px;line-height:1.6}.arrival-card .eta small{font-size:16px}
+.baseline-times .baseline-row{flex-direction:row;margin:0;padding:10px 0}.baseline-times form{margin-top:12px}
+
+.participant-actor,.admin-audit>.participant-actor{display:table;margin-bottom:7px;padding:2px 8px;border-radius:6px;background:#edf3fa;color:#385b80;font-size:12px;font-weight:600}
+.road-distance-number{display:block;font-size:30px;color:#2166f3;margin:10px 0}.road-route-message{overflow-wrap:anywhere}
+
+.arrival-card.compact-distance{padding:12px 14px;border-radius:14px;box-shadow:none}.compact-distance-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px}.compact-distance-title{min-width:0;font-size:13px;font-weight:600;line-height:1.5;word-break:keep-all}.compact-distance-value{flex:none;white-space:nowrap;font-size:22px;line-height:1.25;letter-spacing:-.5px;color:#285fa6;font-variant-numeric:tabular-nums}.compact-distance-value small{font-size:12px;font-weight:500;letter-spacing:0}.compact-distance-basis{font-size:12px;color:#708197;margin-top:4px;overflow-wrap:anywhere}.compact-distance-details{margin-top:6px;font-size:11px;color:#718197}.compact-distance-details summary{cursor:pointer;width:fit-content;max-width:100%;line-height:1.6;padding:3px 0;overflow-wrap:anywhere}.compact-distance-details p{margin-top:6px;line-height:1.6;overflow-wrap:anywhere}.compact-distance-details[open]{padding-bottom:2px}@media(max-width:360px){.compact-distance-value{font-size:20px}.compact-distance-title{font-size:12px}.compact-distance-row{gap:8px}}
+
+.checkpoint-title-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:14px 0}.action-card .checkpoint-title-row h2{margin:0;min-width:0;overflow-wrap:anywhere}.checkpoint-remaining{flex:none;display:inline-flex;padding:4px 8px;border:1px solid #cfdef2;border-radius:7px;background:#ffffffa6;color:#456991;font-size:11px;font-weight:600;white-space:nowrap}
+
+.checkpoint-title-row{align-items:flex-start}.checkpoint-distance{max-width:100%;min-width:0}.checkpoint-distance>small{display:block;font-size:10px;color:#6c7f96;margin-top:3px;overflow-wrap:anywhere}.checkpoint-distance details{font-size:10px;color:#6c7f96;margin-top:3px;max-width:260px}.checkpoint-distance summary{cursor:pointer;line-height:1.8}.checkpoint-distance details p{padding:5px 0;overflow-wrap:anywhere}.checkpoint-distance .text-button{font-size:11px;min-height:30px;margin-left:5px}
+
+/* Keep the distance beside the name; align supporting notes to the card edge. */
+.checkpoint-title-row{align-items:center;column-gap:8px}.checkpoint-distance{display:contents}.checkpoint-distance>.checkpoint-distance-notice{flex:1 1 100px;min-width:0;margin:0 0 0 auto;text-align:right;font-size:10px;line-height:1.5;overflow-wrap:anywhere}.checkpoint-distance-notice span{display:block}.checkpoint-distance details{flex:1 0 100%;max-width:none;margin-top:0;text-align:right}.checkpoint-distance details p{max-width:320px;margin-left:auto;text-align:left}.checkpoint-distance summary{width:fit-content;margin-left:auto}.checkpoint-distance .text-button{margin-left:auto}@media(max-width:420px){.checkpoint-distance>.checkpoint-distance-notice{flex-basis:100%;margin-top:2px}}
+
+.checkpoint-title-row{align-items:flex-start}.checkpoint-distance-main{min-width:0;max-width:100%}.checkpoint-distance-main details{margin-top:3px;max-width:260px;text-align:left}.checkpoint-distance-main summary{margin-left:0;text-align:left}.checkpoint-distance-main details p{margin-left:0}.checkpoint-distance>.checkpoint-distance-notice{padding-top:3px}
+
+.participant-change-button{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:40px;padding:8px 10px;margin-top:9px;border:1px solid #bfd3ef;border-radius:12px;background:#edf4ff;color:#315f99;font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 1px 3px #254d7c08}.participant-change-button:hover{background:#e1edff;border-color:#8fb4e6}.participant-change-button:active{background:#d8e8ff}.participant-change-button svg{flex:none}@media(max-width:374px){.participant-change-button{padding:8px;gap:3px;font-size:11px}}
+
+/* Group information shares the rounded card structure of checkpoint actions. */
+.group-summary{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:16px;margin:18px 0 14px;padding:18px;border:1px solid #cddff6;border-radius:22px;background:linear-gradient(125deg,#f4f8ff,#eaf2ff);box-shadow:0 2px 6px #244e7c05}.group-summary>div:first-child{min-width:0}.group-summary .eyebrow{margin-bottom:8px;color:#52749e}.group-summary h1{font-size:22px;line-height:1.4;overflow-wrap:anywhere;word-break:keep-all}.group-summary p{margin-top:10px;font-size:13px;line-height:1.7}.group-summary .group-actions{gap:10px;justify-content:flex-start;align-items:flex-end}.group-summary .participant-change-button{margin-top:0;min-height:44px;padding:10px 12px;background:#2869dc;border-color:#2869dc;color:white;border-radius:12px;font-size:12px;box-shadow:0 3px 8px #2869dc22}.group-summary .participant-change-button:hover{background:#205dc7;border-color:#205dc7}.group-summary .participant-change-button:active{background:#1d54b4}.group-summary .status{background:#fff;border:1px solid #d9e5f7;padding:5px 10px}@media(max-width:374px){.group-summary{padding:15px;gap:10px}.group-summary h1{font-size:20px}.group-summary .participant-change-button{padding:9px;font-size:11px}.group-summary p{font-size:12px}}
+
+.group-summary{gap:0 12px;background:#fff;border-color:#dce5f1;box-shadow:none;padding:17px 18px;border-radius:20px}.group-count-line{grid-column:1 / -1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:7px}.group-summary .group-count-line p{margin:0}.participant-edit-inline{display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:5px 8px;border:0;border-radius:7px;background:#f0f4f9;color:#526c89;font-size:12px}.participant-edit-inline:hover{background:#e4edf8;color:#285fa6}.group-confirm-inline{grid-column:1 / -1;border-top:1px solid #e7edf4;margin-top:12px;padding-top:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:5px 10px}.group-summary .group-confirm-inline p{margin:0;font-size:11px;color:#6d7e93}.group-confirm-inline button{display:inline-flex;align-items:center;gap:5px;background:transparent;color:#365f8f;font-size:12px;font-weight:600;min-height:36px;padding:5px 0}.group-summary .status{background:#edf4ff;border:0}.group-summary .eyebrow{margin-bottom:6px}
+
+.data-tools{padding:14px 18px;background:white;border:1px solid #dce5f1;border-radius:12px;margin:12px 0;font-size:13px}.data-tools summary{cursor:pointer;color:#385e89;font-weight:600}.data-tools button,.shared-status button{padding:8px 12px;border:1px solid #cadbed;background:#f4f8ff;color:#315f99;border-radius:8px;font-size:12px}.data-tools-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.data-tools p{margin:8px 0;overflow-wrap:anywhere}.data-tools hr{border:0;border-top:1px solid #e1e8f2;margin:16px 0}.shared-status{padding:12px 16px;background:#edf4ff;font-size:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.shared-status span{flex:1}.workspace-shell[data-shared-role=guide] .demo-settings-button,.workspace-shell[data-shared-role=guide] .route-edit-entry,.workspace-shell[data-shared-role=guide] .location-setup,.workspace-shell[data-shared-role=guide] .guide-meal-edit{display:none}.workspace-shell[data-shared-role=guide] .demo-strip,.workspace-shell[data-shared-role=guide] .admin-local-note{display:none}.checkpoint-distance .checkpoint-remaining{white-space:normal;line-height:1.5}
+[data-shared-role="guide"] .map-find-place { display:none; }
+/* Distance value and its supporting explanation form two compact rows. */
+.checkpoint-title-row{align-items:center;gap:8px}
+.checkpoint-distance-main{flex:0 1 auto;min-width:0}
+.checkpoint-distance .checkpoint-remaining{font-size:13px;font-weight:700;padding:5px 9px;line-height:1.5}
+.checkpoint-distance .checkpoint-distance-meta{flex:1 0 100%;max-width:100%;margin:0;text-align:left}
+.checkpoint-distance-meta summary{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-start;gap:6px;width:100%;margin:0;min-height:32px;font-size:11px;text-align:left;list-style:none}
+.checkpoint-distance-meta summary::-webkit-details-marker{display:none}
+.checkpoint-distance-meta summary::before{content:'+';flex:none}
+.checkpoint-distance-meta[open] summary::before{content:'−'}
+.checkpoint-distance-meta .checkpoint-distance-notice{font-size:10px;font-weight:400;color:#6c7f96;margin-left:6px}
+.checkpoint-distance-meta p{max-width:none!important;margin-left:0!important;font-size:11px}
+.group-summary .participant-edit-hint{grid-column:1 / -1;margin:4px 0 0;font-size:11px;line-height:1.5;color:#6d7e93;white-space:normal;letter-spacing:0}
+
+.checkpoint-title-row{column-gap:18px;row-gap:6px}
+.checkpoint-distance .checkpoint-missing-meta{margin-top:-6px}
+
+
+.previous-record-button{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:6px 8px 6px 0;background:transparent;color:#486a95;border-radius:8px;font-size:12px;text-align:left}.previous-record-button b{font-weight:500;color:#365779}.previous-record-button:hover{background:#ffffff80}
+
+
+.group-count-line .participant-edit-inline{margin-left:auto;flex-shrink:0}.group-summary .group-count-line p{display:flex;align-items:center;flex-wrap:wrap;gap:3px;letter-spacing:-.2px}.participant-count-pair{display:inline-flex;align-items:baseline;gap:5px;white-space:nowrap}.group-count-line .separator{margin:0 2px}
+
+
+.group-summary .group-count-line .participant-count-pair b{color:#2069ed;font-weight:700}
+
+
+.group-count-line .participant-total{font-size:inherit;color:inherit;white-space:nowrap}.group-summary .group-count-line .participant-total b{color:#3b4d65;font-weight:700}
+
+
+/* Allow long names and large counts to wrap without pushing controls out. */
+.group-summary .group-count-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.group-summary .group-count-line p{min-width:0}.group-count-line .participant-edit-inline{justify-self:end}.action-card .primary{white-space:normal;overflow-wrap:anywhere}.action-card .primary>svg{flex-shrink:0}
+
+
+.save-failure-banner{position:sticky;top:8px;z-index:20;max-width:480px;margin:10px auto;padding:14px 18px;border:1px solid #e6a397;border-left:4px solid #be4533;border-radius:12px;background:#fff3ef;color:#913321}.save-failure-banner strong{display:flex;align-items:center;gap:7px;font-size:15px}.save-failure-banner p{margin:6px 0;font-size:13px}.save-failure-banner>div{display:flex;gap:8px;flex-wrap:wrap}.save-failure-banner button{min-height:44px;border-radius:8px;padding:8px 12px;background:white;border:1px solid #d69588;color:#913321;font-size:13px}
+
+
+.checkpoint-meta-row{flex:1 0 100%;display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:12px;align-items:start}.checkpoint-meta-row .checkpoint-distance-meta{grid-column:1 / -1;grid-row:1;min-width:0}.checkpoint-meta-row .checkpoint-distance-meta summary{width:max-content}.checkpoint-meta-row .checkpoint-saved{grid-column:2;grid-row:1;justify-self:end;align-self:start;align-items:center;position:relative;margin:0 10px 0 0;min-height:32px;font-size:11px;line-height:1.8;gap:4px}.checkpoint-meta-row .checkpoint-saved svg{flex-shrink:0;width:14px}
+
+
+/* Align the distance badge and saved time to the same second column. */
+.checkpoint-title-row{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:18px}.checkpoint-distance-main{grid-column:2;min-width:0}.checkpoint-meta-row{grid-column:1 / -1;grid-template-columns:subgrid}.checkpoint-meta-row .checkpoint-saved{justify-self:start;margin:0}.checkpoint-meta-row .checkpoint-distance-meta summary{max-width:100%}@media(max-width:374px){.checkpoint-title-row{column-gap:10px}.action-card .checkpoint-title-row h2{max-width:115px;font-size:23px}}
+
+
+.checkpoint-title-row{grid-template-columns:minmax(0,1fr) fit-content(68%);column-gap:12px}.checkpoint-distance-main{margin-left:0}.checkpoint-meta-row .checkpoint-saved{margin-left:0}.checkpoint-distance .checkpoint-remaining{font-size:12px;display:inline-flex;flex-wrap:wrap;column-gap:5px;row-gap:2px;max-width:100%}.checkpoint-remaining>span{white-space:nowrap}
+
+
+.center-weather{padding:16px;background:#eef5ff;border:1px solid #d8e7fb;border-radius:16px}.center-weather h2{display:flex;align-items:center;gap:7px;font-size:18px}.weather-summary{display:flex;align-items:center;gap:14px;margin:10px 0;flex-wrap:wrap;font-size:13px}.weather-summary>strong{font-size:28px;color:#205ea6}.weather-hours{list-style:none;margin:8px 0;padding:0}.weather-hours li{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #dce7f5;font-size:11px;flex-wrap:wrap}.weather-source{font-size:10px;color:#647891;margin-top:10px}.weather-error{font-size:13px;color:#9b4b34;margin:10px 0}.center-weather details{font-size:12px;margin-top:8px}
+
+
+.weather-condition-icon{flex-shrink:0;color:#5585b5}.weather-condition-icon.is-sunny{color:#dc9b20}.weather-hour-condition{display:inline-flex;align-items:center;gap:5px}.weather-summary{column-gap:10px}
+
+.weather-forecast-time{font-size:12px;font-weight:700;color:#205ea6;margin:14px 0 4px}.weather-wind{display:flex;align-items:center;gap:6px;font-size:12px;color:#486789;margin:6px 0}.weather-error{padding:10px;background:#fff4df;border-radius:8px;line-height:1.7}
+
+.weather-summary{column-gap:8px;row-gap:5px}.weather-summary .weather-wind{display:inline-flex;margin:0;font-size:12px;gap:4px;white-space:nowrap}
+
+.weather-summary .weather-wind{margin-left:50px}
+
+.traffic-event{background:#edf2f8;border:1px solid #d6e0ed;border-radius:12px;padding:4px 12px;margin:6px 0}.traffic-event summary{display:flex;gap:8px;align-items:center;min-height:44px;color:#243f61}.traffic-event p{font-size:13px;line-height:1.7}.road-traffic h2{font-size:18px}
+
+.weather-summary>span:not(.weather-wind){position:relative;left:13px}
+
+.record-place-name{display:block;margin:8px 0 18px;font-size:18px;color:#244567}.record-date{margin:12px 0 18px}.record-date summary{font-size:14px;color:#536b88}.record-date summary span{margin-left:12px;color:#2069ed}.record-time-fields{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin-bottom:24px}.record-time-fields input,.record-time-fields select{text-align:center;font-size:20px;width:100%;min-width:0}.edit-history{margin:12px 0 20px}.edit-history summary{font-size:12px;color:#647891}
+
+.record-editor-dialog{max-width:380px;width:calc(100% - 32px);padding:18px;border-radius:20px}.record-editor-dialog .dialog-head h2{font-size:20px}.record-editor-dialog .subtext{font-size:14px;margin:4px 0 12px}.record-editor-dialog form>label{margin-top:10px;gap:4px}.record-editor-dialog .record-place-name{font-size:18px;margin:2px 0 10px}.record-editor-dialog .record-time-fields{gap:10px;margin-bottom:12px}.record-editor-dialog .record-time-fields label{margin-top:8px;gap:6px}.record-editor-dialog .record-time-fields input,.record-editor-dialog .record-time-fields select{min-height:48px;padding:9px 8px;font-size:20px}.record-editor-dialog .record-date{margin:4px 0}.record-editor-dialog .record-date summary,.record-editor-dialog .edit-history summary{min-height:44px;display:flex;align-items:center;font-size:13px}.record-editor-dialog .edit-history{margin:0 0 8px}.record-editor-dialog .primary{margin-top:12px;min-height:50px}
+
+.checkpoint-title-row{grid-template-columns:max-content minmax(0,1fr)}.action-card .checkpoint-title-row h2{white-space:nowrap;overflow-wrap:normal;max-width:none;font-size:clamp(20px,5.4vw,26px)}
+
+/* Viewport breakpoints avoid disappearing card children after record updates. */.checkpoint-title-row{grid-template-columns:minmax(0,1fr) max-content;column-gap:10px}.checkpoint-distance .checkpoint-remaining{flex-wrap:nowrap;white-space:nowrap;max-width:none}.checkpoint-distance-main{max-width:none}.action-card .checkpoint-title-row h2{font-size:clamp(20px,5.4vw,26px)}@media (max-width:446px){.checkpoint-title-row{grid-template-columns:minmax(0,1fr)}.checkpoint-title-row>h2{grid-column:1}.checkpoint-distance-main{grid-column:1;justify-self:start}.checkpoint-meta-row{grid-template-columns:minmax(0,1fr);row-gap:2px}.checkpoint-meta-row .checkpoint-distance-meta{grid-column:1;grid-row:1}.checkpoint-meta-row .checkpoint-saved{grid-column:1;grid-row:2}}
+
+.action-card .checkpoint-title-row h2{font-size:22px;letter-spacing:-.8px}.checkpoint-title-row{column-gap:8px}.checkpoint-distance .checkpoint-remaining{font-size:12px;padding:4px 6px}@media (min-width:416px) and (max-width:446px){.checkpoint-title-row{grid-template-columns:minmax(0,1fr) max-content}.checkpoint-distance-main{grid-column:2;justify-self:end}.checkpoint-meta-row{grid-template-columns:subgrid}.checkpoint-meta-row .checkpoint-distance-meta{grid-column:1 / -1;grid-row:1}.checkpoint-meta-row .checkpoint-saved{grid-column:2;grid-row:1}.action-card .checkpoint-title-row h2{font-size:20px}}
+
+.checkpoint-distance-main{justify-self:end;text-align:right}.checkpoint-meta-row .checkpoint-saved{text-align:left}@media (max-width:415px){.checkpoint-distance-main{justify-self:end}.checkpoint-meta-row .checkpoint-saved{justify-self:end}}
+
+dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.35px;white-space:nowrap}
+
+.record-editor-dialog .primary[hidden]{display:none}.record-editor-dialog .cancel-record-button{width:100%;border:1px solid #f0caca;border-radius:10px;background:#fff3f3;min-height:46px;margin-top:8px;font-weight:600}
+
+.feature-card{background:#fff;border:1px solid #dce5f1;border-radius:16px;padding:16px;margin:18px 0}.feature-card h2{font-size:18px;margin-bottom:8px}.activity-list{list-style:none;padding:0;margin:8px 0;max-height:320px;overflow:auto}.activity-list li+li{border-top:1px solid #e7edf4}.activity-list button{width:100%;text-align:left;background:transparent;padding:12px 0;display:grid;gap:5px;color:#334e6b}.activity-list span{font-size:13px}.activity-list small{color:#6a7e95;line-height:1.5}.arrival-info{margin:8px 0}.arrival-info>div{padding:10px 0;border-bottom:1px solid #edf1f6}.arrival-info dt{font-size:12px;color:#6a7e95}.arrival-info dd{margin:5px 0 0;font-size:15px;line-height:1.6;white-space:pre-wrap}.center-contact a{text-decoration:none}.returning-school{background:#f0f5fd;padding:12px;border-radius:12px;margin:12px 0}
+
+.group-center-contact{grid-column:1 / -1;display:flex;align-items:center;gap:10px;margin-top:8px}.center-call-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:8px 12px;background:#edf4ff;border:1px solid #d8e6fa;border-radius:10px;color:#2868ba;text-decoration:none;font-size:13px;font-weight:600}.group-center-contact small{font-size:10px;color:#7c8ba0}
+
+.group-center-contact{justify-content:flex-end}
+
+.group-center-contact{position:relative;min-height:40px}.group-contact-mascot{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none}.group-contact-mascot .cloud{display:block;width:48px;height:36px;filter:none}.group-center-contact:has(small) .group-contact-mascot{display:none}
+
+.traffic-event-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 18px}
+
+.traffic-event-icon{color:#61758e}.traffic-event-icon.is-rain{color:#2279cd}.traffic-event-icon.is-fog{color:#7964ad}.traffic-event-icon.is-snow{color:#168da6}.traffic-event-icon.is-wind{color:#25877d}.traffic-event-icon.is-breakdown,.traffic-event-icon.is-construction{color:#cb7615}.traffic-event-icon.is-accident{color:#c24343}
+
+.app>header{gap:8px}.header-actions{display:flex;align-items:center;gap:4px}.header-center-contact{display:flex;flex-direction:column;align-items:flex-end;gap:3px}.header-center-contact small{font-size:10px;color:#7c8ba0}.header-center-contact .center-call-button{white-space:nowrap}.header-actions .icon-button{width:32px;min-height:40px}.header-center-contact .center-call-button svg{flex-shrink:0}@media(max-width:380px){.app>header{gap:4px}.app>header .brand{font-size:26px}.header-center-contact .center-call-button{font-size:11px;padding:8px;gap:4px}.header-actions{gap:2px}}
+
+.header-center-contact .center-call-button{background:#e5f4ed;border-color:#cce5d9;color:#296d5b;border-radius:16px;padding:4px 11px 4px 5px;gap:5px;min-height:44px;font-size:12px}.calling-cloud{display:flex;align-items:center}.calling-cloud .cloud{display:block;width:44px;height:auto;filter:none}.header-center-contact .center-call-button:hover{background:#d8eee3}.participant-mascot-guide{grid-column:1 / -1;display:flex;align-items:center;gap:10px;margin-top:8px}.participant-mascot-guide .cloud{display:block;width:80px;height:auto;filter:none}.group-summary .participant-speech{position:relative;margin:0;padding:10px 15px;border-radius:14px;background:#eef5fc;color:#446789;font-size:13px;line-height:1.6}.participant-speech:before{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border-top:7px solid transparent;border-bottom:7px solid transparent;border-right:8px solid #eef5fc}@media(max-width:380px){.app>header{flex-wrap:wrap}.header-actions{margin-left:auto}.participant-mascot-guide{gap:8px}.participant-mascot-guide .cloud{width:70px}.group-summary .participant-speech{font-size:12px;padding:9px 12px}}
+
+.group-summary .participant-speech{border:1px solid #9bb8da;white-space:nowrap;padding:10px 12px}.participant-speech:before{width:10px;height:10px;left:-6px;box-sizing:border-box;border:0;border-left:1px solid #9bb8da;border-bottom:1px solid #9bb8da;background:#eef5fc;transform:translateY(-50%) rotate(45deg)}.participant-mascot-guide{container-type:inline-size}.participant-mascot-guide>span{flex-shrink:0}@container(max-width:320px){.participant-mascot-guide .cloud{width:60px}.group-summary .participant-speech{font-size:11px;padding:9px 8px;letter-spacing:-.2px}}@container(max-width:255px){.participant-mascot-guide .cloud{width:42px}.group-summary .participant-speech{font-size:10px;padding:9px 6px}}
+
+.group-summary .participant-speech{padding:5px 8px;border-radius:10px;line-height:1.5}.participant-speech:before{width:8px;height:8px;left:-5px}
+
+.app>header{align-items:center}.app>header .brand{display:inline-flex;align-items:baseline;line-height:1}.header-actions{align-items:center}.header-center-contact .center-call-button{min-height:36px;padding:3px 9px 3px 4px;gap:3px;font-size:11px;line-height:1.2;border-radius:13px}.calling-cloud .cloud{width:36px;height:auto}.header-actions .icon-button{min-height:36px}.header-center-contact{position:relative}.header-center-contact small{position:absolute;top:100%;right:0;white-space:nowrap}
+
+.group-summary .participant-speech{transform:translateY(-5px)}
+
+.group-summary .participant-speech,.participant-speech:before{background:#fff6df}
+
+.center-weather{background:#fbfdff;border-color:#cbdced;box-shadow:0 3px 12px #23466c05}.center-weather h2{color:#203d5b}.center-weather .fine{color:#5b6d80}.center-weather .text-button{color:#536a80}.weather-forecast-time{color:#47657f}.weather-summary{color:#253f58}.weather-summary>strong{color:#164d7d;font-size:30px}.weather-summary>span:not(.weather-wind){position:static;left:auto;margin-left:8px}.weather-summary .weather-wind{margin-left:auto;color:#4b6c7c}.weather-summary .weather-wind svg{color:#288478}.weather-summary b{color:#176dac}.weather-condition-icon{overflow:visible}.weather-source{color:#607285;font-size:11px}.weather-hours li{font-size:12px;padding:9px 0;border-color:#e1e9f1;color:#344f68}.weather-hours time{font-variant-numeric:tabular-nums}.center-weather details>summary{color:#345e81;font-weight:600}@media(max-width:380px){.weather-summary{column-gap:6px;font-size:12px}.weather-summary>strong{font-size:27px}.weather-summary>span:not(.weather-wind){margin-left:4px}.weather-summary .weather-wind{font-size:11px}}
+
+.weather-heading-mascot{display:block;width:40px;height:28px;flex-shrink:0;overflow:visible}.center-weather h2{gap:8px}
+
+.participant-mascot-guide .cloud{width:60px}@media(max-width:380px){.participant-mascot-guide .cloud{width:52.5px}}@container(max-width:320px){.participant-mascot-guide .cloud{width:45px}}@container(max-width:255px){.participant-mascot-guide .cloud{width:31.5px}}
+
+.road-traffic{padding:16px;background:#fbfdff;border:1px solid #cbdced;border-radius:16px;box-shadow:0 3px 12px #23466c05}.road-traffic .section-heading h2{color:#203d5b}.road-traffic>.fine{color:#5b6d80}.road-traffic .traffic-event{margin:6px 0}.road-traffic .traffic-event summary>svg,.road-traffic .traffic-event-icon{flex-shrink:0}.road-traffic .traffic-event summary>span:last-child{min-width:0;overflow-wrap:anywhere}
+
+.road-traffic .traffic-event{padding:2px 10px;margin:5px 0;border-radius:10px}.road-traffic .traffic-event summary{min-height:34px;font-size:13px;gap:7px}.header-center-contact{align-items:center;margin:0 0 16px}.header-center-contact .center-call-button{background:#fff0f3;border-color:#f0d4dc;color:#815064;border-radius:18px;padding:4px 13px 4px 7px;gap:6px;min-height:40px;font-size:12px}.header-center-contact .center-call-button:hover{background:#fce4eb}.header-center-contact small{position:static}.calling-heart{display:block;flex-shrink:0}
+
+.header-actions .header-center-contact{margin:0;align-items:flex-end}.header-center-contact .center-call-button{background:#e5f4ed;border-color:#cce5d9;color:#296d5b;border-radius:13px;padding:3px 9px 3px 4px;gap:3px;min-height:36px;font-size:11px}.header-center-contact .center-call-button:hover{background:#d8eee3}.header-center-contact small{position:absolute;top:100%;right:0}.road-traffic .section-heading h2{display:flex;align-items:center;gap:8px}.road-heading-icon{color:#368e91;flex-shrink:0}
+
+.road-bus-mascot{display:block;width:40px;height:28px;flex-shrink:0}
+
+.header-actions .header-center-contact{transform:translateY(2px)}.group-summary .participant-speech{font-size:12px}@container(max-width:320px){.group-summary .participant-speech{font-size:11px;padding-inline:6px;letter-spacing:-.4px}}@container(max-width:255px){.group-summary .participant-speech{font-size:10px;padding-inline:4px;letter-spacing:-.5px}.participant-mascot-guide .cloud{width:28px}}
+
+.header-center-contact .center-call-button{background:#e5f4ed;border-color:#cce5d9;color:#296d5b}.header-center-contact .center-call-button:hover{background:#d8eee3}
+
+.participant-mascot-guide{margin-top:13px}
+
+:root{--cloud-body:#9bd7ff;--cloud-cheek:#7ec5fb;--cloud-outline:#77bfee}
+
+/* Keep individual road items quiet within the enclosing card. */
+.road-traffic .traffic-event{background:#fff;border-color:#dce5ef}.road-traffic .traffic-event[open]{background:#f5f9ff}
+
+/* Color-coded road symbols with soft fills, including generic cautions. */
+.traffic-event-icon.is-warning{color:#b57a12}.traffic-event-icon.is-warning svg{fill:#ffe5a4}.traffic-event-icon.is-accident svg{fill:#ffe0df}.traffic-event-icon.is-rain svg{fill:#d4edff}.traffic-event-icon.is-fog svg{fill:#ebe4fa}.traffic-event-icon.is-breakdown svg,.traffic-event-icon.is-construction svg{fill:#ffecd0}
+.group-summary .participant-speech,.group-summary .participant-speech:before{background:#fffaf0}
+
+/* Softer road-event palette, retaining distinct category colors. */
+.traffic-event-icon.is-warning{color:#b99a58}.traffic-event-icon.is-warning svg{fill:#fff3d5}.traffic-event-icon.is-accident{color:#c98587}.traffic-event-icon.is-accident svg{fill:#fff0ef}.traffic-event-icon.is-rain{color:#76a9cf}.traffic-event-icon.is-rain svg{fill:#edf7ff}.traffic-event-icon.is-fog{color:#a296bd}.traffic-event-icon.is-fog svg{fill:#f5f0fc}.traffic-event-icon.is-snow{color:#75afbc}.traffic-event-icon.is-wind{color:#77afa6}.traffic-event-icon.is-breakdown,.traffic-event-icon.is-construction{color:#c49a65}.traffic-event-icon.is-breakdown svg,.traffic-event-icon.is-construction svg{fill:#fff5e7}
+
+/* Light mint contact button. */
+.header-center-contact .center-call-button{background:#effaf5;border-color:#dceee5}.header-center-contact .center-call-button:hover{background:#e5f5ed}
+
+/* Compact vertical spacing without reducing guide text or primary touch targets. */
+.action-card .checkpoint-title-row{margin-top:10px;margin-bottom:4px}.action-card .mascot-row{min-height:0;height:auto;padding-block:4px;margin-bottom:8px}
+.header-center-contact .center-call-button{border-color:#8ab9a6}.header-center-contact .center-call-button:hover{border-color:#70a58f}
+
+/* Balance the action mascot against the compact speech bubble. */
+.action-card .mascot-row>.cloud{width:84px;align-self:center}@media(max-width:374px){.action-card .mascot-row>.cloud{width:68px}}
+
+/* Lift the action content and give the primary button balanced bottom space. */
+.action-card{padding-top:12px;padding-bottom:14px}.action-card .checkpoint-title-row{margin-top:6px}.action-card .mascot-row{padding-block:2px}
+
+/* Scale the participant guide mascot to three quarters at each breakpoint. */
+.participant-mascot-guide .cloud{width:45px}@media(max-width:380px){.participant-mascot-guide .cloud{width:39.375px}}@container(max-width:320px){.participant-mascot-guide .cloud{width:33.75px}}@container(max-width:255px){.participant-mascot-guide .cloud{width:21px}}
+
+/* Give the speech bubble and primary action more breathing room. */
+.action-card .mascot-row{margin-bottom:18px}
+
+/* Mobile guide readability and comfortable touch targets. */
+.header-center-contact .center-call-button{position:relative}.header-center-contact .center-call-button:after{content:"";position:absolute;inset:-4px 0}.checkpoint-nav button{width:44px;height:44px;min-height:44px}.group-summary .participant-speech{font-size:12px;white-space:normal;word-break:keep-all;overflow-wrap:anywhere;min-width:0;letter-spacing:-.2px;line-height:1.55}.group-summary .participant-mascot-guide{align-items:center}
+.demo-toolbar.demo-toolbar-fold{padding:0}.demo-toolbar-fold>summary{min-height:44px;padding:0 20px;font-size:12px;font-weight:600;color:#526d8a}.demo-toolbar-fold>summary:before{content:"＋"}.demo-toolbar-fold[open]>summary:before{content:"−"}.demo-toolbar-content{padding:4px 20px 14px}.journey-information{margin-top:12px}.journey-information>summary{min-height:44px;font-size:13px;color:#45678e}.journey-information[open]>summary:before{content:"−"}
+
+.map-section .route-edit-entry{min-height:44px;padding:0 10px;gap:6px;border:1px solid #b8cfee;border-radius:10px;background:#f0f6ff;color:#2864b1;font-size:13px;font-weight:600}.map-section .route-edit-entry:hover{background:#e4efff;border-color:#89afe2}
+
+/* Compact outline action aligned with the journey heading; retain a 44px hit area. */
+.map-section>.section-heading{align-items:center;min-height:44px}.map-section .route-edit-entry{position:relative;min-height:32px;height:32px;padding:0 8px;gap:4px;border-radius:8px;background:transparent;line-height:1.2}.map-section .route-edit-entry:hover{background:transparent}.map-section .route-edit-entry:after{content:"";position:absolute;inset:-6px 0}
+
+/* Match weather and road section title alignment. */
+.center-weather .section-heading h2,.road-traffic .section-heading h2{display:flex;align-items:center;gap:8px;font-size:18px;line-height:28px;letter-spacing:-.65px;margin:0}
+.center-weather .section-heading h2>svg,.road-traffic .section-heading h2>svg{display:block;width:40px;height:28px;flex:0 0 40px}
+
+/* Align saved departure time with the distance badge above. */
+.checkpoint-meta-row .checkpoint-saved{justify-self:end;margin:0;text-align:right}
+
+.checkpoint-distance-main.checkpoint-location-missing{grid-column:1 / -1;justify-self:start;text-align:left;margin:3px 0 4px}
+
+/* More readable participant counts and a soft cream edit button. */
+.group-summary .group-count-line p{font-size:15px;line-height:1.65}
+.group-count-line .participant-edit-inline{background:#fff6df;font-size:13px}.group-count-line .participant-edit-inline:hover{background:#ffefcc}
+
+/* Keep participant labels, numbers and edit text on one visual baseline. */
+.group-summary .group-count-line{align-items:center}.group-summary .group-count-line p{align-items:baseline;line-height:24px}.group-count-line .participant-count-pair{align-items:baseline;line-height:24px}.group-count-line .participant-edit-inline{align-items:center;justify-content:center;line-height:24px;height:36px;padding-block:6px}.group-count-line .participant-edit-inline>span{line-height:24px}
+
+.participant-mascot-guide{position:relative;top:5px}

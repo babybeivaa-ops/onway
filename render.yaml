@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: onway
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run build
+    startCommand: node public-api/index.mjs
+    healthCheckPath: /healthz
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.0
+      - key: HOST
+        value: 0.0.0.0
+      - key: ONWAY_ADMIN_TOKEN
+        generateValue: true
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: VWORLD_API_KEY
+        sync: false
+      - key: VWORLD_DOMAIN
+        sync: false
+      - key: KAKAO_REST_API_KEY
+        sync: false
+      - key: KMA_SERVICE_KEY
+        sync: false
+      - key: ITS_API_KEY
+        sync: false

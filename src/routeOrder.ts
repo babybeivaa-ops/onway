@@ -1,0 +1,1 @@
+export function fixedRouteOrder<T extends {id:string}>(points:T[]):T[]{return [...points.filter(p=>p.id==='start'),...points.filter(p=>p.id!=='start'&&p.id!=='bridge'),...points.filter(p=>p.id==='bridge')];}
