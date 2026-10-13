@@ -265,7 +265,7 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 @media(max-width:440px){.weather-hours li{font-size:11px;grid-template-columns:7em minmax(6em,1fr) 3em 4.5em 6.8em;column-gap:3px}}
 @media(max-width:360px){.weather-hours li{grid-template-columns:7em minmax(6em,1fr) 3em;row-gap:5px}.weather-hour-rain{grid-column:2;text-align:left}.weather-hour-wind{grid-column:3;justify-self:end}}
 
-.share-link-card{padding:12px;margin:12px 0;border:1px solid #dce7f5;border-radius:12px}.share-link-card input{width:100%;box-sizing:border-box}.share-link-card button{margin:6px 6px 6px 0}.viewer-journey .location-setup,.viewer-journey .map-find-place,.viewer-journey .timeline-edit-button{display:none}
+.share-link-card{padding:12px;margin:12px 0;border:1px solid #dce7f5;border-radius:12px}.share-link-card input{width:100%;box-sizing:border-box}.share-link-card button{margin:6px 6px 6px 0}
 
 .admin-tools-wrap{box-sizing:border-box;width:100%;max-width:1040px;margin:0 auto;padding:0 26px;min-width:0}.admin-tools-wrap .data-tools{min-width:0}.admin-tools-wrap input{max-width:100%;min-width:0;box-sizing:border-box}@media(max-width:759px){.admin-tools-wrap{padding:0 16px}}
 
