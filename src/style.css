@@ -256,3 +256,11 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 .group-summary .group-count-line{align-items:center}.group-summary .group-count-line p{align-items:baseline;line-height:24px}.group-count-line .participant-count-pair{align-items:baseline;line-height:24px}.group-count-line .participant-edit-inline{align-items:center;justify-content:center;line-height:24px;height:36px;padding-block:6px}.group-count-line .participant-edit-inline>span{line-height:24px}
 
 .participant-mascot-guide{position:relative;top:5px}
+
+/* Shared columns keep every forecast row aligned regardless of condition length. */
+.weather-hours li{display:grid;grid-template-columns:7.4em minmax(6em,1fr) 3.2em 4.6em 7em;align-items:center;gap:4px;font-variant-numeric:tabular-nums}
+.weather-hours li>time{white-space:nowrap;text-align:left}
+.weather-hour-condition{display:grid;grid-template-columns:18px 1fr;align-items:center;gap:4px;white-space:nowrap;text-align:left}
+.weather-hour-temperature,.weather-hour-rain,.weather-hour-wind{white-space:nowrap;text-align:right}
+@media(max-width:440px){.weather-hours li{font-size:11px;grid-template-columns:7em minmax(6em,1fr) 3em 4.5em 6.8em;column-gap:3px}}
+@media(max-width:360px){.weather-hours li{grid-template-columns:7em minmax(6em,1fr) 3em;row-gap:5px}.weather-hour-rain{grid-column:2;text-align:left}.weather-hour-wind{grid-column:3;justify-self:end}}
