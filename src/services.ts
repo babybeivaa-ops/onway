@@ -1,9 +1,10 @@
+import {correctLegacyIc} from './fixedPlaces.ts';
 import {validateReportTime} from './reportTime.ts';
 import {clearWaypointPlace} from './places.ts';
 import type {DemoState,ParticipantCount,ParticipantActor,Waypoint} from './types';
 import {createDemo,notices} from './data.ts';
 export const activeReports=(s:DemoState)=>s.reports.filter(r=>r.status!=='cancelled'&&s.waypoints.some(w=>w.id===r.waypointId&&w.included&&w.kind!=='destination'));
-const resolveWaypoint=(s:DemoState,w:Waypoint):Waypoint=>w.kind==='meal'?{...w,name:s.trip.meal.name.trim()||'점심식사 장소',included:s.trip.meal.enabled}:w;
+const resolveWaypoint=(s:DemoState,w:Waypoint):Waypoint=>w.kind==='meal'?{...w,name:s.trip.meal.name.trim()||'점심식사 장소',included:s.trip.meal.enabled}:correctLegacyIc(w);
 export const routeService={points:(s:DemoState)=>s.waypoints.map(w=>resolveWaypoint(s,w)).filter(w=>w.included).sort((a,b)=>a.order-b.order),waypoint:(s:DemoState,id:string)=>{const w=s.waypoints.find(w=>w.id===id);return w?resolveWaypoint(s,w):undefined},summary:(s:DemoState)=>s.summary};
 export const mapService={attribution:'ON:WAY 자체 제작 개념도 · 외부 지도 자료 미사용',location:(s:DemoState)=>s.location};
 export const weatherService={notices:()=>notices.filter(n=>n.kind==='weather')};
