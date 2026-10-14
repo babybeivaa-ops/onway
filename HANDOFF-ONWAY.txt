@@ -1,0 +1,175 @@
+ON:WAY 새 노트북 작업 인수인계
+작성일: 2026-10-14 (한국 시간)
+기준 코드: 22134d5 (긴 이름 자동 크기 조절)
+
+1. 서비스와 저장소
+- 청소년활동 단체의 출발부터 센터 입소까지 관리자와 인솔자가 확인하는 웹앱.
+- GitHub: https://github.com/babybeivaa-ops/onway
+- 반드시 사용할 브랜치: codex/render-free-demo (main 아님)
+- 운영: https://onway-demo.onrender.com/
+- 직접 입력형 체험: https://onway-demo.onrender.com/?demo=1
+- Render 서비스: onway-demo / Node Web Service / Singapore
+- React + TypeScript + Vite 화면, Node public-api/index.mjs 서버.
+- 프런트엔드만 실행하면 장소 검색 등 /api 기능이 빠진다. 아래 통합 실행을 사용한다.
+
+2. 새 노트북 준비 및 실행 (PowerShell)
+Git과 Node.js 24 계열을 설치한 뒤 터미널에서 실행한다.
+프로젝트 package.json: Node >=22.18.0, pnpm@10.11.0.
+
+  git clone --branch codex/render-free-demo https://github.com/babybeivaa-ops/onway.git
+  cd onway
+  corepack enable
+  corepack pnpm install --frozen-lockfile
+  corepack pnpm run build
+
+Corepack이 없는 Node 배포판이라면 pnpm 10.11.0을 별도 설치한다.
+pnpm-workspace.yaml에 esbuild 빌드 허용 설정이 있으므로 보존한다.
+
+저장소 루트에 .env.local 파일을 만들고 아래 항목을 입력한다.
+빈칸에는 본인의 실제 키를 새 노트북에서 직접 입력한다.
+
+  HOST=127.0.0.1
+  PORT=4183
+  KAKAO_JAVASCRIPT_KEY=
+  KAKAO_REST_API_KEY=
+  KMA_SERVICE_KEY=
+  ITS_API_KEY=
+
+설정 후:
+  node --env-file=.env.local public-api/index.mjs
+
+브라우저:
+  http://127.0.0.1:4183/
+  http://127.0.0.1:4183/?demo=1
+
+터미널을 켜 둔다. 코드 변경 후 빌드를 다시 하고 브라우저를 새로고침한다.
+서버 코드 또는 키를 바꾸면 실행 터미널에서 Ctrl+C 후 서버를 다시 실행한다.
+.env 파일은 자동 로딩되지 않으므로 위 --env-file 옵션이 필요하다.
+.env.example은 Render용이므로 그대로 복사하면 HOST/PORT가 다르다.
+
+3. API 키를 옮기는 방법
+- 키는 새 노트북의 .env.local에 별도로 저장하면 된다.
+- 이 문서에는 실제 키를 넣지 않았다. GitHub에도 키를 올리지 않는다.
+- .gitignore에 .env 및 .env.* 제외 설정이 있다. git add -f로 키 파일을 추가하지 않는다.
+- 저장소 밖의 안전한 파일이나 비밀번호 관리 도구로 키를 옮길 수 있다.
+- 카카오 JavaScript 키: 지도 표시용. REST API 키: 장소 검색 및 길찾기 서버용.
+- 카카오 허용 도메인에 http://127.0.0.1:4183 및 https://onway-demo.onrender.com 등록.
+  같은 주소/포트로 쓰면 컴퓨터 변경만으로 새 도메인이 생기지는 않는다.
+  localhost나 다른 포트를 쓴다면 그 주소를 별도로 확인한다.
+- KMA_SERVICE_KEY: 기상청. ITS_API_KEY: ITS 국가교통정보센터 돌발정보.
+- Render의 키는 Render Environment에 이미 저장되어 있으며 노트북 변경으로 사라지지 않는다.
+- REST 키, Supabase 서버 키, 관리자 접속 코드는 VITE_ 변수나 브라우저 코드에 넣지 않는다.
+- 이 PC의 scripts/start-local.mjs는 개인 경로를 사용하고 Git에서 제외되어 있다.
+  새 노트북에서는 이 문서의 .env.local 방식으로 실행한다.
+
+공유 서버 개발이 꼭 필요한 경우에만 아래를 추가한다.
+  SUPABASE_URL=프로젝트 기본 URL (/rest/v1/ 제외)
+  SUPABASE_SECRET_KEY=서버 전용 키
+  ONWAY_ADMIN_TOKEN=32자 이상의 관리자 접속 코드
+운영 Supabase를 연결하면 실제 공유 데이터를 수정할 수 있으므로 개발용 프로젝트 권장.
+일반 로컬 체험에는 위 세 항목이 없어도 되며 로컬 서버 저장소를 사용한다.
+
+4. 데이터 이전 주의점
+- GitHub에는 코드만 있다. 브라우저 등록 자료는 따라오지 않는다.
+- 일반 화면의 단체 데이터는 onway-workspace-v2라는 localStorage에 저장된다.
+- 체험판 ?demo=1은 onway-self-demo: 접두어로 별도 저장되며 첫 방문은 빈 목록이다.
+- 체험판은 각 방문자가 단체/일정/인원을 입력하고 관리자와 인솔자 화면을 전환한다.
+- 서버 공유/관리자 인증을 공개하지 않는다. 체험판에서 DataTools는 숨겨져 있다.
+- 일반 화면의 '복원용 백업'으로 필요한 단체 자료를 내보내고 새 노트북에서 복원한다.
+- 체험판은 현재 백업 UI가 없으므로 체험 자료가 꼭 필요하면 이전 도구를 별도 작업한다.
+  일반 화면 백업만으로 체험판 데이터까지 포함된다고 가정하지 않는다.
+- Render의 공유 자료는 Supabase에 있으므로 동일한 유효 링크/인증으로 접근한다.
+- 서버 공유 저장소와 로컬 브라우저 저장소는 서로 다른 자료다.
+
+5. 배포
+  git status
+  git add 수정한파일들
+  git commit -m "변경 설명"
+  git push origin codex/render-free-demo
+
+Render에서 onway-demo 서비스의 배포 상태를 확인한다.
+자동 배포가 시작되지 않으면 Manual Deploy > Deploy latest commit을 사용한다.
+render.yaml의 autoDeployTrigger는 off이며 대시보드 실제 설정과 차이가 있을 수 있다.
+Build: corepack enable && pnpm install --frozen-lockfile && pnpm run build
+Start: node public-api/index.mjs
+Health: /healthz
+Render는 SUPABASE_URL, SUPABASE_SECRET_KEY, ONWAY_ADMIN_TOKEN이 필요하다.
+키 수정 시 저장 후 재배포한다. 기존 Supabase 자료를 초기화하지 않는다.
+배포 완료는 성공 표시뿐 아니라 실제 서비스 HTML이 참조하는 최신 JS/CSS로 확인한다.
+
+이 PC의 Codex 실행 환경에서는 Git Credential Manager 접근 오류로 push가 실패했다.
+사용자가 outputs/upload-onway.cmd를 직접 실행하여 업로드했다.
+이 파일은 이 PC의 Git 절대 경로를 사용하므로 새 노트북에서는 일반 git push를 사용한다.
+
+6. 최근 완료된 기능과 사용자 결정
+- 지도/장소 검색/길찾기는 카카오. VWorld 키는 현재 해당 기능에서 사용하지 않는다.
+- 전화하기는 사용자 요청으로 061-830-1588에 고정. 담당자 전화번호 입력란과 별개다.
+- 주소 복사는 거울 보는 구름 아이콘 + 민트 배경. 클릭 즉시 복사, 주소 한 줄 표시.
+- 주소창은 버튼 배치와 분리되어 열어도 전화/주소 버튼이 움직이지 않는다.
+- 입소 전 확인: 버스 하차 위치 + 오른쪽 체험관 사진. 중복 전화/주소 항목 제거.
+- 위치 등록 필요: 거리/시간과 같은 위치 및 글씨 크기, 최종 요청은 오른쪽 정렬.
+  클릭하면 해당 지점의 장소 검색/지도 위치 지정 창을 연다.
+- 긴 단체명 및 확인 지점 이름: 평소 크기 유지, 공간 초과 시만 축소, 최소 16px 후 줄바꿈.
+- 관리자에서 인솔자 화면 열기: 화면 맨 위로 이동.
+- 관람용 읽기 전용 링크는 사용자 요청으로 제거됨.
+- 관리자 초대 링크는 별도 권한 기능. 공개 체험 링크와 혼동하지 않는다.
+- 지도 마우스 휠 확대 및 모바일 핀치 확대는 추후 개선 요청. 완료로 보고하지 않는다.
+
+7. 해결한 경로 오류
+기본 고흥IC 좌표가 고속도로 경로를 순천 방향으로 우회시키던 문제가 있었다.
+이전: lat 34.82396270775956 / lng 127.34215037413877
+수정: 고흥IC교차로 lat 34.8255644499529 / lng 127.345489981473
+삼호고 → 고흥IC → 나로1대교 → 센터 확인 결과 약185.7km에서 약150.8km로 변경.
+기존 기본 POI ID와 좌표가 정확히 일치할 때만 보정한다.
+사용자가 수정한 좌표/다른 지점명은 덮어쓰지 않는다.
+src/fixedPlaces.ts 및 services.ts, tests/ic-location.test.ts 참고.
+
+8. 최우선 미해결: Render ITS 연결 시간 초과
+- 사용자는 호출량 증대 승인 완료라고 확인했다.
+- 사용자 로컬에서는 ITS 공사 정보가 정상 표시된다.
+- Render API는 2026-10-14 확인 시 약10.6초 후 HTTP502, code=ITS_TIMEOUT.
+- 배포 반영 누락은 아니다. 진단 코드 포함 최신 번들을 확인했다.
+- 요청 대상: https://openapi.its.go.kr:9443/eventInfo
+- 원인 확정 전. 키 문제나 월 한도 초과로 단정하지 않는다.
+- Render 출발 연결과 ITS 접근 정책/9443 연결/DNS 등 환경 차이를 확인할 필요가 있다.
+- ITS_TIMEOUT은 요청 TimeoutError 또는 UND_ERR_CONNECT_TIMEOUT을 포함한다.
+- 브라우저에 키를 넣거나 비밀 키가 담긴 URL을 로그/채팅에 노출하지 않는다.
+- public-api/traffic.mjs: 안전한 코드만 [ITS] 로그 및 응답으로 제공한다.
+  ITS_TIMEOUT / ITS_NETWORK / ITS_AUTH_REJECTED / ITS_HTTP_ERROR /
+  ITS_PROVIDER_ERROR / ITS_RESPONSE_FORMAT / ITS_RESPONSE_ERROR / ITS_KEY_MISSING
+- 월 한도 감지는 ITS_MONTHLY_QUOTA이며 1시간 동안 외부 재호출을 멈춘다.
+- 지역 단위 10분 캐시와 요청 중복 방지, 프런트도 10분 갱신이다.
+- 조회 실패를 '사고 없음'으로 표시하면 안 된다.
+- 아직 실제 Render ITS 정상 복구는 확인하지 못했다.
+
+9. 주요 파일
+src/main.tsx: 화면 전환, WorkspaceApp, 공유/체험 저장 흐름
+src/demoStorage.ts: 독립 체험 저장소
+src/FittedHeading.tsx: 실제 가용 폭 기준 글자 크기 조절
+src/CenterInfo.tsx: 센터 설정, 전화, 주소 복사, 체험관 사진
+src/style.css: 누적 CSS. 같은 선택자의 앞뒤 우선순위 확인 필요
+src/Admin.tsx: 관리자 화면/등록
+src/AdminLocationPicker.tsx: 지도 위치 검색과 지정
+src/CheckpointDistance.tsx: 확인 지점 거리 및 위치 등록 버튼
+src/PublicMap.tsx / src/useRoadRoute.ts / src/roadRoute.ts: 경로 지도와 조회
+public-api/traffic.mjs: ITS 연결/캐시/진단
+public-api/index.mjs: 환경변수, 정적 파일, API 서버 진입점
+public-api/sharing.mjs / supabase-store.mjs: 공유 권한/저장
+
+10. 검증과 주의사항
+- TypeScript 및 Vite 빌드 통과.
+- 최근 self-demo.test.ts와 traffic.test.ts 합계7건 통과.
+- ic-location.test.ts 2건 통과.
+- road-route.test.ts의 기존2건 실패는 수정 전에도 재현됨:
+  missing intermediate locations notice / next checkpoint meal expectation.
+  모든 테스트가 통과했다고 보고하지 않는다. 전체 테스트 실행 후 별도 분류 필요.
+- 이미 입력된 단체와 이력을 테스트 때문에 삭제/초기화하지 않는다.
+- 체험 데이터도 사용자가 직접 입력한 내용이므로 자동 초기화하지 않는다.
+- 변경 후 테스트, 빌드, 실제 배포 반영을 구분해서 보고한다.
+
+11. 새 노트북에서 AI에게 전달할 시작 문구
+이 저장소의 HANDOFF-ONWAY.txt를 읽고 codex/render-free-demo 브랜치에서 이어서 작업해주세요.
+API 키는 로컬 .env.local에 저장했습니다. 키 값은 출력하거나 Git에 올리지 마세요.
+먼저 현재 Git 상태와 실행환경을 확인하고, 기존 등록 자료를 보존해주세요.
+남은 우선 작업은 로컬에서 정상인 ITS가 Render에서 ITS_TIMEOUT으로 실패하는 원인 확인입니다.
+체험 링크는 ?demo=1이며 방문자가 직접 입력하는 독립 브라우저 저장 방식입니다.
