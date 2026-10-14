@@ -246,7 +246,7 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 /* Align saved departure time with the distance badge above. */
 .checkpoint-meta-row .checkpoint-saved{justify-self:end;margin:0;text-align:right}
 
-.checkpoint-distance-main.checkpoint-location-missing{grid-column:1 / -1;justify-self:start;text-align:left;margin:3px 0 4px}
+
 
 /* More readable participant counts and a soft cream edit button. */
 .group-summary .group-count-line p{font-size:15px;line-height:1.65}
@@ -286,3 +286,7 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 
 .arrival-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(100px,40%);column-gap:16px;align-items:center}.arrival-card>h2{grid-column:1;grid-row:1;align-self:end}.arrival-card>.arrival-info{grid-column:1;grid-row:2;align-self:start;margin:0}.arrival-card>.arrival-photo{grid-column:2;grid-row:1 / 3;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border-radius:12px}.header-center-contact .center-address-button{padding-left:8px;gap:5px}.center-address-button .calling-heart{width:30px;height:30px;flex-shrink:0}
 
+
+.arrival-card{grid-template-rows:auto 1fr;align-items:start}.arrival-card>h2{align-self:start;margin:0 0 16px;line-height:1.4}.arrival-card>.arrival-info{margin:0}.arrival-card>.arrival-info>div{padding:0}.arrival-card>.arrival-photo{align-self:start}.header-center-contact .center-address-button{padding:3px 9px 3px 4px;gap:3px}
+.checkpoint-location-button{display:inline-flex;align-items:center;min-height:0;width:auto;margin:0;padding:4px 6px;border:1px solid #cfdef2;border-radius:7px;background:#ffffffa6;color:#456991;font-size:12px;font-weight:700;line-height:1.5;cursor:pointer}.checkpoint-location-button:hover{background:#e1edff;border-color:#7aa8e4}.checkpoint-location-button:focus-visible{outline:2px solid #2166f3;outline-offset:3px}
+.checkpoint-nav{width:128px;flex-shrink:0;gap:0;justify-content:space-between}.checkpoint-nav button{flex:0 0 44px}.checkpoint-nav .step-count{flex:1;text-align:center;padding:0}.checkpoint-distance-main.checkpoint-location-missing{width:auto;justify-self:end;text-align:right}
