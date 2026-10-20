@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {inferYouthLevel,normalizeCounts,genderTotals,countYouth} from '../src/participantCounts.ts';
+import {validCounts,validGroup} from '../public-api/workspace-schema.mjs';
+import {createGroup,editGroupDetails,copyJourney,saveWorkspace,loadWorkspace} from '../src/workspace.ts';
+import type {Workspace,Registration} from '../src/workspace.ts';
+import type {ParticipantCount,YouthDetails} from '../src/types.ts';
+import {tripService} from '../src/services.ts';
+import {backupText,parseBackup,recordsCsv} from '../src/backup.ts';
+const details=():YouthDetails=>({rows:[{id:'grade4',level:'elementary',grade:'4',male:12,female:8},{id:'grade5',level:'elementary',grade:'5',male:4,female:6}],unclassified:0});
+const registration=():Registration=>({name:'현동초',travelDate:'2099-01-01',origin:'현동초',youth:30,leaders:3,ic:true,bridge:true,youthDetails:details()});
+test('school abbreviations infer levels and generic groups remain manual',()=>{for(const n of ['현동초','현동초등','현동초등학교'])assert.equal(inferYouthLevel(n),'elementary');assert.equal(inferYouthLevel('고흥중'),'middle');assert.equal(inferYouthLevel('광주고'),'high');assert.equal(inferYouthLevel('서울대학교'),'university');assert.equal(inferYouthLevel('청소년 동아리'),undefined)});
+test('legacy totals stay unclassified and ratios use supplied gender counts only',()=>{assert.deepEqual(genderTotals({youth:30,leaders:2}),{male:0,female:0,unclassified:30});assert.deepEqual(genderTotals({youth:30,leaders:2,youthDetails:details()}),{male:16,female:14,unclassified:0});assert.equal(countYouth({rows:details().rows.slice(1),unclassified:0}),10)});
+test('server rejects invalid grades, duplicate rows, fractions and mismatched totals',()=>{const good:ParticipantCount={youth:30,leaders:2,youthDetails:details()};assert.equal(validCounts(good),true);for(const mutate of [(x:ParticipantCount)=>{x.youth=31},(x:ParticipantCount)=>{x.youthDetails!.rows[0].male=-1},(x:ParticipantCount)=>{x.youthDetails!.rows[0].female=1.5},(x:ParticipantCount)=>{x.youthDetails!.rows[0].grade='7'},(x:ParticipantCount)=>{x.youthDetails!.rows[1].grade='4'},(x:ParticipantCount)=>{x.youthDetails!.rows[1].id='grade4'}]){const bad=structuredClone(good);mutate(bad);assert.equal(validCounts(bad),false);assert.throws(()=>normalizeCounts(bad))}for(const level of ['middle','high','university']){const value={youth:2,leaders:0,youthDetails:{rows:[{id:'a',level,grade:'3',male:1,female:1}],unclassified:0}};assert.equal(validCounts(value),true);value.youthDetails.rows[0].grade='4';assert.equal(validCounts(value),false)}});
+test('admin edits preserve initial counts without audit; guide changes remain audited',()=>{const a=createGroup(registration()),b=createGroup({...registration(),name:'다른 단체'});const w:Workspace={version:2,view:'admin',activeGroupId:a.id,groups:[a,b]};const input=registration();input.youthDetails!.rows[0].male=10;input.youthDetails!.rows[0].female=10;const next=editGroupDetails(w,a.id,input);assert.equal(next.groups[0].state.changes.length,0);assert.equal(next.groups[0].state.counts.youth,30);assert.equal(next.groups[0].state.counts.youthDetails!.rows[0].male,10);assert.equal(next.groups[0].state.initialCounts.youthDetails!.rows[0].male,12);assert.deepEqual(next.groups[1],b);const guide=tripService.changeCounts(a.state,next.groups[0].state.counts,'성별 정정','guide');assert.equal(guide.changes[0].actor,'guide')});
+test('storage, backup, CSV and independent copy retain gender and grade data',()=>{const a=createGroup(registration());const w:Workspace={version:2,view:'admin',activeGroupId:a.id,groups:[a]};const data=new Map<string,string>();const storage={getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>{data.set(k,v)}};saveWorkspace(storage,w);const restored=parseBackup(backupText(loadWorkspace(storage)));assert.deepEqual(restored.groups[0].state.counts.youthDetails,details());assert.ok(recordsCsv(w).includes('남 16 / 여 14'));assert.ok(recordsCsv(w).includes('초등 4학년'));assert.equal(validGroup(a),true);const copied=copyJourney(w,a.id,{...registration(),travelDate:'2099-01-02'});copied.groups[1].state.counts.youthDetails!.rows[0].male=0;assert.equal(a.state.counts.youthDetails!.rows[0].male,12)});
+test('legacy total-only changes never leave stale gender ratios',()=>{const a=createGroup(registration());const unchanged=tripService.changeCounts(a.state,{youth:30,leaders:4},'인솔자 변경');assert.deepEqual(unchanged.counts.youthDetails,details());const changed=tripService.changeCounts(a.state,{youth:29,leaders:3},'구형 화면 총원 변경');assert.equal(changed.counts.youthDetails,undefined);assert.equal(genderTotals(changed.counts).unclassified,29)});
+
+test('adult participants and leader genders survive edits, storage, backup and CSV',()=>{
+ const input:Registration={...registration(),youth:10,youthDetails:{rows:[{id:'adults',level:'adult',grade:'',male:4,female:6}],unclassified:0},leaders:3,leaderDetails:{male:1,female:2,unclassified:0}};
+ const a=createGroup(input);let w:Workspace={version:2,view:'admin',activeGroupId:a.id,groups:[a]};assert.equal(validGroup(a),true);
+ w=editGroupDetails(w,a.id,{...input,leaderDetails:{male:2,female:1,unclassified:0}});assert.equal(w.groups[0].state.changes.length,0);assert.equal(w.groups[0].state.initialCounts.leaderDetails!.male,1);
+ const data=new Map<string,string>();const store={getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>{data.set(k,v)}};saveWorkspace(store,w);const restored=parseBackup(backupText(loadWorkspace(store)));
+ assert.deepEqual(restored.groups[0].state.counts.leaderDetails,{male:2,female:1,unclassified:0});assert.equal(restored.groups[0].state.counts.youthDetails!.rows[0].level,'adult');assert.ok(recordsCsv(restored).includes('인솔자 3 (남 2 / 여 1 / 미분류 0)'));
+ const changed=tripService.changeCounts(a.state,{youth:10,leaders:4},'legacy');assert.equal(changed.counts.leaderDetails,undefined);
+ const kept=tripService.changeCounts(a.state,{youth:10,leaders:3},'unchanged');assert.deepEqual(kept.counts.leaderDetails,input.leaderDetails);
+});
+test('server rejects invalid leader sums and adult grades, accepts legacy totals',()=>{
+ assert.equal(validCounts({youth:0,leaders:3}),true);
+ for(const d of [{male:1,female:1,unclassified:0},{male:-1,female:4,unclassified:0},{male:1.5,female:1.5,unclassified:0}])assert.equal(validCounts({youth:0,leaders:3,leaderDetails:d}),false);
+ assert.equal(validCounts({youth:1,leaders:0,youthDetails:{rows:[{id:'a',level:'adult',grade:'1',male:1,female:0}],unclassified:0}}),false);
+});

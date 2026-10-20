@@ -14,10 +14,19 @@ export function createMapHandler({kakaoKey, javascriptKey='',fetchImpl=fetch,now
   async function lookup(q){
    const cached=cache.get(q);if(cached&&now()-cached.at<600000)return cached.items;
    let job=pending.get(q);if(!job){job=(async()=>{
-    const target=new URL('https://dapi.kakao.com/v2/local/search/keyword.json');target.search=new URLSearchParams({query:q,size:'15'});
-    const r=await fetchImpl(target,{headers:{Authorization:'KakaoAK '+kakaoKey},signal:AbortSignal.timeout(8000),redirect:'error'});
-    if(!r.ok)throw Error('upstream');const data=await r.json();if(!Array.isArray(data.documents))throw Error('response');
-    const items=data.documents.filter(p=>p.id&&p.place_name&&String(p.x).trim()&&String(p.y).trim()).map(p=>({id:String(p.id),name:String(p.place_name),address:String(p.road_address_name||p.address_name||''),category:String(p.category_name||''),lat:Number(p.y),lng:Number(p.x),provider:'kakao'})).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lng)&&Math.abs(p.lat)<=90&&Math.abs(p.lng)<=180);
+    const signal=AbortSignal.timeout(12000);
+    const documents=[];
+    // Kakao exposes up to 45 places, in pages of at most 15.
+    // A matching school can be on page 3 even when page 1 is nonempty.
+    for(let page=1;page<=3;page++){
+     const target=new URL('https://dapi.kakao.com/v2/local/search/keyword.json');target.search=new URLSearchParams({query:q,size:'15',page:String(page)});
+     const r=await fetchImpl(target,{headers:{Authorization:'KakaoAK '+kakaoKey},signal,redirect:'error'});
+     if(!r.ok)throw Error('upstream');const data=await r.json();if(!Array.isArray(data.documents))throw Error('response');
+     documents.push(...data.documents);
+     if(data.meta?.is_end!==false||!data.documents.length)break;
+    }
+    const normalized=documents.filter(p=>p.id&&p.place_name&&p.x!=null&&p.y!=null&&String(p.x).trim()&&String(p.y).trim()).map(p=>({id:String(p.id),name:String(p.place_name),address:String(p.road_address_name||p.address_name||''),category:String(p.category_name||''),lat:Number(p.y),lng:Number(p.x),provider:'kakao'})).filter(p=>Number.isFinite(p.lat)&&Number.isFinite(p.lng)&&Math.abs(p.lat)<=90&&Math.abs(p.lng)<=180);
+    const items=[...new Map(normalized.map(p=>[p.id,p])).values()];
     if(cache.size>=200)cache.delete(cache.keys().next().value);cache.set(q,{at:now(),items});return items;
    })().finally(()=>pending.delete(q));pending.set(q,job);}return job;
   }

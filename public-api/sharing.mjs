@@ -36,7 +36,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      const g=workspace.groups[0],old=db.workspace.groups.find(g=>g.id===actor.groupId);
      if(workspace.groups.length!==1||g.id!==actor.groupId||g.travelDate<new Date(now()+9*3600000).toISOString().slice(0,10))throw denied();
      // Guides can edit their own journey; identity, dates and destination stay protected.
-     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['counts','changes','reports','confirmed','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
+     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['centerMessages','sharedPosition','counts','changes','reports','confirmed','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
      if(protectedGroup(g)!==protectedGroup(old))throw denied();
      const fixedDestination=x=>x.state.waypoints.filter(p=>p.kind==='destination').map(({order,...p})=>p);
      if(JSON.stringify(fixedDestination(g))!==JSON.stringify(fixedDestination(old)))throw denied();
@@ -47,6 +47,8 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      if(old.state.reports.some(r=>!g.state.reports.some(n=>n.id===r.id)))throw denied();
      if(g.state.reports.some(r=>!g.state.waypoints.some(p=>p.id===r.waypointId&&p.kind!=='destination')))throw denied();
      if(old.state.changes.some(c=>!g.state.changes.some(n=>JSON.stringify(c)===JSON.stringify(n))))throw denied();
+     if((old.state.centerMessages??[]).some(m=>!(g.state.centerMessages??[]).some(n=>n.id===m.id&&n.text===m.text&&n.at===m.at&&n.acknowledgedAt===m.acknowledgedAt)))throw denied();
+     if((g.state.centerMessages??[]).some(m=>m.acknowledgedAt!==undefined&&!(old.state.centerMessages??[]).some(n=>n.id===m.id)))throw denied();
      for(const c of g.state.changes)if(!old.state.changes.some(n=>n.id===c.id))c.actor='guide';
      workspace={...db.workspace,groups:db.workspace.groups.map(x=>x.id===g.id?g:x)};
     }

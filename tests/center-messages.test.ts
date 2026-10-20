@@ -1,0 +1,45 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createGroup,updateGroup,saveWorkspace,loadWorkspace,copyJourney} from '../src/workspace.ts';
+import {addCenterMessage,acknowledgeCenterMessage} from '../src/centerMessageState.ts';
+import {backupText,parseBackup,recordsCsv} from '../src/backup.ts';
+
+const input={name:'전달사항 시험학교',travelDate:'2099-01-01',origin:'학교',youth:20,leaders:2,ic:true,bridge:true};
+test('messages persist, stay within the selected group, roundtrip in backup and do not copy to a new visit',()=>{
+ const a=createGroup(input),b=createGroup(input);
+ const original={version:2 as const,view:'guide' as const,activeGroupId:a.id,groups:[a,b]};
+ const updated=updateGroup(original,a.id,s=>addCenterMessage(s,'  도착이 10분 늦어져요.\n정문에서 뵙겠습니다.  '));
+ assert.equal(original.groups[0].state.centerMessages,undefined);
+ assert.equal(updated.groups[1].state.centerMessages,undefined);
+ const map=new Map<string,string>(),storage={getItem:(k:string)=>map.get(k)??null,setItem:(k:string,v:string)=>{map.set(k,v)}};
+ saveWorkspace(storage,updated);
+ const saved=loadWorkspace(storage),message=saved.groups[0].state.centerMessages![0];
+ assert.equal(message.text,'도착이 10분 늦어져요.\n정문에서 뵙겠습니다.');
+ assert.deepEqual(parseBackup(backupText(saved)).groups[0].state.centerMessages,[message]);
+ assert.ok(recordsCsv(saved).includes('센터 전달사항'));
+ const copied=copyJourney(saved,a.id,{name:input.name,youth:20,leaders:2,travelDate:'2099-02-01'});
+ assert.equal(copied.groups.at(-1)!.state.centerMessages,undefined);
+ assert.throws(()=>addCenterMessage(a.state,' \n '));
+ assert.throws(()=>addCenterMessage(a.state,'가'.repeat(2001)));
+ const invalid=structuredClone(saved);invalid.groups[0].state.centerMessages![0].text='';
+ assert.throws(()=>parseBackup(backupText(invalid)));
+});
+test('acknowledgment preserves message content and first confirmation time across persistence and backup',()=>{
+ const group=createGroup(input);
+ const original=addCenterMessage(addCenterMessage(group.state,'첫 전달사항'),'다음 전달사항');
+ const id=original.centerMessages![0].id;
+ const confirmed=acknowledgeCenterMessage(original,id);
+ assert.equal(original.centerMessages![0].acknowledgedAt,undefined);
+ assert.equal(confirmed.centerMessages![0].text,'첫 전달사항');
+ assert.ok(Number.isFinite(Date.parse(confirmed.centerMessages![0].acknowledgedAt!)));
+ assert.equal(confirmed.centerMessages![1].acknowledgedAt,undefined);
+ assert.equal(acknowledgeCenterMessage(confirmed,id),confirmed);
+ assert.throws(()=>acknowledgeCenterMessage(confirmed,'missing'));
+ const workspace={version:2 as const,view:'admin' as const,activeGroupId:group.id,groups:[{...group,state:confirmed}]};
+ assert.deepEqual(parseBackup(backupText(workspace)),workspace);
+ const map=new Map<string,string>(),storage={getItem:(k:string)=>map.get(k)??null,setItem:(k:string,v:string)=>{map.set(k,v)}};
+ saveWorkspace(storage,workspace);
+ assert.deepEqual(loadWorkspace(storage).groups[0].state.centerMessages,confirmed.centerMessages);
+ const invalid=structuredClone(workspace);invalid.groups[0].state.centerMessages![0].acknowledgedAt='invalid';
+ assert.throws(()=>parseBackup(backupText(invalid)));
+});

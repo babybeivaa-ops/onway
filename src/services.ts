@@ -1,3 +1,4 @@
+import {normalizeCounts,sameCounts} from './participantCounts.ts';
 import {correctLegacyIc} from './fixedPlaces.ts';
 import {validateReportTime} from './reportTime.ts';
 import {clearWaypointPlace} from './places.ts';
@@ -26,7 +27,7 @@ export const checkpointService={
 export const tripService={
  updateMeal(s:DemoState,meal:DemoState['trip']['meal']):DemoState {const saved={enabled:meal.enabled,name:meal.name.trim()};return deriveStatus({...s,trip:{...s.trip,meal:saved,mealStartedAt:saved.enabled?s.trip.mealStartedAt:null},waypoints:s.waypoints.map(w=>w.kind==='meal'?{...(w.name===(saved.name||'점심식사 장소')?w:clearWaypointPlace(w)),name:saved.name||'점심식사 장소',included:saved.enabled}:w)});},
  confirm:(s:DemoState)=>({...s,confirmed:true}),
- changeCounts(s:DemoState,after:ParticipantCount,reason:string,actor?:ParticipantActor):DemoState {if(![after.youth,after.leaders].every(n=>Number.isSafeInteger(n)&&n>=0))throw Error('인원은 0 이상의 정수로 입력해주세요.');if(after.youth===s.counts.youth&&after.leaders===s.counts.leaders)return s;return {...s,counts:after,changes:[{id:crypto.randomUUID(),before:s.counts,after,...(actor?{actor}:{}),reason:reason.trim(),at:new Date().toISOString()},...s.changes]};},
+ changeCounts(s:DemoState,after:ParticipantCount,reason:string,actor?:ParticipantActor):DemoState {after=normalizeCounts(after,s.counts);if(sameCounts(after,s.counts))return s;return {...s,counts:after,changes:[{id:crypto.randomUUID(),before:s.counts,after,...(actor?{actor}:{}),reason:reason.trim(),at:new Date().toISOString()},...s.changes]};},
  startMeal:(s:DemoState)=>deriveStatus({...s,trip:{...s.trip,mealStartedAt:new Date().toISOString()}})
 };
 const KEY='onway-demo-v1';

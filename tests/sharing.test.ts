@@ -9,6 +9,41 @@ import {createGroup} from '../src/workspace.ts';
 import {backupText,parseBackup,mergeBackup,recordsCsv} from '../src/backup.ts';
 import {durationLabel} from '../src/duration.ts';
 const admin='test-admin-code-012345678901234567890';
+test('guide center messages reach admin and cannot overwrite or remove earlier messages',async t=>{
+ const {handler:h}=fixture(t,true);const group=makeGroup();
+ await request(h,'publish',admin,'POST',{group});
+ const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ let read=(await request(h,'workspace',token)).body;
+ const message={id:'message-one',text:'도착이 10분 늦어집니다.',at:new Date().toISOString()};
+ read.workspace.groups[0].state.centerMessages=[message];
+ const saved=await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision});
+ assert.equal(saved.status,200);
+ assert.deepEqual((await request(h,'workspace')).body.workspace.groups[0].state.centerMessages,[message]);
+ read=(await request(h,'workspace',token)).body;
+ const tampered=structuredClone(read.workspace);tampered.groups[0].state.centerMessages[0].text='덮어쓰기';
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:tampered,revision:read.revision})).status,403);
+ const removed=structuredClone(read.workspace);removed.groups[0].state.centerMessages=[];
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:removed,revision:read.revision})).status,403);
+ const invalid=structuredClone(read.workspace);invalid.groups[0].state.centerMessages.push({...message,id:'two',text:' '});
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:invalid,revision:read.revision})).status,400);
+ read.workspace.groups[0].state.centerMessages.push({...message,id:'message-two',text:'정문에 도착했습니다.'});
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);
+ // Only the center can confirm receipt, including on newly added messages.
+ read=(await request(h,'workspace',token)).body;
+ const fake=structuredClone(read.workspace);fake.groups[0].state.centerMessages[0].acknowledgedAt=message.at;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:fake,revision:read.revision})).status,403);
+ const fakeNew=structuredClone(read.workspace);fakeNew.groups[0].state.centerMessages.push({...message,id:'fake-confirmed',acknowledgedAt:message.at});
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:fakeNew,revision:read.revision})).status,403);
+ const center=(await request(h,'workspace')).body;
+ center.workspace.groups[0].state.centerMessages[0].acknowledgedAt=message.at;
+ assert.equal((await request(h,'workspace',admin,'PUT',{workspace:center.workspace,revision:center.revision})).status,200);
+ read=(await request(h,'workspace',token)).body;
+ assert.equal(read.workspace.groups[0].state.centerMessages[0].acknowledgedAt,message.at);
+ const unconfirmed=structuredClone(read.workspace);delete unconfirmed.groups[0].state.centerMessages[0].acknowledgedAt;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:unconfirmed,revision:read.revision})).status,403);
+ read.workspace.groups[0].state.centerMessages.push({...message,id:'after-confirmation',text:'추가 전달사항'});
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);
+});
 const makeGroup=()=>createGroup({name:'공유 학교',travelDate:'2099-01-01',origin:'학교',youth:30,leaders:3,ic:true,bridge:true});
 function fixture(t,memory=false){if(memory){let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};const store={async load(){return structuredClone(db)},async save(next,revision){assert.equal(revision,db.revision);db=structuredClone(next)}};return {handler:createSharingHandler({adminToken:admin,store})};}const dir=fs.mkdtempSync(path.resolve('outputs/onway-sharing-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return {dir,handler:createSharingHandler({directory:dir,adminToken:admin})};}
 async function request(h,endpoint,token=admin,method='GET',value,origin){let status,body;const req=Readable.from(value?[JSON.stringify(value)]:[]);req.method=method;req.headers={authorization:'Bearer '+token,host:'localhost',...(origin?{origin}:{})};await h(req,{writeHead(s){status=s},end(b){body=JSON.parse(b)}},new URL('/api/shared/'+endpoint,'http://localhost'));return {status,body};}
@@ -45,3 +80,5 @@ test('admin invitation survives storage reload and expires after 24 hours',async
  clock+=86400000;assert.equal((await request(reloaded,'workspace',issued.token)).status,401);assert.equal((await request(reloaded,'workspace')).status,200);
 });
 test('admin invitation rotation invalidates previous invitation',async t=>{const {handler:h}=fixture(t,true);const first=(await request(h,'admin-invite',admin,'POST',{})).body.token;const second=(await request(h,'admin-invite',admin,'POST',{})).body.token;assert.equal((await request(h,'workspace',first)).status,401);assert.equal((await request(h,'workspace',second)).status,200)});
+
+test('guide can update gender breakdown for own group; invalid totals are rejected',async t=>{const {handler:h}=fixture(t,true);const group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;const read=(await request(h,'workspace',token)).body;read.workspace.groups[0].state.counts.youthDetails={rows:[{id:'a',level:'high',grade:'1',male:17,female:13}],unclassified:0};const saved=await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision});assert.equal(saved.status,200);const bad=structuredClone(saved.body.workspace);bad.groups[0].state.counts.youthDetails.rows[0].male=18;assert.equal((await request(h,'workspace',token,'PUT',{workspace:bad,revision:saved.body.revision})).status,400);const actual=(await request(h,'workspace',token)).body;assert.equal(actual.workspace.groups[0].state.counts.youthDetails.rows[0].male,17)});

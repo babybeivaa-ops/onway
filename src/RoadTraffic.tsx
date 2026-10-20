@@ -1,3 +1,4 @@
+import {BusCloudIcon} from './CloudMascot';
 import {useEffect,useState} from 'react';
 import {TriangleAlert,RefreshCw,Wrench,CloudRain,CloudFog,Snowflake,Wind,Construction} from 'lucide-react';
 import {trafficIcon,trafficLabel} from './trafficIcon';
@@ -17,15 +18,3 @@ export function RoadTraffic({state,travelDate}:{state:DemoState;travelDate:strin
  return <section className="section road-traffic"><div className="section-heading"><h2><BusCloudIcon/>도로 안내</h2><button className="text-button" disabled={busy||route.loading} onClick={()=>route.error?route.retry():setAttempt(v=>v+1)}><RefreshCw size={14}/>새로고침</button></div><p className="fine">추천 경로 1km 이내 · 반대 방향 도로가 포함될 수 있어요.</p><div aria-live="polite">{route.error||error?<p className="weather-error">{route.error||error}</p>:!result?<p className="fine">도로 정보를 조회하고 있어요…</p>:<>{result.events.length?result.events.map((e,i)=><details className="traffic-event" key={i}><summary><TrafficIcon kind={e.kind} message={e.message}/><span>{e.road} · {trafficLabel(e.kind,e.message)}</span></summary><p>{e.message}</p>{e.blocked&&<p className="fine">{e.blocked}</p>}{e.direction&&<p className="fine">제공 방향: {e.direction}</p>}</details>):<p className="fine">현재 조회된 경로 주변 돌발정보가 없어요.</p>}<p className="fine">조회 {new Date(result.fetchedAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})}</p></>}</div><p className="weather-source">출처: <a href="https://www.its.go.kr/" target="_blank" rel="noreferrer">ITS 국가교통정보센터</a> · 현재 GPS 위치 기준이 아니에요.</p></section>;
 }
 
-function BusCloudIcon(){return <svg className="road-bus-mascot" viewBox="0 0 80 56" aria-hidden="true" fill="none">
- <rect x="5" y="9" width="69" height="37" rx="9" fill="#fbd575" stroke="#d4a847" strokeWidth="1.5"/>
- <rect x="12" y="14" width="39" height="22" rx="5" fill="#eaf7ff"/>
- <path d="M57 14h7q5 0 5 5v12H57Z" fill="#cdeaf8"/><path d="M57 35v8" stroke="#d4a847" strokeWidth="2"/>
- <path d="M21 33C12 33 12 24 19 22C17 14 27 11 32 17C39 10 49 17 46 23C54 26 50 34 43 34Z" fill="var(--cloud-body, #9bd7ff)"/>
- <circle cx="27" cy="24" r="1.8" fill="#285a80"/><circle cx="39" cy="24" r="1.8" fill="#285a80"/>
- <path d="M30 29q3 3 6 0" stroke="#285a80" strokeWidth="1.7" strokeLinecap="round"/>
- <ellipse cx="22" cy="28" rx="3" ry="1.5" fill="var(--cloud-cheek, #7ec5fb)"/><ellipse cx="44" cy="28" rx="3" ry="1.5" fill="var(--cloud-cheek, #7ec5fb)"/>
- <path d="M12 39h34" stroke="#edb649" strokeWidth="2" strokeLinecap="round"/>
- <rect x="68" y="36" width="5" height="4" rx="1" fill="#fff9de"/>
- <circle cx="21" cy="46" r="6" fill="#496680"/><circle cx="61" cy="46" r="6" fill="#496680"/><circle cx="21" cy="46" r="2.5" fill="#cfe2ee"/><circle cx="61" cy="46" r="2.5" fill="#cfe2ee"/>
- </svg>}

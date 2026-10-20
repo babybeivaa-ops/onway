@@ -1,0 +1,27 @@
+.admin-notifications{position:relative;max-width:988px;margin:12px auto 0;padding:0 24px;display:flex;justify-content:flex-end;z-index:20}
+.admin-notification-toggle{display:flex;align-items:center;gap:8px;border:1px solid #ccdced;border-radius:12px;background:white;color:#274760;padding:10px 15px;min-height:44px;font-weight:700}
+.admin-notification-toggle>span{border-radius:20px;min-width:23px;padding:2px 6px;background:#2166ed;color:#fff;font-size:12px;text-align:center}
+.admin-notification-panel{position:absolute;right:24px;top:54px;width:min(400px,calc(100vw - 40px));padding:18px;background:#fff;border:1px solid #ccdced;border-radius:16px;box-shadow:0 12px 40px #203b6026}
+.admin-notification-panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.admin-notification-panel h2{font-size:18px;margin:0}.admin-notification-panel h2 small{font-size:12px;font-weight:400;margin-left:8px}
+.admin-notification-panel header button,.admin-notification-toast>button:last-child{border:0;background:transparent;color:#5b7087;min-width:32px;min-height:32px;padding:6px}
+.admin-notification-panel>p{font-size:13px;margin:10px 0;color:#61758b}
+.notification-read-all{background:#f2f6fc;border:0;color:#245a9b;border-radius:7px;padding:7px 10px;margin-bottom:10px;font-size:12px}
+.admin-notification-items{max-height:min(450px,60vh);overflow:auto;display:grid;gap:8px}
+.admin-notification-items>button{display:grid;gap:5px;text-align:left;width:100%;padding:12px;border:1px solid #e1e8f0;border-radius:10px;background:white;color:#29455d}
+.admin-notification-items>button.is-unread{background:#f0f6ff;border-color:#c7dcfb}
+.admin-notification-items strong{font-size:15px}.admin-notification-items span{font-size:13px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}.admin-notification-items time,.notification-kind{font-size:11px!important;color:#637c97}
+.admin-notification-toasts{position:fixed;right:24px;bottom:24px;width:min(370px,calc(100vw - 32px));display:grid;gap:10px;z-index:90}
+.admin-notification-toast{display:flex;align-items:flex-start;background:white;border:1px solid #bcd2ee;border-left:4px solid #2166ed;border-radius:14px;box-shadow:0 8px 28px #243f6026;padding:10px}
+.admin-notification-toast>button:first-child{display:grid;gap:7px;flex:1;min-width:0;text-align:left;padding:6px;border:0;background:transparent;color:#274760}
+.admin-notification-toast span{font-size:13px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.admin-notification-toast strong{font-size:16px}.admin-notification-toast b{font-size:12px;color:#2166ed}
+.group-details-dialog .dialog-head h2{display:flex;align-items:center;gap:8px}
+.admin-detail-heading h2>.korea-map-cloud-icon{width:48px;height:48px;flex-shrink:0}
+.group-details-dialog .thinking-note-cloud-icon{width:42px;height:40px;flex-shrink:0}
+@media(max-width:600px){.admin-notifications{padding:0 16px}.admin-notification-panel{right:16px}.admin-notification-toasts{right:16px;bottom:16px}}
+
+.admin-notification-items .notification-kind,.admin-notification-toast .notification-toast-title{display:flex;align-items:center;gap:8px;overflow:visible;white-space:normal}
+.notification-kind>.cloud-person-icon,.notification-kind>.notification-heart-icon{width:25px;height:27px;flex-shrink:0;object-fit:contain}
+.notification-toast-title>.cloud-person-icon,.notification-toast-title>.notification-heart-icon{width:30px;height:32px;flex-shrink:0;object-fit:contain}
+.admin-notification-toast .notification-toast-title>span{font-weight:600;line-height:1.5}
