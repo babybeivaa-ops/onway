@@ -105,3 +105,22 @@
 .journey-overview .is-destination{min-height:0;padding-bottom:8px}
 
 .kakao-journey-pin{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;background:transparent;box-shadow:none;cursor:pointer}.kakao-place-popup{background:white;border-radius:10px;padding:10px 14px;box-shadow:0 2px 12px #0003;white-space:nowrap}
+
+.current-location-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:14px 0 6px}.current-location-actions .current-location-button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid #9ccdb9;border-radius:12px;background:#edf9f4;color:#245f4b;font-size:15px;font-weight:700}.current-location-button:disabled{opacity:.65}.current-location-note{margin:0 0 14px;line-height:1.6}.current-position-pin{padding:8px 12px;border:3px solid white;border-radius:20px;background:#2166f3;color:white;font-size:14px;font-weight:700;box-shadow:0 2px 8px #17375c40;white-space:nowrap}
+
+.map-section>.section-heading{align-items:center;gap:12px}.map-section>.section-heading h2{white-space:nowrap}.route-edit-actions{display:flex;justify-content:flex-end;margin-top:8px}#guide-location-action{display:inline-flex}#guide-location-action .current-location-button{padding:5px 10px;gap:5px;min-height:44px;font-size:13px}.current-location-actions:empty{display:none}
+
+.journey-information-row{position:relative}.journey-information-row>.route-edit-actions{position:absolute;right:0;top:8px;margin:0;z-index:1}.journey-information-row>.journey-information>summary{padding-right:160px;min-height:44px;box-sizing:border-box}.received-position{display:grid;gap:8px;background:#edf8f3;padding:16px;border-radius:12px;margin-bottom:16px;font-size:14px}.received-position a{color:#245db8}.current-location-actions{flex-wrap:wrap}
+
+.weather-title-line{display:flex;align-items:center;flex-wrap:wrap;gap:5px 10px;min-width:0}.weather-location-label{font-size:11px;color:#61758e;font-weight:400}.center-weather .section-heading{gap:8px;flex-wrap:wrap}.center-weather .section-heading>.text-button{margin-left:auto;flex-shrink:0}
+
+.map-section>.section-heading{margin-bottom:0}.map-section>.section-heading h2{margin:0}.map-section>.subtext{margin-top:3px;margin-bottom:16px}.public-journey .current-location-actions:has(>button){margin:0;padding:10px 12px 0;background:#edf8f3;border-radius:10px 10px 0 0}.public-journey .current-location-note{margin:0 0 12px;padding:10px 12px;background:#edf8f3;border-radius:10px;line-height:1.6}.public-journey .current-location-actions:has(>button)+.current-location-note{border-radius:0 0 10px 10px}#guide-location-action .current-location-button{display:inline-flex;align-items:center;border:1px solid #b5d9cc;border-radius:10px;background:#edf8f3;color:#245f4b;cursor:pointer}
+
+.weather-title-line{align-items:baseline;column-gap:20px}.weather-title-line h2{align-items:baseline}.weather-title-line h2 svg{align-self:center}.weather-location-label{align-self:baseline}
+
+
+.journey-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.journey-heading-copy{min-width:0}.journey-heading-copy h2{margin:0;font-size:18px;line-height:1.4}.journey-heading-copy>.subtext{margin:5px 0 0;line-height:1.5;font-size:14px}#guide-location-action{flex-shrink:0}#guide-location-action .current-location-button{margin:0;line-height:1.4}
+
+.current-position-pin{display:flex;flex-direction:column;align-items:center;gap:2px;padding:0;border:0;background:transparent;box-shadow:none;color:#174a76}.current-position-pin svg{display:block;filter:drop-shadow(0 2px 3px #17375c30)}.current-position-pin>span{padding:4px 10px;background:white;border:2px solid #75bce9;border-radius:14px;font-size:12px;font-weight:700;box-shadow:0 2px 6px #17375c25}
+
+.weather-observation-note{text-align:right}
