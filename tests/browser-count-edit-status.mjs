@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createGroup,today,WORKSPACE_KEY} from '../src/workspace.ts';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.ONWAY_PLAYWRIGHT_MODULE||'playwright');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const group=createGroup({name:'테스트초등학교',travelDate:today(),origin:'테스트초등학교',youth:105,leaders:10,ic:true,bridge:true,youthDetails:{rows:[{id:'grade6',level:'elementary',grade:'6',male:53,female:52}],unclassified:0},leaderDetails:{male:5,female:5,unclassified:0}});
+const browser=await chromium.launch({headless:true,channel:'chrome'});
+try{
+ const page=await browser.newPage({viewport:{width:390,height:844},hasTouch:true});
+ await page.route('**/*',r=>{const u=new URL(r.request().url());if(u.hostname!=='127.0.0.1')return r.abort();if(u.pathname.startsWith('/api/'))return r.fulfill({status:503,json:{}});const f=path.join(root,'dist',u.pathname==='/'?'index.html':u.pathname);return r.fulfill({path:f,contentType:({'.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg'})[path.extname(f)]||'application/octet-stream'})});
+ await page.addInitScript(({group,key})=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({version:2,view:'guide',activeGroupId:group.id,groups:[group]}))},{group,key:WORKSPACE_KEY});
+ await page.goto('http://127.0.0.1/',{waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'인원이 맞아요',exact:true}).tap();
+ await page.getByRole('button',{name:'인원 확인 완료',exact:true}).waitFor();
+ await page.getByRole('button',{name:'인원 변경',exact:true}).tap();
+ const dialog=page.getByRole('dialog',{name:'인원 변경',exact:true});
+ await dialog.getByRole('button',{name:'변경 저장하기'}).tap();
+ await page.getByRole('button',{name:'인원 확인 완료',exact:true}).waitFor();
+ await page.getByRole('button',{name:'인원 변경',exact:true}).tap();
+ await dialog.getByLabel('초등 6학년 남 (명)',{exact:true}).fill('54');
+ await dialog.getByRole('button',{name:'변경 저장하기'}).tap();
+ await page.waitForFunction(key=>JSON.parse(localStorage.getItem(key)).groups[0].state.counts.youth===106,WORKSPACE_KEY);
+ await page.locator('.group-confirm-inline').getByText('현재 인원을 수정했어요.',{exact:true}).waitFor();
+ assert.equal(await page.getByRole('button',{name:'인원이 맞아요',exact:true}).getAttribute('aria-pressed'),'false');
+ await page.getByRole('button',{name:'인원이 맞아요',exact:true}).tap();
+ assert.equal(await page.getByRole('button',{name:'인원 수정 완료',exact:true}).getAttribute('aria-pressed'),'true');
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'인원 수정 완료',exact:true}).waitFor();
+ await page.locator('.group-confirm-inline').screenshot({path:path.join(root,'../../인원수정-완료표시.png')});
+ await page.evaluate(key=>{const w=JSON.parse(localStorage.getItem(key));w.view='admin';localStorage.setItem(key,JSON.stringify(w))},WORKSPACE_KEY);
+ await page.reload({waitUntil:'domcontentloaded'});await page.locator('.admin-notification-toggle').tap();
+ await page.getByRole('region',{name:'관리자 알림'}).getByText('테스트초등학교가 수정한 인원을 확인하였습니다.',{exact:true}).waitFor();
+ console.log('PASS unchanged confirmation, edited-count reconfirmation, reload persistence and admin notice');
+}finally{await browser.close()}

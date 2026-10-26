@@ -23,7 +23,7 @@ export function CenterMessages({messages=[],onAcknowledge}:{messages?:CenterMess
  const pending=messages.filter(message=>!message.acknowledgedAt).length;
  return <section className="center-messages admin-center-messages" aria-label="센터 전달사항">
   <h3><HeartMessageIcon/>센터 전달사항 <span>{messages.length}건</span>{pending>0&&<span className="center-message-pending-count">미확인 {pending}건</span>}</h3>
-  {messages.length?<MessageList messages={messages} onAcknowledge={onAcknowledge} admin/>:<p className="center-messages-empty">인솔자가 남긴 전달사항이 아직 없어요.</p>}
+  {messages.length?<MessageList messages={messages} onAcknowledge={onAcknowledge} admin/>:<p className="center-messages-empty">인솔교사가 남긴 전달사항이 아직 없어요.</p>}
  </section>;
 }
 

@@ -56,3 +56,40 @@ export function BusCloudIcon(){return <svg className="road-bus-mascot" viewBox="
  </svg>}
 
 export function MapReadingCloudIcon(){return <svg width="38" height="32" viewBox="0 0 64 54" fill="none" aria-hidden="true"><path d="M13 37C2 37 2 24 11 22C8 8 26 4 32 15C43 3 59 14 53 25C65 30 56 41 47 39Z" fill="#9bd7ff"/><circle cx="23" cy="23" r="2" fill="#285a80"/><circle cx="39" cy="23" r="2" fill="#285a80"/><path d="M28 29q4 4 8 0" stroke="#285a80" strokeWidth="2" strokeLinecap="round"/><path d="m15 32 11 3 12-3 11 3v16l-11-3-12 3-11-3Z" fill="#fff9df" stroke="#67b9ab" strokeWidth="1.5"/><path d="M26 35v16m12-19v16" stroke="#a6cfc2"/><path d="m19 42 8 2 7-6 10 4" stroke="#e4b849" strokeWidth="2" strokeDasharray="3 2"/><ellipse cx="13" cy="37" rx="5" ry="4" fill="#9bd7ff"/><ellipse cx="50" cy="39" rx="5" ry="4" fill="#9bd7ff"/></svg>}
+
+export function SelectedCloudIcon(){return <svg className="selected-cloud-icon" width="30" height="30" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M12 52C1 50 2 34 12 32C8 17 26 12 33 23C46 12 58 24 52 35C65 40 57 54 47 53Z" fill="#9bd7ff" stroke="#5eacd9" strokeWidth="2"/><circle cx="22" cy="36" r="2.3" fill="#205799"/><circle cx="37" cy="36" r="2.3" fill="#205799"/><path d="M26 43q4 5 8 0" stroke="#205799" strokeWidth="2" strokeLinecap="round"/><path d="M49 30v21" stroke="#9c7547" strokeWidth="3"/><rect x="35" y="3" width="27" height="27" rx="6" fill="#fffdf3" stroke="#398b7c" strokeWidth="2"/><path d="m41 16 5 5 10-11" stroke="#398b7c" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"/><ellipse cx="48" cy="44" rx="6" ry="4" fill="#9bd7ff" stroke="#5eacd9" strokeWidth="1.5"/></svg>}
+
+export function HourglassCloudIcon(){return <svg className="hourglass-cloud-icon" width="38" height="38" viewBox="0 0 76 76" fill="none" aria-hidden="true">
+ <path d="M17 69C3 69 1 49 15 46C10 29 30 24 39 37C49 24 68 34 62 48C76 53 68 70 55 69Z" fill="#9bd7ff"/>
+ <circle cx="27" cy="49" r="2.6" fill="#285a80"/><circle cx="46" cy="49" r="2.6" fill="#285a80"/>
+ <path d="M31 57q5 5 10 0" stroke="#285a80" strokeWidth="2.5" strokeLinecap="round"/>
+ <ellipse cx="20" cy="56" rx="4" ry="2" fill="#7ec5fb"/><ellipse cx="53" cy="56" rx="4" ry="2" fill="#7ec5fb"/>
+ <path d="M30 9h18v3c0 5-4 7-7 10 3 2 7 5 7 9v1H30v-1c0-4 4-7 7-9-3-3-7-5-7-10Z" fill="#fffdf4" stroke="#b69c64" strokeWidth="2" strokeLinejoin="round"/>
+ <path d="M32 12h14q-1 4-7 7-6-3-7-7ZM33 30q1-4 6-6 5 2 6 6Z" fill="#efc55b"/>
+ <path d="M39 20v4" stroke="#e8b64c" strokeWidth="2" strokeLinecap="round"/>
+ <rect x="27" y="4" width="24" height="5" rx="2" fill="#c5a16a"/><rect x="27" y="32" width="24" height="5" rx="2" fill="#c5a16a"/>
+ </svg>}
+
+export function CalendarCloudIcon(){return <svg className="calendar-cloud-icon" width="34" height="32" viewBox="0 0 92 86" fill="none" aria-hidden="true">
+ <path d="M47 77C32 76 30 58 42 53C37 35 57 29 65 43C77 31 91 44 84 57C96 64 86 79 75 77Z" fill="#9bd7ff"/>
+ <path d="m51 50 7-2m11 1 6 2" stroke="#5086aa" strokeWidth="2" strokeLinecap="round"/>
+ <circle cx="55" cy="55" r="2.5" fill="#285a80"/><circle cx="71" cy="55" r="2.5" fill="#285a80"/>
+ <path d="M60 64q4-2 7 0" stroke="#285a80" strokeWidth="2" strokeLinecap="round"/><ellipse cx="75" cy="62" rx="4" ry="2" fill="#7ec5fb"/>
+ <ellipse cx="69" cy="69" rx="6" ry="4" transform="rotate(-28 69 69)" fill="#9bd7ff" stroke="#77bfee" strokeWidth="1.5"/>
+ <circle cx="66" cy="32" r="2" fill="#b9dfff"/><circle cx="71" cy="25" r="3" fill="#b9dfff"/><path d="M69 11c-1-7 9-9 12-4 8-2 12 8 6 12H73c-5 0-7-5-4-8Z" fill="#eef7ff" stroke="#a8cde8" strokeWidth="1.5"/>
+ <rect x="4" y="29" width="38" height="47" rx="5" fill="#fffdf4" stroke="#b6a483" strokeWidth="2"/><path d="M4 35q0-6 6-6h26q6 0 6 6v8H4Z" fill="#f1c2d2"/>
+ <path d="M13 24v12m20-12v12" stroke="#607c99" strokeWidth="3" strokeLinecap="round"/>
+ <path d="M11 53h5m9 0h5M11 64h5m9 0h5" stroke="#8198ae" strokeWidth="3" strokeLinecap="round"/>
+ <path d="M42 44 27 37v21q9-3 15-14Z" fill="#fff" stroke="#bfd2e5" strokeWidth="1.8"/><path d="m27 37 4 12 11-5" stroke="#d6e2ed" strokeWidth="1.5"/>
+ <ellipse cx="44" cy="46" rx="7" ry="4.5" transform="rotate(-24 44 46)" fill="#9bd7ff" stroke="#77bfee" strokeWidth="1.5"/>
+ </svg>}
+
+
+export function SpaceFriendsIcon(){return <svg className="space-friends-icon" width="40" height="32" viewBox="0 0 96 78" fill="none" aria-hidden="true">
+ <g transform="translate(3 3)"><g stroke="#e7bd59" strokeWidth="3.5" strokeLinecap="round"><path d="M25 3v5m0 30v5M5 23h5m30 0h5M11 9l4 4m20 20 4 4M11 37l4-4M35 13l4-4"/></g>
+ <circle cx="25" cy="23" r="14" fill="#ffdc78"/><circle cx="20" cy="22" r="2" fill="#526783"/><circle cx="30" cy="22" r="2" fill="#526783"/><path d="M22 28q3 3 6 0" stroke="#526783" strokeWidth="1.8" strokeLinecap="round"/></g>
+ <g transform="translate(-6 3)"><path d="M76 8c-20-7-32 15-18 28 11 10 27 3 28-9-11 4-22-7-10-19Z" fill="#c7c1ee"/><circle cx="61" cy="23" r="2" fill="#526783"/><circle cx="69" cy="28" r="2" fill="#526783"/><path d="m59 29 3 3 3-1" stroke="#526783" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></g>
+ <g transform="translate(2 -2)"><path d="m29 36 6 12 14 2-10 10 2 14-12-7-13 7 3-14L8 50l15-2Z" fill="#f5c7d7" stroke="#dba4bd" strokeWidth="1.2" strokeLinejoin="round"/><circle cx="24" cy="55" r="2" fill="#526783"/><circle cx="34" cy="55" r="2" fill="#526783"/><path d="M26 61q3 3 6 0" stroke="#526783" strokeWidth="1.8" strokeLinecap="round"/></g>
+ <g transform="translate(-3 -1)"><circle cx="69" cy="55" r="17" fill="#dcb790"/><path d="M57 44q12-5 23 3M57 65q11 5 22-1" stroke="#c9a17b" strokeWidth="2.5" strokeLinecap="round"/><path d="M53 48c-13 3-10 11 5 13 15 2 36-4 35-10-1-3-5-4-9-4" stroke="#ad805d" strokeWidth="3.5" strokeLinecap="round"/><circle cx="64" cy="50" r="2" fill="#6b5142"/><circle cx="74" cy="50" r="2" fill="#6b5142"/><path d="M66 55q3 3 6 0" stroke="#6b5142" strokeWidth="1.8" strokeLinecap="round"/></g>
+ <path d="M38 49c-8-1-8-11-1-13-2-9 9-12 13-5 6-7 15 0 12 7 8 4 3 13-4 12Z" fill="#c7e6a3" stroke="#edf5df" strokeWidth="1.2"/><circle cx="44" cy="39" r="1.6" fill="#4e6849"/><circle cx="54" cy="39" r="1.6" fill="#4e6849"/><path d="M46 44q3 3 6 0" stroke="#4e6849" strokeWidth="1.5" strokeLinecap="round"/>
+ </svg>}

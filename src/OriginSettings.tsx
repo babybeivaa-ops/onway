@@ -1,0 +1,10 @@
+import {useRef,useState} from 'react';
+import {SchoolOriginSearch} from './SchoolOriginSearch';
+import type {PublicPlace} from './places';
+export type OriginMode='school'|'other';
+export function OriginSettings({name,mode,onMode,onSelect,editing=false,currentPlace,currentName}:{name:string;mode:OriginMode;onMode:(mode:OriginMode)=>void;onSelect:(place:PublicPlace|undefined)=>void;editing?:boolean;currentPlace?:PublicPlace;currentName?:string}){
+ const initialMode=useRef(mode);
+ const [query,setQuery]=useState(''),[searching,setSearching]=useState(!editing);
+ const showCurrent=editing&&mode===initialMode.current&&!searching;
+ return <section className="origin-settings" aria-label="이동 출발지 설정"><label>출발지 설정<select value={mode} onChange={e=>{const next=e.target.value as OriginMode;onSelect(undefined);setQuery('');setSearching(!editing||next!==initialMode.current);onMode(next)}}><option value="school">학교·단체에서 출발</option><option value="other">다른 장소에서 출발</option></select></label>{showCurrent?<section className="school-origin-search" aria-label="현재 출발지"><p className="fine">{mode==='school'?'현재 학교·단체 출발지':'현재 다른 장소 출발지'}</p><p><strong>{currentPlace?.name||currentName||name}</strong></p><p className="fine">{currentPlace?.address||(currentPlace?'주소 정보 없음':'주소가 지정되지 않았어요.')}</p><button type="button" className="text-button" onClick={()=>{setQuery(mode==='other'?(currentPlace?.name||currentName||''):'');setSearching(true)}}>{currentPlace?'출발지 변경':'주소 찾기'}</button></section>:<>{mode==='other'&&<><p className="fine">자체 일정을 마친 뒤 센터로 출발하는 장소를 선택해주세요. 학교·단체명은 유지됩니다.</p><label>출발 장소 검색<input value={query} onChange={e=>setQuery(e.target.value)} placeholder="예: 나로우주센터" maxLength={100}/></label></>}<SchoolOriginSearch key={mode} name={mode==='school'?name:query} onSelect={onSelect} editing={editing} general={mode==='other'}/>{editing&&mode===initialMode.current&&<button type="button" className="text-button" onClick={()=>{onSelect(undefined);setSearching(false)}}>기존 출발지 유지</button>}</>}</section>;
+}

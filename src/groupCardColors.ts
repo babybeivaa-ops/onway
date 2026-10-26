@@ -1,0 +1,3 @@
+// Assign distinct, muted borders within the current group list.
+const palette=['#7e9fc7','#ad88c2','#cc89a7','#6aafa2','#c6a16f','#8c96c5','#c4877a','#9cad6e'];
+export function groupCardColors(ids:string[]){const colors:Record<string,string>={};const used=new Set<number>();for(const id of [...new Set(ids)].sort()){let hash=2166136261;for(const c of id){hash^=c.charCodeAt(0);hash=Math.imul(hash,16777619)}let index=(hash>>>0)%palette.length;if(used.size<palette.length){while(used.has(index))index=(index+1)%palette.length;used.add(index);colors[id]=palette[index];}else{colors[id]='hsl('+((Object.keys(colors).length*137.508)%360).toFixed(1)+' 38% 60%)';}}return colors;}

@@ -18,6 +18,10 @@ export function validGroup(g){
  try{
  const s=g.state;
  if(!arrival(s?.organization?.arrival))return false;
+ if(s.organization?.nameKind!==undefined&&!['auto','elementary','middle','high','organization'].includes(s.organization.nameKind))return false;
+ if(s.organization?.originMode!==undefined&&!['school','other'].includes(s.organization.originMode))return false;
+ if(s.plannedArrival!==undefined){const p=s.plannedArrival;if(!p||!/^\d{4}-\d{2}-\d{2}$/.test(p.date)||!date(p.date)||new Date(p.date).toISOString().slice(0,10)!==p.date||!/^([01]\d|2[0-3]):[0-5]\d$/.test(p.time)||!['admin','guide'].includes(p.actor)||!date(p.updatedAt))return false;}
+ if(s.countsConfirmedAt!==undefined&&(!s.confirmed||!date(s.countsConfirmedAt)))return false;
  if(s.centerMessages!==undefined&&(!Array.isArray(s.centerMessages)||s.centerMessages.length>1000||!unique(s.centerMessages)||!s.centerMessages.every(m=>m&&text(m.id,100)&&!!m.id&&text(m.text,2000)&&!!m.text.trim()&&date(m.at)&&(m.acknowledgedAt===undefined||date(m.acknowledgedAt)))))return false;
  if(s.sharedPosition!==undefined){const p=s.sharedPosition;if(!p||!Number.isFinite(p.lat)||Math.abs(p.lat)>90||!Number.isFinite(p.lng)||Math.abs(p.lng)>180||!Number.isFinite(p.accuracy)||p.accuracy<0||!date(p.measuredAt)||!date(p.sentAt))return false;}
  return text(g.id,100)&&!!g.id&&/^\d{4}-\d{2}-\d{2}$/.test(g.travelDate)&&new Date(g.travelDate).toISOString().slice(0,10)===g.travelDate&&typeof g.registered==='boolean'&&g.checkpoints&&typeof g.checkpoints.ic==='boolean'&&typeof g.checkpoints.bridge==='boolean'&&

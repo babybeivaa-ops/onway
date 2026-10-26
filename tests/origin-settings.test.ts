@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {addGroup,editGroupDetails,copyJourney,saveWorkspace,loadWorkspace} from '../src/workspace.ts';
+import {adminJourney} from '../src/adminJourney.ts';
+import {validGroup} from '../public-api/workspace-schema.mjs';
+const place={id:'space',provider:'kakao' as const,name:'나로우주센터',address:'테스트 주소',lat:34.43,lng:127.53};
+test('separate origin preserves organization and counts, persists, labels departure and copies',()=>{let w=addGroup({version:2,view:'admin',activeGroupId:'',groups:[]},{name:'동명중학교',origin:place.name,originPlace:place,originMode:'other',travelDate:'2099-01-01',youth:30,leaders:2,ic:true,bridge:true});const g=w.groups[0];assert.equal(g.state.organization.name,'동명중학교');assert.equal(g.state.trip.origin,place.name);assert(validGroup(g));assert.equal(adminJourney(g.state).steps.find(p=>p.id==='start')?.label,'나로우주센터 출발');const m=new Map(),s={getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)};saveWorkspace(s,w);assert.equal(loadWorkspace(s).groups[0].state.organization.originMode,'other');const copied=copyJourney(w,g.id,{name:'동명중학교',youth:30,leaders:2,travelDate:'2099-01-02'}).groups.at(-1)!;assert.equal(copied.state.organization.originMode,'other');assert.equal(copied.state.trip.origin,place.name);w=editGroupDetails(w,g.id,{name:'동명중학교',youth:30,leaders:2,originMode:'school',originPlace:{...place,id:'school',name:'동명중학교'}});assert.equal(adminJourney(w.groups[0].state).steps.find(p=>p.id==='start')?.label,'학교 출발');assert.equal(w.groups[0].state.counts.youth,30)});

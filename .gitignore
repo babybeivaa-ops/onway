@@ -19,3 +19,12 @@ dist/
 /ONWAY-demo.html
 /scripts/start-local.mjs
 *.secret
+
+# Local build cache and diagnostics
+.build-cache/
+work/
+
+# Private exported group data
+ONWAY-backup-*.json
+ONWAY-before-restore-*.json
+ONWAY-unsaved*.json

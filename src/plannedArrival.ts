@@ -1,0 +1,2 @@
+import type {DemoState,ParticipantActor} from './types';
+export function setPlannedArrival(s:DemoState,date:string,time:string,actor:ParticipantActor):DemoState{if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(Date.parse(date))||new Date(date).toISOString().slice(0,10)!==date)throw Error('방문일을 확인해주세요.');if(time&&!/^([01]\d|2[0-3]):[0-5]\d$/.test(time))throw Error('도착 예정 시각을 확인해주세요.');return {...s,plannedArrival:time?{date,time,actor,updatedAt:new Date().toISOString()}:undefined};}

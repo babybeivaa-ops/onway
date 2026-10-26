@@ -9,7 +9,7 @@
 .notification-read-all{background:#f2f6fc;border:0;color:#245a9b;border-radius:7px;padding:7px 10px;margin-bottom:10px;font-size:12px}
 .admin-notification-items{max-height:min(450px,60vh);overflow:auto;display:grid;gap:8px}
 .admin-notification-items>button{display:grid;gap:5px;text-align:left;width:100%;padding:12px;border:1px solid #e1e8f0;border-radius:10px;background:white;color:#29455d}
-.admin-notification-items>button.is-unread{background:#f0f6ff;border-color:#c7dcfb}
+.admin-notification-items>button.is-unread{background:#F4F5F7;border-color:#dfe3e8}
 .admin-notification-items strong{font-size:15px}.admin-notification-items span{font-size:13px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}.admin-notification-items time,.notification-kind{font-size:11px!important;color:#637c97}
 .admin-notification-toasts{position:fixed;right:24px;bottom:24px;width:min(370px,calc(100vw - 32px));display:grid;gap:10px;z-index:90}
 .admin-notification-toast{display:flex;align-items:flex-start;background:white;border:1px solid #bcd2ee;border-left:4px solid #2166ed;border-radius:14px;box-shadow:0 8px 28px #243f6026;padding:10px}
@@ -25,3 +25,8 @@
 .notification-kind>.cloud-person-icon,.notification-kind>.notification-heart-icon{width:25px;height:27px;flex-shrink:0;object-fit:contain}
 .notification-toast-title>.cloud-person-icon,.notification-toast-title>.notification-heart-icon{width:30px;height:32px;flex-shrink:0;object-fit:contain}
 .admin-notification-toast .notification-toast-title>span{font-weight:600;line-height:1.5}
+
+.admin-notifications .notification-group-name{color:#1858b8;font-weight:800}
+.admin-notification-toast .notification-movement-text{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;line-height:1.65}
+.admin-notification-items .notification-movement-text{white-space:normal;line-height:1.65}
+.notification-kind>svg,.notification-toast-title>svg{flex-shrink:0;color:#1858b8}

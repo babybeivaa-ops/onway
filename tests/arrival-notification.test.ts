@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createGroup,saveWorkspace,loadWorkspace} from '../src/workspace.ts';
+import {confirmCenterArrival,checkpointService,deriveStatus} from '../src/services.ts';
+import {adminNotices,newAdminNotices} from '../src/adminNotificationModel.ts';
+import {notificationGroupColor} from '../src/notificationColors.ts';
+import {validGroup} from '../public-api/workspace-schema.mjs';
+test('center arrival is explicit, persists, alerts once and can be cancelled',()=>{const g=createGroup({name:'동명중학교',origin:'동명중학교',travelDate:'2099-01-01',youth:30,leaders:2,ic:true,bridge:true});assert.equal(adminNotices([g]).length,0);g.state=confirmCenterArrival(g.state);assert.equal(g.state.trip.status,'도착');assert.equal(g.state.reports.length,1);assert.equal(confirmCenterArrival(g.state),g.state);assert(validGroup(g));const notices=adminNotices([g]);assert.equal(notices[0].text,'동명중이 센터에 도착하였습니다.');assert.equal(newAdminNotices(notices,new Set()).length,1);assert.equal(newAdminNotices(notices,new Set(notices.map(n=>n.id))).length,0);const m=new Map(),storage={getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)};saveWorkspace(storage,{version:2,view:'admin',activeGroupId:g.id,groups:[g]});assert.equal(loadWorkspace(storage).groups[0].state.trip.status,'도착');g.state=checkpointService.cancel(g.state,g.state.reports[0].id);assert.equal(g.state.trip.status,'출발 전');assert.equal(adminNotices([g]).length,0);g.state=confirmCenterArrival(g.state);assert.equal(adminNotices([g]).length,1);assert.notEqual(adminNotices([g])[0].id,notices[0].id)});
+test('notification colors are stable per group',()=>{assert.equal(notificationGroupColor('school-a'),notificationGroupColor('school-a'));assert.notEqual(notificationGroupColor('school-a'),notificationGroupColor('school-b'))});

@@ -29,4 +29,4 @@ export function normalizeCounts(value:ParticipantCount,previous?:ParticipantCoun
 }
 export const sameCounts=(a:ParticipantCount,b:ParticipantCount)=>JSON.stringify(normalizeCounts(a))===JSON.stringify(normalizeCounts(b));
 export function genderTotals(counts:ParticipantCount){const d=counts.youthDetails;return {male:d?.rows.reduce((n,r)=>n+r.male,0)??0,female:d?.rows.reduce((n,r)=>n+r.female,0)??0,unclassified:d?.unclassified??counts.youth}}
-export function describeCounts(counts:ParticipantCount){const t=genderTotals(counts);return '참가자 '+counts.youth+' / 남 '+t.male+' / 여 '+t.female+' / 미분류 '+t.unclassified+' / 인솔자 '+counts.leaders+' (남 '+(counts.leaderDetails?.male??0)+' / 여 '+(counts.leaderDetails?.female??0)+' / 미분류 '+(counts.leaderDetails?.unclassified??counts.leaders)+')';}
+export function describeCounts(counts:ParticipantCount){const t=genderTotals(counts);return '참가자 '+counts.youth+' / 남 '+t.male+' / 여 '+t.female+' / 미분류 '+t.unclassified+' / 인솔교사 '+counts.leaders+' (남 '+(counts.leaderDetails?.male??0)+' / 여 '+(counts.leaderDetails?.female??0)+' / 미분류 '+(counts.leaderDetails?.unclassified??counts.leaders)+')';}

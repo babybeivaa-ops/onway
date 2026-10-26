@@ -4,7 +4,7 @@ import {roadRoutePlan} from './roadRoute';
 import type {RoadRoute} from './roadRoute';
 const cache=new Map<string,{at:number;data:RoadRoute}>();
 const pending=new Map<string,Promise<RoadRoute>>();
-function request(key:string){
+export function requestRoadRoute(key:string){
  const saved=cache.get(key);if(saved&&Date.now()-saved.at<300000)return Promise.resolve(saved.data);
  const running=pending.get(key);if(running)return running;
  const job=fetch('/api/routes/directions?points='+encodeURIComponent(key),{signal:AbortSignal.timeout(30000)}).then(async r=>{
@@ -17,7 +17,7 @@ function request(key:string){
 export function useRoadRoute(s:DemoState,travelDate?:string,enabled=true,fromId?:string){
  const plan=roadRoutePlan(s,travelDate,fromId);const key=plan.key;
  const [state,setState]=useState<{key:string;data?:RoadRoute;error?:string}>({key:''});const [attempt,setAttempt]=useState(0);
- useEffect(()=>{if(!enabled||!key)return;let alive=true;setState({key});request(key).then(data=>{if(alive)setState({key,data})},e=>{if(alive)setState({key,error:e.message})});return()=>{alive=false};},[key,enabled,attempt]);
+ useEffect(()=>{if(!enabled||!key)return;let alive=true;setState({key});requestRoadRoute(key).then(data=>{if(alive)setState({key,data})},e=>{if(alive)setState({key,error:e.message})});return()=>{alive=false};},[key,enabled,attempt]);
  const current=state.key===key?state:undefined;
  return {...plan,data:enabled?current?.data:undefined,error:plan.error||current?.error||'',loading:enabled&&!!key&&!current?.data&&!current?.error,retry:()=>{cache.delete(key);setAttempt(v=>v+1)}};
 }

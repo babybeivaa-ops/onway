@@ -23,7 +23,7 @@ test('save omits zero rows without changing totals, nonempty rows, or input draf
 test('legacy empty rows are hidden and cannot alter group category or participant label',()=>{
  assert.deepEqual(participantRows(value()),[high]);
  assert.equal(participantCountLabel(value()),'청소년');
- assert.equal(formatSchoolGroupName('한빛',value()),'한빛고');
+ assert.equal(formatSchoolGroupName('한빛',value()),'한빛');
  assert.equal(participantRows({...value(),youthDetails:{rows:[{...high,male:0,female:2}],unclassified:0}}).length,1);
 });
 test('both registration and group edits discard accidentally added empty categories',()=>{

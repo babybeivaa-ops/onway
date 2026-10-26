@@ -14,6 +14,7 @@ export function deriveStatus(s:DemoState):DemoState {
  const ids=activeReports(s).map(r=>r.waypointId);
  const meal=s.waypoints.find(w=>w.kind==='meal'&&w.included);
  const passedMeal=!!meal&&s.waypoints.some(w=>w.included&&w.order>meal.order&&ids.includes(w.id));
+ if(s.reports.some(r=>r.status!=='cancelled'&&s.waypoints.some(p=>p.id===r.waypointId&&p.kind==='destination'&&p.included)))return {...s,trip:{...s.trip,status:'도착'}};
  const status=s.trip.mealStartedAt&&meal&&!ids.includes(meal.id)&&!passedMeal?'식사 중':ids.length?'이동 중':'출발 전';
  return {...s,trip:{...s.trip,status}};
 }
@@ -26,8 +27,8 @@ export const checkpointService={
 };
 export const tripService={
  updateMeal(s:DemoState,meal:DemoState['trip']['meal']):DemoState {const saved={enabled:meal.enabled,name:meal.name.trim()};return deriveStatus({...s,trip:{...s.trip,meal:saved,mealStartedAt:saved.enabled?s.trip.mealStartedAt:null},waypoints:s.waypoints.map(w=>w.kind==='meal'?{...(w.name===(saved.name||'점심식사 장소')?w:clearWaypointPlace(w)),name:saved.name||'점심식사 장소',included:saved.enabled}:w)});},
- confirm:(s:DemoState)=>({...s,confirmed:true}),
- changeCounts(s:DemoState,after:ParticipantCount,reason:string,actor?:ParticipantActor):DemoState {after=normalizeCounts(after,s.counts);if(sameCounts(after,s.counts))return s;return {...s,counts:after,changes:[{id:crypto.randomUUID(),before:s.counts,after,...(actor?{actor}:{}),reason:reason.trim(),at:new Date().toISOString()},...s.changes]};},
+ confirm:(s:DemoState)=>s.confirmed?s:({...s,confirmed:true,countsConfirmedAt:new Date().toISOString()}),
+ changeCounts(s:DemoState,after:ParticipantCount,reason:string,actor?:ParticipantActor):DemoState {after=normalizeCounts(after,s.counts);if(sameCounts(after,s.counts))return s;return {...s,confirmed:false,countsConfirmedAt:undefined,counts:after,changes:[{id:crypto.randomUUID(),before:s.counts,after,...(actor?{actor}:{}),reason:reason.trim(),at:new Date().toISOString()},...s.changes]};},
  startMeal:(s:DemoState)=>deriveStatus({...s,trip:{...s.trip,mealStartedAt:new Date().toISOString()}})
 };
 const KEY='onway-demo-v1';
@@ -51,3 +52,5 @@ export function mapConnectionPoints(s:DemoState){
  const next=routeService.points(s).find(p=>p.order>start.order&&p.place);
  return next?[start,next]:[start];
 }
+
+export function confirmCenterArrival(s:DemoState):DemoState {const destination=s.waypoints.find(p=>p.kind==='destination'&&p.included);if(!destination)throw Error('도착지를 확인해주세요.');if(s.reports.some(r=>r.waypointId===destination.id&&r.status!=='cancelled'))return s;const at=new Date().toISOString();return deriveStatus({...s,reports:[...s.reports,{id:crypto.randomUUID(),waypointId:destination.id,at,createdAt:at,status:'saved',revisions:[]}]});}

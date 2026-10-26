@@ -91,7 +91,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 .admin-page{padding-top:28px}.admin-heading{padding:24px;border:1px solid #d8e4f1;border-radius:22px;background:linear-gradient(115deg,#fff 45%,#eaf4ff);box-shadow:0 5px 20px #254c7007}
 .admin-heading h1{display:flex;align-items:center;gap:12px;font-size:27px;letter-spacing:-1px}.admin-title-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:#dfeeff;color:#2266b9;border-radius:15px}.admin-heading .eyebrow{color:#587188;font-weight:650}.admin-heading p{color:#526c84;line-height:1.6}.admin-heading .admin-add{box-shadow:0 4px 10px #2166ee22}
 .school-selector-heading{padding:4px 2px}.school-selector-heading h2{color:#26445e}.group-quick-tabs{background:#fff;border-color:#d8e3ee;box-shadow:0 4px 16px #20395009;padding:10px;gap:10px}.group-quick-tabs button{min-width:138px;padding:13px 17px;background:#f6f9fc;border-color:#e0e7ef;border-radius:14px}.group-quick-tabs button[aria-selected=true]{background:#245db8;border-color:#245db8;box-shadow:0 4px 10px #245db825}.group-quick-tabs button>strong{font-size:16px}.group-quick-tabs button>span{line-height:1.5}
-.school-accordion{border-color:#cfdeeb;border-radius:22px;box-shadow:0 5px 20px #254c7008}.school-accordion-toggle{padding:22px 24px}.school-accordion-toggle[aria-expanded=true]{background:#eaf1fa;color:#234970}.school-accordion-toggle>span:first-child>strong{font-size:20px}.school-accordion-toggle>span:first-child>small{color:#526b86}.school-accordion-toggle>.journey-badge{flex:0 1 auto;min-width:180px;padding:11px 16px}.school-accordion-content{background:#f8fafc;padding:22px;gap:22px}
+.school-accordion{border-color:#cfdeeb;border-radius:22px;box-shadow:0 5px 20px #254c7008}.school-accordion-toggle{padding:22px 24px}.school-accordion-toggle[aria-expanded=true]{background:#eaf1fa;color:#234970}.school-accordion-toggle>span:first-child>strong{font-size:20px}.school-accordion-toggle>span:first-child>small{color:#526b86}.school-accordion-toggle>.journey-badge{flex:0 1 auto;min-width:180px;padding:11px 16px}.school-accordion-content{background:#F8FAFC;padding:22px;gap:22px}
 .group-top-actions{padding-bottom:0}.group-top-actions>.secondary{background:#fff;border-color:#bfcfe2;color:#24598c}.group-top-actions>.group-delete-button{background:#fffafa;border-color:#eccfcf;color:#ad3d43}
 .school-arrival-card,.school-visit-summary,.admin-detail,.school-sharing{box-shadow:0 3px 12px #20395004}.school-arrival-card{border-color:#cce4dd;border-top:4px solid #5ba999}.school-arrival-title h2,.school-sharing>h3{display:flex;align-items:center;gap:10px;line-height:1.5}.admin-section-icon{display:inline-flex;align-items:center;justify-content:center;flex:0 0 40px;width:40px;height:40px;border-radius:12px;background:#e2f3ec;color:#287c69}.school-arrival-title h2{color:#255e52;font-size:18px}.school-arrival-title p{color:#59766e;margin:8px 0 2px}.arrival-field-label{display:flex;gap:6px;align-items:center;color:#42615b}.school-arrival-fields input{background:#fcfefd;border-color:#cdded9}.school-arrival-save .secondary{color:#246c5b;background:#edf8f3;border-color:#b9dbce}
 .school-visit-summary{margin:0;border-color:#e6ddc8;border-top:4px solid #dbb86a}.school-visit-heading p{color:#756440;font-weight:650}.school-visit-heading h2{font-size:24px}.school-visit-facts{border:0;padding:0;margin:20px 0;gap:12px}.school-visit-facts>div{background:#faf7ef;border:1px solid #efe6d2;padding:16px;border-radius:14px}.school-visit-facts dt{display:flex;gap:7px;align-items:center;color:#756345;font-size:13px;font-weight:600}.school-visit-facts dd{font-size:21px;color:#344657;line-height:1.5}.school-visit-facts small{color:#5e6c79;line-height:1.6}.school-journey-steps{margin-top:20px;gap:12px 18px}.school-journey-steps li{color:#60748a}.school-journey-steps li[aria-current=step]{color:#245db8}.school-step-dot{background:#e9eef4;color:#5d7188}
@@ -217,7 +217,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 .school-status-pair>.journey-badge{width:180px;min-width:180px;max-width:180px;min-height:94px;height:94px;flex:0 0 180px}.school-status-pair>.journey-badge .journey-badge-copy{min-height:68px;justify-content:center}.school-name-with-program .school-program-badge{min-height:94px;height:94px}@media(max-width:600px){.school-status-pair>.journey-badge{width:180px;min-width:180px;max-width:180px;flex:0 0 180px}.school-name-with-program .school-program-badge{height:94px;min-height:94px}}
 
 
-.school-name-with-program{display:grid;grid-template-columns:118px 116px 116px;gap:18px;align-items:center}.school-name-with-program>strong{overflow-wrap:anywhere}.school-duration-badge{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:94px;box-sizing:border-box;padding:11px 16px;border:1px solid #d1ddf2;border-radius:16px;background:#edf2fc;color:#375884}.school-duration-badge small{margin:0;font-size:11px;line-height:1.35}.school-duration-badge strong{font-size:20px;line-height:1.35;white-space:nowrap}.group-special-notes{padding:14px 16px;margin-bottom:16px;border-radius:12px;background:#fff8e8;color:#66532f}.group-special-notes p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}form textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cfdbed;border-radius:10px;font:inherit;resize:vertical}@media(max-width:700px){.school-name-with-program{grid-template-columns:minmax(90px,1fr) 100px 100px;gap:10px}.school-duration-badge{padding:10px}.school-duration-badge strong{font-size:17px}}@media(max-width:420px){.school-name-with-program{grid-template-columns:1fr 1fr}.school-name-with-program>strong{grid-column:1/-1}.school-name-with-program .school-program-badge,.school-duration-badge{width:100%;min-width:0}}
+.school-name-with-program{display:grid;grid-template-columns:118px 116px 116px;gap:18px;align-items:center}.school-name-with-program>strong{overflow-wrap:anywhere}.school-duration-badge{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:94px;box-sizing:border-box;padding:11px 16px;border:1px solid #d1ddf2;border-radius:16px;background:#fff;color:#375884}.school-duration-badge small{margin:0;font-size:11px;line-height:1.35}.school-duration-badge strong{font-size:20px;line-height:1.35;white-space:nowrap}.group-special-notes{padding:14px 16px;margin-bottom:16px;border-radius:12px;background:#fff8e8;color:#66532f}.group-special-notes p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}form textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #cfdbed;border-radius:10px;font:inherit;resize:vertical}@media(max-width:700px){.school-name-with-program{grid-template-columns:minmax(90px,1fr) 100px 100px;gap:10px}.school-duration-badge{padding:10px}.school-duration-badge strong{font-size:17px}}@media(max-width:420px){.school-name-with-program{grid-template-columns:1fr 1fr}.school-name-with-program>strong{grid-column:1/-1}.school-name-with-program .school-program-badge,.school-duration-badge{width:100%;min-width:0}}
 
 .school-card-identity{display:flex;flex-direction:column;gap:6px;min-width:0}.school-card-identity>strong{font-size:20px;overflow-wrap:anywhere}.school-card-identity>small{margin:0}.school-name-with-program .school-program-badge{justify-content:center}.school-name-with-program .school-program-badge>strong{line-height:27px}.school-duration-badge{height:94px}.school-accordion-toggle{align-items:center}@media(max-width:420px){.school-card-identity{grid-column:1/-1}}
 
@@ -276,7 +276,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 .school-visit-summary .school-visit-facts{align-items:stretch}.school-visit-facts>.visit-count-cell.visit-count-integrated{align-self:stretch}.visit-count-cell .admin-participant-row>.admin-grade-column{font-family:inherit;font-size:inherit;font-weight:600;color:inherit;line-height:22.5px}@media(max-width:650px){.visit-count-cell .admin-participant-row>.admin-grade-column{font-size:inherit}}
 
 
-.visit-count-top-summary{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;padding:0 0 12px;margin:0 0 10px;border-bottom:1px solid #e1e8ef;color:#30485f;font-size:14px;line-height:1.5}.visit-count-top-summary>strong{font-size:20px;font-weight:700;color:#173b60}.visit-count-top-summary>.visit-summary-youth{font-weight:700}.visit-count-top-summary>span:last-child{font-weight:400}@media(max-width:650px){.visit-count-top-summary{gap:6px 12px;font-size:13px}.visit-count-top-summary>strong{font-size:18px}}
+.visit-count-top-summary{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px;padding:0 0 12px;margin:0 0 10px;border-bottom:1px solid #e1e8ef;color:#30485f;font-size:14px;line-height:1.5}.visit-count-top-summary>strong{font-size:20px;font-weight:700;color:#111}.visit-count-top-summary>.visit-summary-youth{font-weight:700}.visit-count-top-summary>span:last-child{font-weight:400}@media(max-width:650px){.visit-count-top-summary{gap:6px 12px;font-size:13px}.visit-count-top-summary>strong{font-size:18px}}
 
 .visit-count-cell .admin-participant-row,.visit-count-cell .visit-leader-aligned{grid-template-columns:minmax(90px,1.2fr) repeat(2,minmax(50px,.8fr)) minmax(100px,1.2fr)}.visit-count-cell .admin-participant-grade{align-items:flex-end;text-align:right}.visit-count-cell .admin-participant-row>.admin-grade-column{text-align:left}@media(max-width:650px){.school-visit-facts>.visit-count-integrated .admin-participant-row,.school-visit-facts>.visit-count-integrated .visit-leader-aligned{grid-template-columns:minmax(74px,1fr) repeat(2,minmax(40px,.7fr)) minmax(86px,1.1fr)}.visit-count-cell .admin-participant-grade>strong{font-size:14px}}
 
@@ -308,7 +308,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 
 .selected-visit-date {display:flex;flex-direction:column;gap:3px;flex-shrink:0}
 .selected-visit-date>span {font-size:12px;font-weight:400;color:#526477}
-.selected-visit-date>time {font-size:23px;line-height:1.4;font-weight:600;color:#173b60;font-variant-numeric:tabular-nums}
+.selected-visit-date>time {font-size:23px;line-height:1.4;font-weight:700;color:#17324d;font-variant-numeric:tabular-nums}
 .group-quick-tabs button {gap:10px;min-width:150px}
 .group-quick-tabs .journey-badge-compact .journey-badge-copy>strong {font-size:14px;font-weight:500;line-height:1.5}
 .group-quick-tabs .journey-badge-compact .journey-status-time {font-size:15px;font-weight:500;line-height:1.5;color:#30485f}
@@ -574,5 +574,88 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 #registration-title{display:flex;align-items:center;gap:10px}
 #registration-title>.thinking-note-cloud-icon{flex-shrink:0}
 
-.visit-count-top-summary>.visit-summary-youth{color:#218360}
+.visit-count-top-summary>.visit-summary-youth{color:#173b60}
 
+
+/* Guide count editing keeps actions visible while fields scroll. */
+dialog.guide-count-dialog{width:min(540px,calc(100vw - 16px));max-width:540px;max-height:90dvh;padding:0;overflow:hidden}
+dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
+.guide-count-dialog>.dialog-head{flex:none;padding:8px 14px;border-bottom:1px solid #e0e7ef}
+.guide-count-dialog .dialog-head h2{font-size:20px}
+.guide-count-dialog>form{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.guide-count-dialog .guide-count-scroll{overflow:auto;overscroll-behavior:contain;padding:10px 14px;min-height:0}
+.guide-count-dialog .participant-edit-hint{white-space:normal;margin:0 0 8px}
+.guide-count-dialog .participant-editor{margin:0;padding:10px;gap:8px}
+.guide-count-dialog .participant-editor-title h3{font-size:16px}
+.guide-count-dialog .participant-level-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.guide-count-dialog .participant-level-tabs button{min-height:48px;padding:4px;gap:2px}
+.guide-count-dialog .participant-help{font-size:12px;margin:0}
+.guide-count-dialog .participant-count-columns,.guide-count-dialog .youth-count-editor{gap:8px}
+.guide-count-dialog .leader-count-editor{padding-top:8px;gap:6px;margin:0}
+.guide-count-dialog .count-entry-unit{margin:0;font-size:11px}
+.guide-count-dialog .count-entry-summary{flex-wrap:wrap;gap:4px;padding:8px}
+.guide-count-dialog .guide-count-scroll>label{margin-top:10px}
+.guide-count-dialog textarea{min-height:60px;font-size:16px}
+.guide-count-dialog form>.primary{flex:none;width:calc(100% - 28px);margin:8px 14px max(12px,env(safe-area-inset-bottom));min-height:48px}
+.guide-count-dialog>.form-error{flex:none;padding:6px 14px;max-height:20dvh;overflow:auto}
+@media(max-width:600px){
+.guide-count-dialog .guide-count-scroll{padding:8px}
+.guide-count-dialog .participant-editor{padding:8px}
+.guide-count-dialog .count-entry-table{min-width:0}
+.guide-count-dialog .count-entry-table .entry-name-column{width:25%}
+.guide-count-dialog .count-entry-table .entry-action-column{width:48px}
+.guide-count-dialog .count-entry-table th,.guide-count-dialog .count-entry-table td{padding:6px 2px}
+.guide-count-dialog .count-entry-table th:first-child{padding-left:2px}
+.guide-count-dialog .count-entry-table input,.guide-count-dialog .count-entry-table select{font-size:16px;padding:8px 2px;min-height:44px}
+.guide-count-dialog .count-entry-row-actions{flex-direction:column;gap:6px}
+.guide-count-dialog .count-entry-row-actions>button{width:44px;min-height:44px}
+.guide-count-dialog .count-entry-table tbody th{font-size:13px}
+}
+
+/* Group identity uses borders; selection uses the cloud mascot, never color alone. */
+.group-quick-tabs{padding:20px 12px 12px}
+.group-quick-tabs button[data-program],.group-quick-tabs button[data-program][aria-selected=true]{position:relative;background:#fff;color:#17375c;border:2px solid var(--group-border,#7b91ad);box-shadow:none;padding:12px 16px}
+.group-quick-tabs button[data-program][aria-selected=true]{border-width:4.032px;padding:9.968px 13.968px;border-color:color-mix(in srgb,var(--group-border,#7b91ad) 72%,#17375c 28%)}
+.group-quick-tabs button[data-program] .journey-badge,.group-quick-tabs button[data-program] .journey-badge-copy,.group-quick-tabs button[data-program] .journey-badge-copy>strong,.group-quick-tabs button[data-program] .journey-status-time,.group-quick-tabs button[data-program] .journey-badge-compact .journey-status-label{color:#30485f}
+.group-quick-tabs .selected-cloud-icon{position:absolute;right:5px;top:-19px;pointer-events:none;filter:drop-shadow(0 1px 1px #ffffff);z-index:1}
+.group-quick-tabs button:focus-visible{outline:3px solid #17375c;outline-offset:3px}
+.group-quick-tabs .remaining-road-distance{font-size:12px;font-weight:400;color:#52667a}
+
+.group-quick-tabs button[data-program]{border-width:2.88px;padding:11.12px 15.12px}
+.group-quick-tabs button[data-program][aria-selected=true]{border-width:4.032px;padding:9.968px 13.968px}
+
+.school-visit-facts>.visit-date-program[data-program]{background:#fff;border-color:#dce6ed}
+.school-visit-facts>.visit-date-program>dt{color:#526477}
+
+.school-visit-summary{border-color:#ead7df;border-top-color:#ce8fa9}
+
+.school-selector-heading{margin-bottom:8px;padding-bottom:2px}.school-selector .arrival-sort-note{font-size:11px;line-height:1.5;margin:6px 2px 10px;color:#667b91}.school-selector .arrival-sort-note+.group-quick-tabs{margin-top:10px}
+
+.admin-center-messages .center-message-meta>.center-message-status.is-confirmed{margin-left:20px}
+
+.visit-people-table tbody tr[data-youth-level="elementary"]>th,.grade-breakdown tbody tr[data-youth-level="elementary"]>th{color:#2b7968}
+.visit-people-table tbody tr[data-youth-level="middle"]>th,.grade-breakdown tbody tr[data-youth-level="middle"]>th{color:#356bb0}
+.visit-people-table tbody tr[data-youth-level="high"]>th,.grade-breakdown tbody tr[data-youth-level="high"]>th{color:#8061a6}
+.group-quick-tabs button[data-program]>strong{padding:3px 6px;margin:-3px -6px;border-radius:6px}
+.group-quick-tabs button[data-program][aria-selected=true]{background:var(--program-bg,#f4f7fa)}
+.school-status-pair>.journey-badge{background:#F3FAE9;border-color:#dfe9ce}
+
+@media(min-width:481px){.admin .planned-arrival-card:not(.planned-arrival-compact) form{column-gap:58px}}
+
+.school-accordion-heading>.school-accordion-toggle{background:#fff}.visit-date-program>dt>.calendar-cloud-icon{width:34px;height:32px;flex-shrink:0}.visit-count-integrated>dt>.space-friends-icon{width:40px;height:32px;flex-shrink:0}
+
+
+/* Date and arrival share two equal sections in the same card. */
+.school-visit-facts>.visit-date-program{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(88px,1fr) minmax(130px,1fr);background:#fff;border-color:#dce6ed;min-width:0}
+.visit-date-program>dt{grid-column:1;grid-row:1;align-self:start;margin-bottom:0}
+.school-visit-facts>.visit-date-program>.visit-date-value{grid-column:1;grid-row:1;align-self:start;margin:40px 0 0;font-size:24px;line-height:1.4;letter-spacing:-.3px;color:#454c55;font-weight:600;min-width:0}
+.visit-date-value>.fitted-group-name{display:block;width:100%;min-width:0;white-space:nowrap;font-size:24px;line-height:1.4;color:inherit;font-weight:600}
+.school-visit-facts>.visit-date-program>.visit-date-arrival{grid-column:1;grid-row:2;margin:0;min-width:0;font-size:14px;font-weight:400;line-height:1.5}
+.admin .visit-date-arrival .planned-arrival-card.planned-arrival-compact{grid-template-columns:minmax(0,1fr);align-content:start;gap:8px;width:100%;max-width:none;padding:14px 0 0;margin:0;border:0;border-top:1px solid #dce5ed;border-radius:0;background:transparent}
+.admin .visit-date-arrival .planned-arrival-heading{gap:7px;min-height:32px}
+.admin .visit-date-arrival .planned-arrival-heading>svg{width:34px;height:32px;flex:0 0 34px}
+.admin .visit-date-arrival h3{font-size:13px;line-height:20px;font-weight:600;letter-spacing:0;color:#526477}
+.admin .visit-date-arrival form{grid-template-columns:72px minmax(0,1fr) 44px;gap:8px;max-width:300px;min-width:0;margin-top:6px}
+.admin .visit-date-arrival .planned-period-tabs button{font-size:11px;width:36px}
+.admin .visit-date-arrival .planned-arrival-meta{grid-column:1;grid-row:auto;justify-self:stretch;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:17px 0 0;gap:2px;font-size:11px;font-weight:400}
+@media(min-width:760px){.school-visit-facts{grid-template-columns:minmax(238px,.65fr) minmax(320px,1.75fr)}}

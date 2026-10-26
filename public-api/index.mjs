@@ -1,3 +1,4 @@
+import {importBackup} from './import-backup.mjs';
 import {createSupabaseStore} from './supabase-store.mjs';
 import {createTrafficHandler} from './traffic.mjs';
 import {createWeatherHandler} from './weather.mjs';
@@ -27,6 +28,8 @@ const supabaseKey=process.env.SUPABASE_SECRET_KEY?.trim()||process.env.SUPABASE_
 if(!!supabaseUrl!==!!supabaseKey)throw Error('Supabase URL과 서버 키를 함께 설정해주세요.');
 if(process.env.RENDER&&(!supabaseUrl||!process.env.ONWAY_ADMIN_TOKEN?.trim()))throw Error('Render에는 Supabase와 관리자 접속 코드 설정이 필요합니다.');
 const store=supabaseUrl?createSupabaseStore({url:supabaseUrl,key:supabaseKey}):undefined;
+const importedBackup=await importBackup(store,process.env.ONWAY_IMPORT_BACKUP_GZIP_BASE64);
+if(importedBackup)console.log('ONWAY backup import verified',JSON.stringify(importedBackup));
 const dataDirectory=process.env.ONWAY_DATA_DIR||fileURLToPath(new URL('../../.onway-server-data/',import.meta.url));
 if(!store)fs.mkdirSync(dataDirectory,{recursive:true,mode:0o700});
 const adminFile=path.join(dataDirectory,'admin-access.secret');

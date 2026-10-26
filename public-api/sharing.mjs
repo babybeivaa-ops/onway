@@ -36,7 +36,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      const g=workspace.groups[0],old=db.workspace.groups.find(g=>g.id===actor.groupId);
      if(workspace.groups.length!==1||g.id!==actor.groupId||g.travelDate<new Date(now()+9*3600000).toISOString().slice(0,10))throw denied();
      // Guides can edit their own journey; identity, dates and destination stay protected.
-     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['centerMessages','sharedPosition','counts','changes','reports','confirmed','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
+     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['plannedArrival','centerMessages','sharedPosition','counts','changes','reports','confirmed','countsConfirmedAt','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
      if(protectedGroup(g)!==protectedGroup(old))throw denied();
      const fixedDestination=x=>x.state.waypoints.filter(p=>p.kind==='destination').map(({order,...p})=>p);
      if(JSON.stringify(fixedDestination(g))!==JSON.stringify(fixedDestination(old)))throw denied();
