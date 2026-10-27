@@ -1,4 +1,4 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {parseEvents,createTrafficHandler} from '../public-api/traffic.mjs';import {nearRoute} from '../src/trafficGeometry.ts';
+import {test} from 'node:test';import assert from 'node:assert/strict';import {parseEvents,createTrafficHandler,trafficConnectionCodes} from '../public-api/traffic.mjs';import {nearRoute} from '../src/trafficGeometry.ts';
 test('route distance includes nearby points but not distant or disconnected segments',()=>{assert.equal(nearRoute(35,127.05,[[[35,127],[35,127.1]]]),true);assert.equal(nearRoute(35.1,127.05,[[[35,127],[35,127.1]]]),false);assert.equal(nearRoute(35,127.5,[[[35,127],[35,127.1]],[[35,127.9],[35,128]]]),false)});
 test('ITS empty success differs from invalid or failed response',()=>{assert.deepEqual(parseEvents({header:{resultCode:0},body:{items:[]}}),[]);assert.throws(()=>parseEvents({header:{resultCode:1},body:{items:[]}}));assert.throws(()=>parseEvents({header:{resultCode:0},body:{}}));});
 test('ITS handler sanitizes failure and validates bounds',async()=>{const handler=createTrafficHandler({key:'private',fetchImpl:async()=>{throw Error('private')}});let status=0,body='';const res={writeHead:(s:number)=>status=s,end:(s:string)=>body=s};await handler({method:'GET'},res,new URL('http://localhost/api/traffic/events?minX=126&maxX=128&minY=34&maxY=36'));assert.equal(status,502);assert.ok(!body.includes('private'));await handler({method:'GET'},res,new URL('http://localhost/api/traffic/events'));assert.equal(status,400)});
@@ -10,4 +10,10 @@ test('nearby request bounds share ten-minute cache without claiming newer observ
 test('ITS reports safe timeout, network and authentication categories',async()=>{
  for(const [error,expected] of [[new DOMException('secret','TimeoutError'),'ITS_TIMEOUT'],[new TypeError('secret'),'ITS_NETWORK']]){const h=createTrafficHandler({key:'secret',fetchImpl:async()=>{throw error}});const r=await callTraffic(h);assert.equal(r.body.code,expected);assert.ok(!JSON.stringify(r.body).includes('secret'));}
  const h=createTrafficHandler({key:'secret',fetchImpl:async()=>new Response(JSON.stringify({header:{resultCode:1,resultMsg:'secret'}}),{status:401})});assert.equal((await callTraffic(h)).body.code,'ITS_AUTH_REJECTED');
+});
+
+test('connection diagnostics preserve nested network codes without leaking key URLs',()=>{
+ const e=Object.assign(new Error('https://provider/?apiKey=secret'),{cause:{code:'UND_ERR_CONNECT_TIMEOUT',message:'secret',errors:[{code:'ETIMEDOUT'},{code:'ETIMEDOUT'},{code:'secret'}]}});
+ assert.deepEqual(trafficConnectionCodes(e),['UND_ERR_CONNECT_TIMEOUT','ETIMEDOUT']);
+ assert.ok(!JSON.stringify(trafficConnectionCodes(e)).includes('secret'));
 });

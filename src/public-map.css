@@ -129,3 +129,8 @@
 .current-location-button>svg{display:block;width:30px;height:26px;flex:0 0 30px}
 .current-location-button::after{content:'';position:absolute;inset:-4px 0}
 @media(max-width:380px){.current-location-actions .current-location-button,#guide-location-action .current-location-button{font-size:10px;padding:3px 7px 3px 3px}}
+
+/* Kakao overlay images must not inherit responsive SVG widths. */
+.current-position-pin{width:76px;min-width:76px;max-width:76px;box-sizing:border-box}
+.current-position-pin>svg{display:block;width:48px!important;min-width:48px;max-width:48px!important;height:57px!important;min-height:57px;max-height:57px;flex:none}
+.current-position-pin>span{white-space:nowrap;font-size:12px;line-height:1.4}

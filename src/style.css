@@ -352,3 +352,33 @@ dialog .participant-edit-hint{font-size:clamp(11px,3.1vw,14px);letter-spacing:-.
 .planned-arrival-card[data-audience="guide"] form{justify-self:center}
 .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{text-align:left;padding-left:4px}
 .planned-arrival-card[data-audience="guide"] .planned-arrival-message{text-align:center}
+
+/* Consistent mobile typography without disabling pinch zoom. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.workspace-edit-scope{min-inline-size:0}
+.app,.app main,.app .section,.app .speech{min-width:0;box-sizing:border-box}
+.app .action-card .mascot-row{gap:8px;margin-right:0}
+.app .action-card .mascot-row>.cloud{width:84px;height:auto;flex:0 0 84px}
+@media(max-width:430px){.app .action-card .mascot-row>.cloud{width:54px;flex-basis:54px}}
+.app .action-card .speech{min-width:0;font-size:16px;line-height:1.65;overflow-wrap:break-word}
+@media(max-width:380px){
+ .app{padding-left:12px;padding-right:12px}
+ .app .action-card{padding-left:14px;padding-right:14px}
+ .app .action-card .mascot-row{gap:6px}
+ .app .action-card .mascot-row>.cloud{width:40px;flex-basis:40px}
+ .app .action-card .speech{padding:10px}
+}
+
+.speech-line{display:block;white-space:nowrap;max-width:100%}
+
+/* Keep the designed arrival row together on ordinary phone widths. */
+@media(min-width:350px) and (max-width:430px){
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 174px;padding:12px 10px;column-gap:6px}
+ .app .planned-arrival-card[data-audience="guide"] .planned-arrival-heading{gap:4px;white-space:nowrap}
+ .app .planned-arrival-card[data-audience="guide"] .planned-arrival-heading>svg{width:20px;height:24px;flex:0 0 20px}
+ .app .planned-arrival-card[data-audience="guide"] h3{font-size:14px;letter-spacing:-.7px}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:60px 64px 38px;gap:6px;max-width:none}
+ .app .planned-arrival-card[data-audience="guide"] .planned-period-tabs button{width:30px;font-size:11px}
+ .app .planned-arrival-card[data-audience="guide"] form .secondary{width:38px;font-size:12px}
+ .app .planned-arrival-card[data-audience="guide"] .planned-clock-digits{grid-template-columns:minmax(0,1fr) 4px minmax(0,1fr)}
+}
