@@ -382,3 +382,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .app .planned-arrival-card[data-audience="guide"] form .secondary{width:38px;font-size:12px}
  .app .planned-arrival-card[data-audience="guide"] .planned-clock-digits{grid-template-columns:minmax(0,1fr) 4px minmax(0,1fr)}
 }
+
+/* Make guide cards legible against the pale phone background. */
+.app main :is(.group-summary,.planned-arrival-card[data-audience="guide"],.action-card,.center-messages,.journey-overview,.center-weather,.road-traffic){border-color:#b4c6dd}
