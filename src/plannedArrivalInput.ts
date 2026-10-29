@@ -16,3 +16,8 @@ export function plannedArrivalTime(value:PlannedArrivalInput):string {
  const hours=h>12?h:h%12+(value.period==='PM'?12:0);
  return String(hours).padStart(2,'0')+':'+minute.padStart(2,'0');
 }
+
+export function normalizeArrivalHour(value:PlannedArrivalInput):PlannedArrivalInput {
+ const h=Number(value.hour);
+ return /^\d{1,2}$/.test(value.hour)&&h>12&&h<=23?{...value,period:'PM',hour:String(h-12).padStart(2,'0')}:value;
+}

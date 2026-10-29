@@ -1,0 +1,161 @@
+/* Pretendard is bundled with its OFL license in public/fonts/pretendard. */
+@font-face{font-family:'Pretendard Variable';font-style:normal;font-weight:45 920;font-display:swap;src:url('/fonts/pretendard/PretendardVariable.woff2') format('woff2')}
+.app{font-family:'Pretendard Variable',sans-serif;font-weight:400}
+.app :is(.planned-clock-digits,.guide-people-simple,.journey-report-time){font-variant-numeric:tabular-nums}
+/* Identical tracks and number alignment for both participant rows. */
+.app .group-summary .guide-people-simple>div{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);align-items:center;column-gap:12px}
+.app .group-summary .guide-people-simple>div>:nth-child(n+2){display:grid;grid-template-columns:1em 2.1em;gap:3px;align-items:baseline;width:auto;justify-self:center}
+.app .group-summary .guide-people-simple>div>:nth-child(n+2)>span:first-child{text-align:left}
+.app .group-summary .guide-people-simple>div>:nth-child(n+2)>span:last-child{text-align:right;min-width:0;white-space:nowrap}
+.app .planned-arrival-heading h3{margin:0}
+.app .planned-arrival-card form{align-items:center}
+
+/* Shared heading rail: icons and titles start at the same x position. */
+.app .planned-arrival-card[data-audience="guide"],.app .center-messages{padding-left:16px;padding-right:16px}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-header{justify-content:flex-start}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-heading,.app .center-message-heading h2{display:flex;align-items:center;gap:6px;margin:0}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-heading>svg,.app .center-message-heading h2>.heart-message-icon{width:28px;height:28px;flex:0 0 28px}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{padding-left:2px}
+@media(min-width:340px) and (max-width:430px){
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 168px;column-gap:6px}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:56px 64px 36px;gap:8px;justify-self:start;transform:translateX(-5px)}
+ .app .planned-arrival-card[data-audience="guide"] .planned-period-tabs button{width:28px}
+ .app .planned-arrival-card[data-audience="guide"] form .secondary{width:36px}
+}
+
+/* Keep the participant total and rows together as one compact table. */
+.app .group-summary .group-count-line{margin-top:8px;padding-left:10px}
+.app .group-summary .guide-people-simple{margin-top:4px;padding:0 0 6px;border-top:0}
+.app .group-summary .guide-people-simple>div{min-height:38px;padding:6px 10px;line-height:24px}
+.app .group-summary .guide-people-simple>.simple-leader-counts{margin-top:0}
+.app .group-summary .participant-mascot-guide{justify-content:flex-start;margin-top:8px;margin-left:-2px;top:0;gap:8px}
+.app .group-summary .participant-speech{transform:none;font-size:11px;padding:4px 6px;line-height:1.5;border-radius:9px}
+.app .group-summary .group-confirm-inline{margin-top:8px;padding-top:4px;gap:4px 8px}
+@media(max-width:380px){.app .group-summary .guide-people-simple>div{padding-inline:10px}}
+
+/* Balance the arrival controls above their supporting hint. */
+.app .planned-arrival-card[data-audience="guide"]{padding-top:16px;padding-bottom:8px;row-gap:4px;align-content:center}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{margin-top:2px;line-height:16px}
+/* Compact forecast card, with a shared title baseline and a visible refresh control. */
+.app .center-weather{padding:14px 16px}
+.app .center-weather .section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.app .center-weather .weather-title-line{display:flex;align-items:center;flex-wrap:wrap;gap:2px 8px;min-width:0}
+.app .center-weather .weather-title-line h2{font-size:16px;line-height:28px;white-space:nowrap;gap:6px}
+.app .center-weather .weather-title-line h2>svg{width:28px;height:28px;flex:0 0 28px}
+.app .center-weather .weather-location-label{margin:0;line-height:18px;font-size:11px;color:#667e99;white-space:nowrap}
+.app .center-weather .section-heading>.text-button,.app .road-traffic .section-heading>.text-button{display:inline-flex;align-items:center;justify-content:center;gap:3px;min-height:30px;padding:4px 7px;border:1px solid #b4c6dd;border-radius:8px;background:#f7faff;color:#285f9a;font-size:11px;line-height:20px;white-space:nowrap;flex-shrink:0}
+.app .center-weather .weather-forecast-time{margin:4px 0 6px;font-size:12px;line-height:18px}
+.app .center-weather .weather-summary{margin:0;padding:10px;border-radius:12px;background:#edf5fc;gap:6px;line-height:20px}
+.app .center-weather .weather-summary>strong{font-size:26px;line-height:32px}
+.app .center-weather .weather-summary>svg{flex:0 0 26px;width:26px;height:26px}
+.app .center-weather .weather-summary>span:not(.weather-wind){margin-left:2px;font-size:12px}
+.app .center-weather .weather-summary .weather-wind{font-size:11px}
+.app .center-weather .weather-observation-note{margin:5px 0 4px;font-size:11px;line-height:16px}
+.app .center-weather details{margin:0;padding:0}
+.app .center-weather details>summary{padding:6px 0;min-height:0;line-height:20px;font-size:12px}
+.app .center-weather .weather-source{margin:4px 0 0;line-height:16px;font-size:11px}
+@media(max-width:430px){.app .center-weather .weather-location-label{flex-basis:100%;padding-left:34px}.app .center-weather .weather-summary .weather-wind{flex-basis:100%;margin-left:34px}}
+
+.app .group-summary .group-count-line p{font-size:17px;line-height:26px}
+.app .center-weather .section-heading{flex-wrap:nowrap}
+.app .center-weather .weather-title-line{flex:1}
+
+.app .group-summary .group-count-line{align-items:baseline}
+.app .group-summary .group-count-line .participant-edit-inline{align-self:baseline;margin-top:0;transform:translateY(-8px)}
+
+.app .action-card .speech>span{color:#638bb5}
+.app .action-card .primary-actions>.primary{font-size:18px}
+.app .action-card .primary-actions:has(.inline-undo)>.primary{font-size:17px}
+
+.app .center-weather .weather-title-line{align-items:baseline;column-gap:18px}
+.app .center-weather .weather-location-label{position:static;transform:none}
+@media(max-width:430px){.app .center-weather .weather-location-label{padding-left:44px}}
+
+.app .center-weather .weather-title-line h2{display:block;position:relative;padding-left:34px;line-height:28px}
+.app .center-weather .weather-title-line h2>svg{position:absolute;left:0;top:0}
+.app .center-weather .weather-hour-wind{display:grid;grid-template-columns:auto 3ch auto;gap:3px;align-items:baseline;font-variant-numeric:tabular-nums}
+.app .center-weather .weather-hour-wind>span:first-child{text-align:left}
+.app .center-weather .weather-hour-wind>span:nth-child(2){text-align:right}
+.app .center-weather .weather-hour-wind>span:last-child{text-align:left}
+
+.app :is(.center-weather,.road-traffic) .section-heading h2{font-family:inherit;font-size:18px;font-weight:700;line-height:28px;letter-spacing:-.65px}
+
+.app .group-summary{padding-top:14px;padding-bottom:14px;margin-top:18px;margin-bottom:18px}
+.app .group-summary .simple-youth-counts>strong{font-weight:400}
+.app .group-summary .group-count-line .participant-edit-inline{width:40px;height:32px;min-height:32px;padding:2px;border:1px solid #9bb8da;border-radius:10px;background:#fffaf0;color:#446789;font-size:13px;line-height:24px;gap:0}
+.app .group-summary .group-count-line .participant-edit-inline:hover{background:#fff6df;border-color:#9bb8da}
+.app .road-traffic>p.fine{margin:4px 0 6px;font-size:11px;line-height:17px}
+
+.app .group-summary .guide-people-simple .simple-youth-counts>strong{color:#28634e}
+
+.app #guide-location-action .current-location-button{transform:translateY(3px)}
+
+.app .road-traffic .traffic-list-toggle{border:0;padding:0;margin:12px 0 0}
+.app .road-traffic .traffic-list-toggle>summary{display:flex;align-items:center;gap:6px;padding:10px 12px;border:1px solid #c8d8eb;border-radius:10px;background:#f4f8fd;color:#285f9a;font-size:13px;cursor:pointer}
+.app .road-traffic .traffic-list-toggle>summary span{margin-left:auto;font-size:12px}
+.app .road-traffic .traffic-list-toggle:not([open]) .traffic-list-close-label,.app .road-traffic .traffic-list-toggle[open] .traffic-list-open-label{display:none}
+.app .road-traffic .traffic-list-items{margin-top:8px}
+
+.app .group-summary .group-identity{padding-left:7px;min-width:0}
+
+/* Keep checkpoint and remaining journey together on phone screens. */
+@media(max-width:430px){
+ .app .action-card .checkpoint-title-row{grid-template-columns:minmax(0,1fr) max-content;column-gap:6px}
+ .app .action-card .checkpoint-title-row>h2{grid-column:1;white-space:normal;overflow-wrap:anywhere;font-size:20px;line-height:1.25}
+ .app .action-card .checkpoint-distance-main{grid-column:2;justify-self:end}
+ .app .action-card .checkpoint-remaining{font-size:11px;padding:4px;column-gap:2px}
+}
+@media(max-width:374px){
+ .app .action-card .checkpoint-title-row>h2{font-size:18px}
+ .app .action-card .checkpoint-remaining{font-size:10px}
+}
+
+@media(max-width:430px){
+ .app .center-weather .weather-title-line{flex-wrap:nowrap;column-gap:8px}
+ .app .center-weather .weather-location-label{flex-basis:auto;padding-left:0}
+}
+@media(max-width:374px){
+ .app .center-weather>.section-heading{flex-wrap:wrap;row-gap:4px}
+ .app .center-weather .weather-title-line{flex-basis:100%}
+ .app .center-weather>.section-heading>.text-button{margin-left:auto}
+ .app .action-card .checkpoint-remaining{font-size:11px}
+}
+
+/* Icon-free arrival heading and evenly sized period controls. */
+.app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 270px;column-gap:10px}
+.app .planned-arrival-card[data-audience="guide"] h3{font-size:18px;line-height:26px;letter-spacing:-.5px;white-space:nowrap}
+.app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:96px 102px 48px;gap:12px;justify-self:end;transform:none}
+.app .planned-arrival-card[data-audience="guide"] .planned-period-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.app .planned-arrival-card[data-audience="guide"] .planned-period-tabs button{width:100%;box-sizing:border-box}
+@media(max-width:430px){
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 172px;column-gap:8px}
+ .app .planned-arrival-card[data-audience="guide"] h3{font-size:17px}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:56px 64px 36px;gap:8px}
+}
+
+@media(min-width:350px) and (max-width:430px){
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 184px;column-gap:6px}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:60px 68px 40px;gap:8px}
+ .app .planned-arrival-card[data-audience="guide"] form .secondary{width:40px}
+}
+
+/* Compact, equal-height guide arrival controls. */
+.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs,.planned-clock-digits,form .secondary){height:40px;min-height:40px}
+.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs button,.planned-clock-digits input){height:38px;min-height:38px}
+
+/* Long place names use the full first row. */
+.app .action-card .checkpoint-title-row.checkpoint-title-long>h2{grid-column:1 / -1;grid-row:1}
+.app .action-card .checkpoint-title-long .checkpoint-distance-main{grid-column:2;grid-row:2;align-self:start;z-index:1}
+.app .action-card .checkpoint-title-long .checkpoint-meta-row{display:contents}
+.app .action-card .checkpoint-title-long .checkpoint-distance-meta{grid-column:1 / -1;grid-row:2;padding-top:3px}
+.app .action-card .checkpoint-title-long .checkpoint-distance-meta summary{margin-left:0;text-align:left}
+.app .action-card .checkpoint-title-long .checkpoint-distance-meta p{margin-top:10px}
+.app .action-card .checkpoint-title-long .checkpoint-saved{grid-column:1 / -1;grid-row:3}
+
+/* Align the end of each count, including one- and three-digit totals. */
+.app .group-summary .guide-people-simple .participant-row-total{display:grid;grid-template-columns:4em calc(3ch + 1em);gap:4px;align-items:baseline;justify-self:start;white-space:nowrap}
+.app .group-summary .guide-people-simple .participant-row-total>span:last-child{text-align:right}
+.app .group-summary .guide-people-simple>div>:nth-child(n+2){grid-template-columns:1em calc(3ch + 1em);gap:4px}
+.app .group-summary .guide-people-simple .simple-youth-counts .participant-row-total>span:last-child{color:#173b62}
+.admin-page .visit-count-top-summary .visit-summary-youth{color:#173b62}
+.app .group-summary .guide-people-simple>div,.app .group-summary .guide-people-simple>div>*,.app .group-summary .guide-people-simple>div>*>span{font-size:15px}

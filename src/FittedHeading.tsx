@@ -6,7 +6,15 @@ export function FittedHeading({as:Tag='h2',children}:{as?:'h1'|'h2';children:str
   const el=ref.current;if(!el)return;let disposed=false;
   const fit=()=>{if(disposed||!el.clientWidth)return;
    el.style.fontSize='';el.style.whiteSpace='nowrap';
-   const normal=parseFloat(getComputedStyle(el).fontSize),available=el.clientWidth;
+   const normal=parseFloat(getComputedStyle(el).fontSize);
+   const row=el.parentElement;
+   if(row?.classList.contains('checkpoint-title-row')){
+    const range=document.createRange();range.selectNodeContents(el);
+    const distance=row.querySelector<HTMLElement>('.checkpoint-distance-main');
+    const needed=range.getBoundingClientRect().width+(distance?.getBoundingClientRect().width??0)+parseFloat(getComputedStyle(row).columnGap||'0');
+    row.classList.toggle('checkpoint-title-long',!!distance&&needed>row.clientWidth);
+   }
+   const available=el.clientWidth;
    if(el.scrollWidth>available){const minimum=Math.min(16,normal);let size=Math.max(minimum,Math.floor(normal*available/el.scrollWidth));el.style.fontSize=size+'px';
     while(size>minimum&&el.scrollWidth>available){size--;el.style.fontSize=size+'px'}
     if(el.scrollWidth>available)el.style.whiteSpace='normal';

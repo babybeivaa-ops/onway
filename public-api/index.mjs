@@ -42,7 +42,7 @@ if(!adminToken){if(!fs.existsSync(adminFile))fs.writeFileSync(adminFile,randomBy
 if(adminToken.length<32)throw Error('관리자 접속 코드는 32자 이상이어야 합니다.');
 const sharingHandler=createSharingHandler({directory:dataDirectory,adminToken,store});
 const root=fileURLToPath(new URL('../dist/',import.meta.url));
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png'};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8'};
 let windowStart=Date.now(),requests=0;
 const server=http.createServer(async(req,res)=>{
  try{
