@@ -5,10 +5,11 @@ export function validCounts(x){
  if(!x||!integer(x.youth)||!integer(x.leaders))return false;
  if(x.leaderDetails!==undefined){const d=x.leaderDetails;if(!d||!integer(d.male)||!integer(d.female)||!integer(d.unclassified)||d.male+d.female+d.unclassified!==x.leaders)return false;}
  if(x.youthDetails===undefined)return true;
- const d=x.youthDetails,grades={elementary:['','1','2','3','4','5','6','other'],middle:['','1','2','3'],high:['','1','2','3'],university:['','1','2','3'],adult:[''],preschool:['']};
+ const d=x.youthDetails,grades={elementary:['','1','2','3','4','5','6','other'],middle:['','1','2','3'],high:['','1','2','3'],university:['','1','2','3','4'],lateYouth:[''],adult:[''],preschool:['']};
  if(!d||!Array.isArray(d.rows)||d.rows.length>20||!integer(d.unclassified))return false;
  const ids=new Set(),slots=new Set();let total=d.unclassified;
- for(const r of d.rows){if(!r||!text(r.id,100)||!r.id||!Object.hasOwn(grades,r.level)||!grades[r.level].includes(r.grade)||!integer(r.male)||!integer(r.female)||ids.has(r.id)||slots.has(r.level+':'+r.grade))return false;ids.add(r.id);slots.add(r.level+':'+r.grade);total+=r.male+r.female;}
+ const slot=r=>r.level+':'+r.grade+((r.level==='adult'||r.level==='preschool')?':'+(r.age??''): '');
+ for(const r of d.rows){if(!r||!text(r.id,100)||!r.id||!Object.hasOwn(grades,r.level)||!grades[r.level].includes(r.grade)||(r.age!==undefined&&(!['adult','preschool'].includes(r.level)||!integer(r.age)||r.age>120))||!integer(r.male)||!integer(r.female)||ids.has(r.id)||slots.has(slot(r)))return false;ids.add(r.id);slots.add(slot(r));total+=r.male+r.female;}
  return integer(total)&&total===x.youth;
 }
 const counts=validCounts;
@@ -17,12 +18,15 @@ const unique=xs=>new Set(xs.map(x=>x.id)).size===xs.length;
 export function validGroup(g){
  try{
  const s=g.state;
+ if(s.adminCheckpointChecks!==undefined&&(!Array.isArray(s.adminCheckpointChecks)||s.adminCheckpointChecks.length>100||new Set(s.adminCheckpointChecks.map(c=>c.waypointId)).size!==s.adminCheckpointChecks.length||!s.adminCheckpointChecks.every(c=>c&&text(c.waypointId,100)&&!!c.waypointId&&date(c.confirmedAt))))return false;
  if(!arrival(s?.organization?.arrival))return false;
+ if(s.organization?.arrivalLunch!==undefined&&typeof s.organization.arrivalLunch!=='boolean')return false;
  if(s.organization?.nameKind!==undefined&&!['auto','elementary','middle','high','organization'].includes(s.organization.nameKind))return false;
  if(s.organization?.originMode!==undefined&&!['school','other'].includes(s.organization.originMode))return false;
  if(s.plannedArrival!==undefined){const p=s.plannedArrival;if(!p||!/^\d{4}-\d{2}-\d{2}$/.test(p.date)||!date(p.date)||new Date(p.date).toISOString().slice(0,10)!==p.date||!/^([01]\d|2[0-3]):[0-5]\d$/.test(p.time)||!['admin','guide'].includes(p.actor)||!date(p.updatedAt))return false;}
+ if(s.arrivalChanges!==undefined&&(!Array.isArray(s.arrivalChanges)||!unique(s.arrivalChanges)||!s.arrivalChanges.every(c=>c&&text(c.id,100)&&!!c.id&&date(c.date)&&date(c.at)&&['admin','guide'].includes(c.actor)&&(c.before===undefined||/^([01]\d|2[0-3]):[0-5]\d$/.test(c.before))&&(c.after===undefined||/^([01]\d|2[0-3]):[0-5]\d$/.test(c.after)))))return false;
  if(s.countsConfirmedAt!==undefined&&(!s.confirmed||!date(s.countsConfirmedAt)))return false;
- if(s.centerMessages!==undefined&&(!Array.isArray(s.centerMessages)||s.centerMessages.length>1000||!unique(s.centerMessages)||!s.centerMessages.every(m=>m&&text(m.id,100)&&!!m.id&&text(m.text,2000)&&!!m.text.trim()&&date(m.at)&&(m.acknowledgedAt===undefined||date(m.acknowledgedAt)))))return false;
+ if(s.centerMessages!==undefined&&(!Array.isArray(s.centerMessages)||s.centerMessages.length>1000||!unique(s.centerMessages)||!s.centerMessages.every(m=>m&&text(m.id,100)&&!!m.id&&text(m.text,2000)&&!!m.text.trim()&&date(m.at)&&(m.acknowledgedAt===undefined||date(m.acknowledgedAt))&&(m.replies===undefined||(Array.isArray(m.replies)&&m.replies.length<=100&&unique(m.replies)&&m.replies.every(r=>r&&text(r.id,100)&&!!r.id&&text(r.text,2000)&&!!r.text.trim()&&date(r.at)&&r.actor==='admin'))))))return false;
  if(s.sharedPosition!==undefined){const p=s.sharedPosition;if(!p||!Number.isFinite(p.lat)||Math.abs(p.lat)>90||!Number.isFinite(p.lng)||Math.abs(p.lng)>180||!Number.isFinite(p.accuracy)||p.accuracy<0||!date(p.measuredAt)||!date(p.sentAt))return false;}
  return text(g.id,100)&&!!g.id&&/^\d{4}-\d{2}-\d{2}$/.test(g.travelDate)&&new Date(g.travelDate).toISOString().slice(0,10)===g.travelDate&&typeof g.registered==='boolean'&&g.checkpoints&&typeof g.checkpoints.ic==='boolean'&&typeof g.checkpoints.bridge==='boolean'&&
  s.version===1&&s.organization&&text(s.organization.id,100)&&text(s.organization.name,100)&&counts(s.counts)&&counts(s.initialCounts)&&typeof s.confirmed==='boolean'&&text(s.scenario,100)&&s.location&&Number.isFinite(s.location.lat)&&Number.isFinite(s.location.lng)&&s.summary&&Number.isFinite(s.summary.distanceKm)&&s.trip&&['출발 전','이동 중','식사 중','도착'].includes(s.trip.status)&&text(s.trip.origin)&&text(s.trip.destination)&&text(s.trip.plannedDeparture)&&typeof s.trip.meal?.enabled==='boolean'&&text(s.trip.meal.name)&&

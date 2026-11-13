@@ -1,3 +1,4 @@
+import {GroupNameText} from './GroupNameText';
 import {useLayoutEffect,useRef} from 'react';
 
 export function FittedGroupName({name}:{name:string}){
@@ -21,5 +22,5 @@ export function FittedGroupName({name}:{name:string}){
   document.fonts.ready.then(fit);
   return()=>{disposed=true;observer.disconnect()};
  },[name]);
- return <strong ref={ref} className="fitted-group-name" title={name}>{name}</strong>;
+ return <strong ref={ref} className="fitted-group-name" title={name}><GroupNameText name={name}/></strong>;
 }

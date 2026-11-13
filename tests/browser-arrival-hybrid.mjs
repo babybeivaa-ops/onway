@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createGroup,today,WORKSPACE_KEY} from '../src/workspace.ts';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.ONWAY_PLAYWRIGHT_MODULE||'playwright');
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const group=createGroup({name:'동명중학교',travelDate:today(),origin:'동명중학교',youth:30,leaders:2,ic:true,bridge:true});
+const browser=await chromium.launch({headless:true,channel:'chrome'});
+try {
+ const page=await browser.newPage({viewport:{width:390,height:844}});
+ await page.route('**/*',r=>{const u=new URL(r.request().url());if(u.hostname!=='127.0.0.1')return r.abort();if(u.pathname==='/api/demo-workspace')return r.fulfill({status:404,json:{}});if(u.pathname.startsWith('/api/'))return r.fulfill({status:503,json:{}});const f=path.join(root,'dist',u.pathname==='/'?'index.html':u.pathname);return r.fulfill({path:f,contentType:({'.html':'text/html','.js':'application/javascript','.css':'text/css'})[path.extname(f)]||'application/octet-stream'})});
+ await page.goto('http://127.0.0.1/');
+ await page.evaluate(({group,key})=>localStorage.setItem(key,JSON.stringify({version:2,view:'guide',activeGroupId:group.id,groups:[group]})),{group,key:WORKSPACE_KEY});
+ await page.reload();
+ const card=page.locator('.planned-arrival-card');
+ assert.equal(await card.locator('.planned-input-mode').count(),0);
+ const hour=card.getByLabel('도착 예정 시',{exact:true}),minute=card.getByLabel('도착 예정 분',{exact:true});
+ assert.equal(await hour.getAttribute('inputmode'),'numeric');
+ await hour.fill('35');await minute.fill('06');await card.getByRole('button',{name:'저장',exact:true}).click();
+ await card.getByRole('status').filter({hasText:'1~12'}).waitFor();
+ assert.equal(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)).groups[0].state.plannedArrival,WORKSPACE_KEY),undefined);
+ await hour.fill('03');await card.getByRole('button',{name:'저장',exact:true}).click();
+ await page.waitForFunction(key=>JSON.parse(localStorage.getItem(key)).groups[0].state.plannedArrival?.time==='15:06',WORKSPACE_KEY);
+
+ await hour.fill('04');await minute.fill('10');await card.getByRole('button',{name:'저장',exact:true}).click();
+ await page.waitForFunction(key=>JSON.parse(localStorage.getItem(key)).groups[0].state.plannedArrival?.time==='16:10',WORKSPACE_KEY);
+ assert.ok(await card.evaluate(e=>e.scrollWidth<=e.clientWidth));
+ const toolbar=page.locator('details.demo-toolbar');
+ if(!await toolbar.evaluate(e=>e.open))await toolbar.locator('summary').click();
+ await toolbar.getByRole('button',{name:'관리자 화면',exact:true}).click();
+ await page.locator('.admin-notification-toast').filter({hasText:'15:06 → 16:10 변경'}).waitFor();
+ assert.equal(await page.locator('.admin-notification-toast').filter({hasText:'도착 예정 시각'}).count(),2);
+ const adminHour=page.locator('.planned-arrival-card input[aria-label="도착 예정 시"]');
+ await adminHour.click();
+ assert.deepEqual(await adminHour.evaluate(e=>[e.selectionStart,e.selectionEnd]),[0,2]);
+ await adminHour.pressSequentially('5');
+ await page.locator('.planned-arrival-card').getByRole('button',{name:'저장',exact:true}).click();
+ await page.waitForFunction(key=>JSON.parse(localStorage.getItem(key)).groups[0].state.plannedArrival?.time==='17:10',WORKSPACE_KEY);
+ console.log('PASS guide keypad input, invalid time blocked, arrival notifications, and admin direct replacement.');
+} finally {await browser.close()}

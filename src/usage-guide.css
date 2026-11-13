@@ -1,0 +1,21 @@
+.usage-guide{width:calc(100% - 32px);max-width:430px;padding:22px;max-height:calc(100dvh - 32px);overflow:auto;border:1px solid #b4c6dd;border-radius:22px;font-family:'Pretendard Variable',sans-serif;color:#203d5b;background:#fff}
+.usage-guide>h2{font-size:21px;line-height:28px;margin:0 0 16px}
+.usage-guide-cloud{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.usage-guide-cloud>svg{width:74px;height:64px;flex:0 0 74px}
+.usage-guide-cloud>p{position:relative;flex:1;margin:0;padding:10px 12px;background:#f1f7ff;border:1px solid #d4e4f9;border-radius:14px;font-size:16px;line-height:1.55;text-align:center;word-break:keep-all}
+.usage-guide-cloud>p:before{content:'';position:absolute;left:-6px;top:calc(50% - 5px);width:10px;height:10px;background:#f1f7ff;border-left:1px solid #d4e4f9;border-bottom:1px solid #d4e4f9;transform:rotate(45deg)}
+.usage-guide-cloud strong{font-weight:700;color:#205b98}
+.usage-guide-steps{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.usage-guide-steps>li{display:flex;align-items:flex-start;gap:12px;padding:14px 12px;border:1px solid #e0e8f2;border-radius:14px;background:#fbfcfe}
+.usage-guide .usage-step-number{display:flex;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:30px;border-radius:10px;background:#e5edf7;color:#345f8b;font-size:21px;font-weight:800;line-height:1}
+.usage-guide-steps h3{font-size:16px;line-height:24px;margin:2px 0 5px;font-weight:700;letter-spacing:-.4px}
+.usage-guide-steps p{font-size:13px;line-height:1.6;margin:0;color:#526b84}
+.usage-guide-steps>.usage-step-important{background:#edf5ff;border-color:#9ec4f3}
+.usage-step-important h3{color:#1459ad}
+.usage-guide .usage-step-important .usage-step-number{background:#246be3;color:#fff}
+.usage-step-warning{display:block;margin-top:8px;font-size:13px;line-height:20px;color:#1a5aa8}
+.usage-guide .usage-guide-demo{font-size:11px;line-height:16px;color:#876231;margin:12px 0 0;text-align:center}
+.usage-guide .primary{width:100%;margin-top:14px;min-height:44px}
+.usage-guide .usage-guide-again{text-align:center;font-size:11px;line-height:16px;color:#667e99;margin:8px 0 0}
+.app .demo-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.app .usage-guide-open{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:4px 7px;border:1px solid #c4d6ec;border-radius:8px;background:white;color:#285f9a;font-size:11px;white-space:nowrap}
+@media(max-width:374px){.usage-guide{padding:18px}.usage-guide-steps>li{gap:9px;padding:12px 10px}.usage-guide-steps h3{font-size:15px}.usage-guide-cloud{gap:10px}.usage-guide-cloud>svg{width:62px;height:56px;flex-basis:62px}.usage-guide-cloud>p{padding:9px 10px;font-size:15px}}

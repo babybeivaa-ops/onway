@@ -12,7 +12,7 @@ const second=createGroup({name:'울산 동평초등학교',travelDate:today(),or
 const browser=await chromium.launch({headless:true,channel:'chrome'});
 try{
  const page=await browser.newPage({viewport:{width:1280,height:900},hasTouch:true});
- await page.route('**/*',r=>{const u=new URL(r.request().url());if(u.hostname!=='127.0.0.1')return r.abort();if(u.pathname.startsWith('/api/'))return r.fulfill({status:503,json:{}});const f=path.join(root,'dist',u.pathname==='/'?'index.html':u.pathname);return r.fulfill({path:f,contentType:({'.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg'})[path.extname(f)]||'application/octet-stream'})});
+ await page.route('**/*',r=>{const u=new URL(r.request().url());if(u.hostname!=='127.0.0.1')return r.abort();if(u.pathname==='/api/demo-workspace')return r.fulfill({status:404,json:{}});if(u.pathname.startsWith('/api/'))return r.fulfill({status:503,json:{}});const f=path.join(root,'dist',u.pathname==='/'?'index.html':u.pathname);return r.fulfill({path:f,contentType:({'.html':'text/html','.js':'application/javascript','.css':'text/css','.jpg':'image/jpeg'})[path.extname(f)]||'application/octet-stream'})});
 
  await page.goto('http://127.0.0.1/');await page.evaluate(({g,second,key})=>localStorage.setItem(key,JSON.stringify({version:2,view:'admin',activeGroupId:g.id,groups:[g,second]})),{g,second,key:WORKSPACE_KEY});await page.reload();
  const selectedToggle=page.locator('.school-accordion:not([hidden]) .school-accordion-toggle');

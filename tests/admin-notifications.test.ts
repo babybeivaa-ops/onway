@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {adminNotices,newAdminNotices} from '../src/adminNotificationModel.ts';
 import type {DemoGroup} from '../src/workspace';
-const group=(id:string):DemoGroup=>({id,state:{organization:{name:id},changes:[],centerMessages:[]}} as unknown as DemoGroup);
+const group=(id:string):DemoGroup=>({id,state:{organization:{name:id},changes:[],centerMessages:[],reports:[]}} as unknown as DemoGroup);
 const change=(id:string,actor?:'admin'|'guide',reason='변경')=>({id,actor,reason,at:'2026-10-20T01:00:00Z',before:{youth:10,leaders:1},after:{youth:9,leaders:1}});
 test('guide changes and messages appear, admin edits and legacy admin edits do not',()=>{
  const g=group('A');
@@ -31,4 +31,20 @@ test('same record ids across groups remain separate, removed groups leave no sta
  assert.equal(new Set(events.map(e=>e.id)).size,2);
  assert.equal(adminNotices([b]).length,1);
  assert.deepEqual(adminNotices([]),[]);
+});
+
+test('guide arrival entry and changes notify once; administrator and legacy entries stay quiet',()=>{
+ const g=group('A');
+ const base={date:'2026-10-30',actor:'guide' as const,at:'2026-10-30T04:00:00Z'};
+ g.state.arrivalChanges=[{...base,id:'first',after:'14:30'}];
+ const first=adminNotices([g]);
+ assert.equal(first[0].kind,'arrival');
+ assert.match(first[0].text,/14:30 입력/);
+ assert.equal(newAdminNotices(first,new Set()).length,1);
+ const seen=new Set(first.map(e=>e.id));
+ assert.equal(newAdminNotices(first,seen).length,0);
+ g.state.arrivalChanges.push({...base,id:'changed',before:'14:30',after:'15:00'}, {...base,id:'admin',actor:'admin',after:'16:00'}, {...base,id:'legacy',legacy:true,after:'13:00'});
+ const fresh=newAdminNotices(adminNotices([g]),seen);
+ assert.equal(fresh.length,1);
+ assert.match(fresh[0].text,/14:30 → 15:00 변경/);
 });

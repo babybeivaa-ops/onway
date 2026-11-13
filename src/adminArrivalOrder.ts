@@ -3,12 +3,18 @@ import {activeReports,routeService} from './services.ts';
 import {roadRoutePlan} from './roadRoute.ts';
 import {localDate} from './arrivalEstimate.ts';
 
-// Compare all groups on the same basis: straight-line distance from the last confirmed point.
+// Use both guide reports and administrator confirmations for distance and ordering.
+function confirmations(group:DemoGroup){
+ return [...activeReports(group.state).map(r=>({waypointId:r.waypointId,at:r.at})),
+ ...(group.state.adminCheckpointChecks??[]).map(c=>({waypointId:c.waypointId,at:c.confirmedAt}))]
+ .filter(r=>Number.isFinite(Date.parse(r.at))&&localDate(r.at)===group.travelDate)
+ .sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
+}
 function progress(group:DemoGroup,distances?:Record<string,number>){
  const state=group.state;
  if(state.trip.status==='도착')return {score:4,at:0,bucket:0,distance:0};
  const points=routeService.points(state);
- const reports=activeReports(state).filter(report=>localDate(report.at)===group.travelDate);
+ const reports=confirmations(group);
  let index=-1,at=Number.POSITIVE_INFINITY;
  points.forEach((point,i)=>{const report=reports.find(r=>r.waypointId===point.id);if(report){index=i;at=Date.parse(report.at)}});
  if(state.trip.status==='식사 중'&&state.trip.mealStartedAt&&localDate(state.trip.mealStartedAt)===group.travelDate){
@@ -39,8 +45,8 @@ export function sortGroupsByArrivalProgress(groups:DemoGroup[],distances?:Record
 function distanceKm(a:{lat:number;lng:number},b:{lat:number;lng:number}){if(![a.lat,a.lng,b.lat,b.lng].every(Number.isFinite)||Math.abs(a.lat)>90||Math.abs(b.lat)>90||Math.abs(a.lng)>180||Math.abs(b.lng)>180)return Infinity;const rad=Math.PI/180,dLat=(b.lat-a.lat)*rad,dLng=(b.lng-a.lng)*rad;const h=Math.sin(dLat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLng/2)**2;return 6371*2*Math.asin(Math.sqrt(Math.min(1,h)));}
 
 export function adminRoadPlan(group:DemoGroup){
- const s=group.state;if(s.trip.status==='도착'||s.trip.status==='출발 전')return null;
- const points=routeService.points(s),reports=activeReports(s).filter(r=>localDate(r.at)===group.travelDate);
+ const s=group.state;if(s.trip.status==='도착')return null;
+ const points=routeService.points(s),reports=confirmations(group);
  let point=[...points].reverse().find(p=>reports.some(r=>r.waypointId===p.id));
  if(s.trip.status==='식사 중'&&s.trip.mealStartedAt&&localDate(s.trip.mealStartedAt)===group.travelDate){const meal=points.find(p=>p.kind==='meal');if(meal&&(!point||points.indexOf(meal)>points.indexOf(point)))point=meal;}
  return point?roadRoutePlan(s,group.travelDate,point.id):null;

@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {timesForDate,addTimetableSlots,stayTimetable} from '../src/programTimetable.ts';
+test('weekday templates use the provided fixed times',()=>{assert.deepEqual(timesForDate('2026-11-16'),['15:30~17:40','19:00~20:30']);assert.deepEqual(timesForDate('2026-11-18'),timesForDate('2026-11-16'));assert.deepEqual(timesForDate('2026-11-17'),['09:30~11:40','13:40~15:50','16:00~17:30','19:00~20:30']);assert.deepEqual(timesForDate('2026-11-19'),timesForDate('2026-11-17'));assert.deepEqual(timesForDate('2026-11-20'),['09:20~11:30']);assert.deepEqual(timesForDate('2026-11-20',true),['13:10~15:20','15:30~17:40']);assert.deepEqual(timesForDate('2026-11-21'),[])});
+test('adding defaults preserves activities and custom times without duplicates',()=>{const existing=[{date:'2026-11-20',time:'09:20~11:30',activity:'에어로켓',place:'세미나실'},{date:'2026-11-20',time:'11:40~12:20',activity:'당일체험',place:'영상관'}];assert.deepEqual(addTimetableSlots(existing,'2026-11-20'),existing);const next=addTimetableSlots(existing,'2026-11-20',true);assert.equal(next.length,4);assert.equal(next[0].activity,'에어로켓');assert.equal(addTimetableSlots(next,'2026-11-20',true).length,4)});
+
+test('overnight templates start with seven or three editable slots',()=>{
+ const three=stayTimetable('2026-11-16','2박 3일');assert.equal(three.length,7);assert.deepEqual(['2026-11-16','2026-11-17','2026-11-18'].map(date=>three.filter(s=>s.date===date).length),[2,4,1]);assert.equal(three.at(-1).time,'09:20~11:30');
+ const two=stayTimetable('2026-11-16','1박 2일');assert.equal(two.length,3);assert.equal(two.at(-1).date,'2026-11-17');assert(three.every(s=>s.activity===''&&s.place===''));
+ assert.equal(stayTimetable('2026-12-31','2박 3일').at(-1).date,'2027-01-02');
+});

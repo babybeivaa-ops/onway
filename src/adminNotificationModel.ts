@@ -3,10 +3,11 @@ import {guideEditedCurrentCounts} from './participantConfirmation.ts';
 import {formatSchoolGroupName} from './groupName.ts';
 import type {DemoGroup} from './workspace';
 export interface AdminNotice {
- id:string;groupId:string;groupName:string;kind:'message'|'counts'|'confirmation'|'movement';at:string;text:string;acknowledged:boolean;countsEdited?:boolean;
+ id:string;groupId:string;groupName:string;kind:'message'|'counts'|'confirmation'|'movement'|'arrival';at:string;text:string;acknowledged:boolean;countsEdited?:boolean;
 }
 export function adminNotices(groups:DemoGroup[]):AdminNotice[]{
  return groups.flatMap(g=>[
+ ...(g.state.arrivalChanges??[]).filter(c=>c.actor==='guide'&&!c.legacy).map(c=>({id:g.id+':arrival:'+c.id,groupId:g.id,groupName:g.state.organization.name,kind:'arrival' as const,at:c.at,text:c.after?(c.before?'도착 예정 시각 '+c.before+' → '+c.after+' 변경':'도착 예정 시각 '+c.after+' 입력'):'도착 예정 시각을 지웠습니다.',acknowledged:false})),
   ...g.state.reports.filter(r=>r.status!=='cancelled'&&g.state.waypoints.some(p=>p.id===r.waypointId&&p.included)).map(r=>{const point=g.state.waypoints.find(p=>p.id===r.waypointId)!;const groupName=formatSchoolGroupName(g.state.organization.name,g.state.counts,g.state.waypoints.find(p=>p.kind==='start')?.place?.name,g.state.organization.originMode,g.state.organization.nameKind);const verb=point.kind==='start'||point.kind==='meal'?point.name+'에서 출발하였습니다.':point.kind==='destination'?'센터에 도착하였습니다.':point.name+objectParticle(point.name)+' 통과하였습니다.';return {id:g.id+':movement:'+r.id,groupId:g.id,groupName,kind:'movement' as const,at:r.at,text:groupName+subjectParticle(groupName)+' '+verb,acknowledged:false};}),
   ...(g.state.confirmed&&g.state.countsConfirmedAt?[{id:g.id+':confirmation:'+g.state.countsConfirmedAt,groupId:g.id,groupName:g.state.organization.name,kind:'confirmation' as const,at:g.state.countsConfirmedAt,text:g.state.organization.name+(guideEditedCurrentCounts(g.state)?'가 수정한 인원을 확인하였습니다.':'가 인원 변동없음을 확인하였습니다.'),countsEdited:guideEditedCurrentCounts(g.state),acknowledged:false}]:[]),
   ...(g.state.centerMessages??[]).map(m=>({id:g.id+':message:'+m.id,groupId:g.id,groupName:g.state.organization.name,kind:'message' as const,at:m.at,text:m.text,acknowledged:!!m.acknowledgedAt})),

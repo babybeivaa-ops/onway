@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {createGroup,today,WORKSPACE_KEY} from '../src/workspace.ts';
+import {checkpointService,confirmCenterArrival} from '../src/services.ts';
+const {chromium}=createRequire(import.meta.url)(process.env.ONWAY_PLAYWRIGHT_MODULE||'playwright');
+const browser=await chromium.launch({headless:true,channel:'chrome'});
+try{
+ const context=await browser.newContext({viewport:{width:1920,height:1080},timezoneId:'Asia/Seoul'});
+ const page=await context.newPage();await page.route('**/api/**',r=>r.fulfill({status:404,json:{}}));
+ const groups=Array.from({length:7},(_,i)=>createGroup({name:['동평초등학교','고흥청소년문화의집','순천중학교','광주고등학교','진도군청 드림스타트','여수초등학교','일곱번째 단체'][i],travelDate:today(),origin:'학교·단체',youth:30+i,leaders:3,ic:true,bridge:true}));
+ groups.forEach((g,i)=>g.state.organization.programType=['시범','특성화','공교육','취약','연수','기타'][i%6]);
+ groups[1].state=checkpointService.save(groups[1].state,'start');groups[2].state=confirmCenterArrival(groups[2].state);
+ groups[3].state=checkpointService.save(groups[3].state,'ic');
+ groups[4].state=checkpointService.save(groups[4].state,'bridge');
+ groups[5].configuredRoute=true;groups[5].state.waypoints.push({id:'space-stop',name:'나로우주센터',kind:'checkpoint',included:true,order:2.5,action:'통과'});groups[5].state=checkpointService.save(groups[5].state,'space-stop');
+ groups[0].state.centerMessages=[{id:'qa-message',at:new Date().toISOString(),text:'버스 2대가 함께 이동 중입니다. 하차 위치 확인 부탁드립니다.'}];
+ groups[0].state.changes=[{id:'qa-change',at:new Date().toISOString(),actor:'guide',before:{youth:29,leaders:3},after:{youth:30,leaders:3},reason:'참가자 1명 추가'}];
+ groups[1].state.plannedArrival={date:today(),time:'14:30',actor:'guide',updatedAt:new Date().toISOString()};
+ const workspace={version:2,view:'admin',groups,activeGroupId:groups[0].id};
+ await page.goto('http://127.0.0.1:4186/');await page.evaluate(({key,workspace})=>localStorage.setItem(key,JSON.stringify(workspace)),{key:WORKSPACE_KEY,workspace});
+ await page.goto('http://127.0.0.1:4186/?tv=1');await page.getByRole('heading',{name:'학교·단체 이동 현황',exact:true}).waitFor();
+ const visual=await page.locator('.tv-group').first().evaluate(el=>({label:parseFloat(getComputedStyle(el.querySelector('.journey-status-label')).fontSize),align:getComputedStyle(el).textAlign,bg:getComputedStyle(document.querySelector('.tv-dashboard')).backgroundColor}));assert(visual.label>=24);assert.equal(visual.align,'center');assert.equal(visual.bg,'rgb(255, 255, 255)');
+ assert.equal(await page.locator('.tv-group').count(),6);assert.equal(await page.getByRole('button',{name:'단체 등록',exact:true}).count(),0);
+ assert.equal(await page.locator('.tv-group[data-status="도착 완료"] .tv-stage').innerText().then(s=>s.includes('센터 도착')),true);
+ await page.getByText('버스 2대가 함께 이동 중입니다. 하차 위치 확인 부탁드립니다.',{exact:true}).waitFor();
+ await page.getByText('인원 32명 → 33명',{exact:true}).waitFor();
+ const scenes=await page.locator('.journey-cloud-scene').evaluateAll(es=>es.map(e=>e.dataset.scene));for(const scene of ['road','ic','bridge','space'])assert(scenes.includes(scene),'scene '+scene);
+ assert.match(await page.locator('.tv-current-clock').innerText(),/^\d{2}시 \d{2}분 \d{2}초$/);
+ const order=await page.evaluate(()=>({summary:document.querySelector('.tv-summary').getBoundingClientRect().top,journeys:document.querySelector('.tv-journeys').getBoundingClientRect().top,changes:document.querySelector('[aria-label="최근 변동사항"]').getBoundingClientRect().left,messages:document.querySelector('[aria-label="센터 전달사항"]').getBoundingClientRect().left}));assert(order.summary<order.journeys);assert(order.changes<order.messages);
+ await page.evaluate(()=>document.fonts.ready);
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth&&document.documentElement.scrollHeight<=innerHeight),'TV fits 1080p');
+ if(process.env.ONWAY_QA_OUTPUT)await page.screenshot({path:process.env.ONWAY_QA_OUTPUT+'/TV-dashboard-1920.png',fullPage:true});
+ await page.getByRole('button',{name:'다음 단체 페이지'}).click();assert.equal(await page.locator('.tv-group').count(),1);
+ await page.getByRole('button',{name:'이전 단체 페이지'}).click();
+ const aligned=await page.locator('.tv-group').evaluateAll(cards=>cards.map(card=>({distance:card.querySelector('.tv-road-distance').getBoundingClientRect().top,footer:card.querySelector('footer').getBoundingClientRect().top,size:getComputedStyle(card.querySelector('footer strong')).fontSize,labelSize:getComputedStyle(card.querySelector('footer>span')).fontSize,bold:getComputedStyle(card.querySelector('footer strong')).fontWeight})));
+ for(const card of aligned){assert(Math.abs(card.distance-aligned[0].distance)<1);assert(Math.abs(card.footer-aligned[0].footer)<1);assert.equal(card.size,card.labelSize);assert(Number(card.bold)>=700)}
+ await page.locator('.tv-message').filter({hasText:'버스 2대가 함께'}).getByRole('button',{name:'확인 완료',exact:true}).click();
+ await page.waitForFunction(key=>!!JSON.parse(localStorage.getItem(key)).groups[0].state.centerMessages[0].acknowledgedAt,WORKSPACE_KEY);
+ assert.equal(await page.locator('.tv-message[data-unread="false"]').count(),1);
+ const writer=await context.newPage();await writer.goto('http://127.0.0.1:4186/');
+ await writer.evaluate(key=>{const w=JSON.parse(localStorage.getItem(key));w.groups[0].state.centerMessages.push({id:'live',at:new Date().toISOString(),text:'동기화 확인 메시지'});localStorage.setItem(key,JSON.stringify(w))},WORKSPACE_KEY);
+ await page.locator('.tv-message').filter({hasText:'동기화 확인 메시지'}).waitFor();
+ const toast=page.locator('.admin-notification-toast').filter({hasText:'동기화 확인 메시지'});await toast.waitFor();await toast.getByRole('button',{name:'확인',exact:true}).click();
+ await page.waitForFunction(()=>document.activeElement?.classList.contains('tv-message'));
+ assert.equal(await page.locator('.tv-message[data-unread="true"]').count(),1);
+ await page.getByRole('button',{name:'자동 순환 시작',exact:true}).click();
+ for(const width of [360,390,430,870,1280,1920,3840]){await page.setViewportSize({width,height:width===3840?2160:1080});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no horizontal overflow '+width)}
+ await page.getByLabel('대시보드 이동일').fill('2099-01-01');await page.getByText('선택한 날짜에 이동하는 단체가 없습니다.',{exact:false}).waitFor();
+ await page.getByRole('button',{name:'관리자 화면으로 돌아가기',exact:true}).click();await page.locator('.admin-page').waitFor();assert(!page.url().includes('tv=1'));
+ console.log('PASS TV dashboard: today filter, statuses, feeds, pagination, cross-tab sync, responsive layout, read-only controls, empty date');
+}finally{await browser.close()}

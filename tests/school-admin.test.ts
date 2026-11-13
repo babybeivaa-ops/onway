@@ -62,3 +62,8 @@ test('skipped stops are not presented as confirmed and excluded stops are omitte
 });
 
 test('new groups default to experience hall dropoff and edits persist independently',()=>{const {a,b,w}=setup();assert.equal(a.state.organization.arrival?.dropoff,'체험관 앞');const updated=editGroupDetails(w,a.id,{name:a.state.organization.name,...a.state.counts,arrival:{contactName:'',phone:'',dropoff:'정문'}});const restored=parseBackup(backupText(updated));assert.equal(restored.groups[0].state.organization.arrival?.dropoff,'정문');assert.equal(restored.groups[1].state.organization.arrival?.dropoff,'체험관 앞');assert.equal(b.state.organization.arrival?.dropoff,'체험관 앞');});
+
+test('departure labels distinguish school names from organizations',()=>{
+ for(const name of ['현동초','동명중학교','동원고','서울대','서울대학교']){const g=createGroup({name,origin:name,travelDate:'2026-10-30',youth:1,leaders:1,ic:true,bridge:true});assert.equal(adminJourney(g.state).steps[1].label,'학교 출발')}
+ const g=createGroup({name:'울산 북구 청소년문화의집',origin:'문화의집',travelDate:'2026-10-30',youth:1,leaders:1,ic:true,bridge:true});assert.equal(adminJourney(g.state).steps[1].label,'단체 출발');
+});

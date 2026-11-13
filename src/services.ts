@@ -18,11 +18,12 @@ export function deriveStatus(s:DemoState):DemoState {
  const status=s.trip.mealStartedAt&&meal&&!ids.includes(meal.id)&&!passedMeal?'식사 중':ids.length?'이동 중':'출발 전';
  return {...s,trip:{...s.trip,status}};
 }
+export function confirmedCheckpointIds(s:DemoState){const valid=new Set(routeService.points(s).filter(p=>p.kind!=='destination').map(p=>p.id));return new Set([...activeReports(s).map(r=>r.waypointId),...(s.adminCheckpointChecks??[]).filter(c=>valid.has(c.waypointId)&&Number.isFinite(Date.parse(c.confirmedAt))).map(c=>c.waypointId)]);}
 export const checkpointService={
- next(s:DemoState){const orders=activeReports(s).map(r=>s.waypoints.find(w=>w.id===r.waypointId)?.order??-1);const last=Math.max(-1,...orders);return routeService.points(s).find(w=>w.kind!=='destination'&&w.order>last);},
+ next(s:DemoState){const done=confirmedCheckpointIds(s);const orders=routeService.points(s).filter(w=>done.has(w.id)).map(w=>w.order);const last=Math.max(-1,...orders);return routeService.points(s).find(w=>w.kind!=='destination'&&w.order>last);},
  save(s:DemoState,waypointId:string,at=new Date().toISOString()):DemoState {validateReportTime(at);if(!s.waypoints.some(w=>w.id===waypointId&&w.included&&w.kind!=='destination')||activeReports(s).some(r=>r.waypointId===waypointId))return s;return deriveStatus({...s,reports:[...s.reports,{id:crypto.randomUUID(),waypointId,at,createdAt:new Date().toISOString(),status:'saved',revisions:[]}]});},
  cancellationTargets(s:DemoState,id:string){const target=s.reports.find(r=>r.id===id&&r.status!=='cancelled');const point=s.waypoints.find(w=>w.id===target?.waypointId);if(!target||!point)return [];return s.reports.filter(r=>r.status!=='cancelled'&&(s.waypoints.find(w=>w.id===r.waypointId)?.order??-1)>=point.order);},
- cancel(s:DemoState,id:string):DemoState{const targets=this.cancellationTargets(s,id);if(!targets.length)return s;const ids=new Set(targets.map(r=>r.id));const point=s.waypoints.find(w=>w.id===targets.find(r=>r.id===id)?.waypointId)!;const meal=s.waypoints.find(w=>w.kind==='meal');const at=new Date().toISOString();return deriveStatus({...s,trip:{...s.trip,mealStartedAt:meal&&meal.order>=point.order?null:s.trip.mealStartedAt},reports:s.reports.map(r=>ids.has(r.id)?{...r,status:'cancelled',editedAt:at}:r)});},
+ cancel(s:DemoState,id:string):DemoState{const targets=this.cancellationTargets(s,id);if(!targets.length)return s;const ids=new Set(targets.map(r=>r.id));const point=s.waypoints.find(w=>w.id===targets.find(r=>r.id===id)?.waypointId)!;const meal=s.waypoints.find(w=>w.kind==='meal');const at=new Date().toISOString();return deriveStatus({...s,...(s.adminCheckpointChecks?{adminCheckpointChecks:s.adminCheckpointChecks.filter(c=>!s.waypoints.some(p=>p.id===c.waypointId&&p.order>=point.order))}:{}),trip:{...s.trip,mealStartedAt:meal&&meal.order>=point.order?null:s.trip.mealStartedAt},reports:s.reports.map(r=>ids.has(r.id)?{...r,status:'cancelled',editedAt:at}:r)});},
  edit(s:DemoState,id:string,at:string):DemoState {validateReportTime(at);return deriveStatus({...s,reports:s.reports.map(r=>r.id===id&&r.status!=='cancelled'?{...r,at,status:'edited',editedAt:new Date().toISOString(),revisions:[...r.revisions,{at:r.at,changedAt:new Date().toISOString()}]}:r)});}
 };
 export const tripService={
@@ -36,7 +37,7 @@ export const storage={load():DemoState{try{const s=JSON.parse(localStorage.getIt
 
 // Route progress is independent of the order in which reports were entered.
 export function furthestReport(s:DemoState){const reports=activeReports(s);return [...routeService.points(s)].reverse().map(p=>reports.find(r=>r.waypointId===p.id)).find(Boolean);}
-export function missedPoints(s:DemoState){const last=furthestReport(s);if(!last)return [];const order=routeService.waypoint(s,last.waypointId)!.order;const done=new Set(activeReports(s).map(r=>r.waypointId));return routeService.points(s).filter(p=>p.kind!=='destination'&&p.order<order&&!done.has(p.id));}
+export function missedPoints(s:DemoState){const last=furthestReport(s);if(!last)return [];const order=routeService.waypoint(s,last.waypointId)!.order;const done=confirmedCheckpointIds(s);return routeService.points(s).filter(p=>p.kind!=='destination'&&p.order<order&&!done.has(p.id));}
 export function latestRecordChange(s:DemoState){const dates=s.reports.flatMap(r=>[r.createdAt,r.editedAt]).filter((at):at is string=>!!at&&Number.isFinite(Date.parse(at)));return dates.sort((a,b)=>Date.parse(b)-Date.parse(a))[0]??null;}
 
 /** Focus the real map on the last confirmed stop and its route successor. */

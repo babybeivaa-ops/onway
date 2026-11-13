@@ -1,0 +1,69 @@
+.workspace-shell.guide .app:has(.arrival-welcome){background:#fafbf8}
+.app:has(.arrival-welcome) .arrival-card{margin:0 0 20px;padding:18px;border:1px solid #edf0e9;border-radius:22px;background:#fff;box-shadow:0 4px 16px #38564b04;grid-template-columns:minmax(0,1fr) 108px;gap:10px 16px}.app:has(.arrival-welcome) .arrival-card h2{font-size:16px;color:#34453e;margin-bottom:10px}.app:has(.arrival-welcome) .arrival-info dt{font-size:10px;color:#56635b}.app:has(.arrival-welcome) .arrival-info dd{font-size:13px;color:#425b4e}.app:has(.arrival-welcome) .arrival-photo{border-radius:17px;object-fit:cover}
+.app:has(.arrival-welcome) .arrival-document-card{border-color:#e5ebe3;border-radius:22px;box-shadow:0 4px 15px #38564b03}.app:has(.arrival-welcome) .arrival-document-card>summary{padding:14px 16px}.app:has(.arrival-welcome) .arrival-document-card>summary>strong{color:#33483d}.program-schedule>summary>svg{background:#e9f5ec;color:#5f8e77;border-radius:12px}.app:has(.arrival-welcome) .group-meal-menu>summary>svg{background:#fff3db;color:#a6853c;border-radius:12px}.app:has(.arrival-welcome) .arrival-document-card>summary>span{color:#56635b;font-size:10px}
+.program-display-table{background:transparent;border-radius:0}.program-trip-banner{border-color:#e1e8df}.program-trip-eyebrow{color:#8a988c}.program-trip-banner h3{color:#344b3f}.program-trip-banner p,.program-trip-banner .program-end-date{color:#32634f}.program-trip-banner p small{color:#56635b}.program-parallel-note{color:#8b978c}.program-grid-wrap{border-color:#dfe7dd}.program-schedule-grid th,.program-schedule-grid td{border-color:#e3e9df}.program-schedule-grid thead th{background:#edf3e8;color:#465347}.program-schedule-grid .program-grid-date{background:#f0f6ed;color:#5c7a61}.program-schedule-grid tbody tr{background:#fff}.program-grid-time,.program-grid-time span+span{color:#236083}.program-grid-activity{color:#3e5145}.program-grid-place{color:#46554a}.program-date-start:not(:first-child)>*{border-top-color:#d3dfcf}
+.app:has(.arrival-welcome) .meal-day{border-color:#e8eddf;border-radius:16px}.app:has(.arrival-welcome) .meal-day h3{background:#f1f6e9;color:#637e56}.app:has(.arrival-welcome) .meal-day h3 svg{color:#90a379}.app:has(.arrival-welcome) .meal-day td ul{color:#495b4b}.app:has(.arrival-welcome) .meal-day thead th{background:#fbfcf8;color:#52614b}.app:has(.arrival-welcome) .arrival-meal-settings{background:#f6f8f1;color:#52614b}.app:has(.arrival-welcome) .meal-publish-note{background:#f2f7e8;color:#4e633e}
+.meal-demo-notice{padding:11px 13px;margin:0 0 12px;border:1px solid #eadfb9;border-radius:12px;background:#fff9e9;color:#70551d}.meal-demo-notice strong{font-size:11px}.meal-demo-notice p{font-size:10px;line-height:1.65;margin:4px 0 0}.meal-demo-notice .text-button{font-size:11px;margin-top:6px;color:#8c7a49}
+@media(max-width:400px){.app:has(.arrival-welcome) .arrival-card{grid-template-columns:minmax(0,1fr) 90px;padding:16px}}
+
+.program-trip-banner{background:transparent;border:0;border-radius:0;padding:4px 0 12px;gap:8px}.program-trip-banner h3{font-size:17px;margin-top:7px}.program-trip-banner p{font-size:19px}.program-stay-chip{display:flex;flex:0 0 62px;width:62px;height:69px;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-radius:18px;background:#fffdf4;box-shadow:0 3px 10px #9ba26c0c;color:#9b8c4e}.program-stay-chip>span{font-size:25px;line-height:1.2;color:#dfc366}.program-stay-chip>strong{font-size:10px;font-weight:600}.program-schedule-grid .program-grid-date.day-tone-0{background:#edf7ef;color:#355d40}.program-schedule-grid .program-grid-date.day-tone-1{background:#fff8e9;color:#685421}.program-schedule-grid .program-grid-date.day-tone-2{background:#edf5fa;color:#375b75}.program-grid-date small{background:#ffffffa6;color:inherit;border-radius:7px;padding:2px 5px}.program-grid-wrap{background:white;border:0;border-radius:0}.program-schedule-grid thead th{background:#f3f6ee}.program-display-table{padding:0;background:transparent}.program-trip-eyebrow{font-size:10px}.program-parallel-note{font-size:11px;padding:0;margin:0 0 12px}
+
+.arrival-welcome{margin:24px 0 20px;padding:0;color:#293b35}.arrival-welcome h1{margin:0;font-size:20px;line-height:1.5;font-weight:700;letter-spacing:-.6px}
+@media(max-width:400px){.arrival-welcome h1{font-size:18px}}
+
+
+/* Readable secondary text on the light arrival surfaces. */
+.app:has(.arrival-welcome) .arrival-info dt,.app:has(.arrival-welcome) .arrival-document-card>summary>span{font-size:12px}
+.program-display-table .program-schedule-grid th,.program-display-table .program-schedule-grid td{font-size:12px;line-height:1.65}
+.program-display-table .program-grid-date span,.program-trip-banner p small{font-size:11px;color:#56635b}
+.program-display-table .program-grid-date small{font-size:11px}
+.program-display-table .program-grid-activity{color:#293b30;font-weight:500}
+.app:has(.arrival-welcome) .arrival-document-body .fine,.app:has(.arrival-welcome) .meal-day h3 small{color:#56635b;font-size:12px}
+/* One flat document layout for schedules and meals. */
+.workspace-shell.guide .app:has(.arrival-welcome){background:#f6f8fb}
+.app:has(.arrival-welcome) .arrival-document-card,.app:has(.arrival-welcome) .arrival-card{border-color:#e1e6ed;border-radius:20px;box-shadow:none}
+.app:has(.arrival-welcome) .arrival-document-card>summary>strong,.arrival-welcome h1{color:#202c3d}
+.app:has(.arrival-welcome) .arrival-document-card>summary>svg{background:#edf3ff;color:#2865ca;border-radius:10px}
+.program-trip-banner{padding:6px 13px;background:#fff9e9;border:1px solid #eadfb9;border-radius:12px}
+.program-trip-banner h3{font-size:18px;line-height:1.5;margin:0 0 5px;color:#202c3d}
+.program-trip-banner p,.program-trip-banner .program-end-date{font-size:15px;font-weight:500;letter-spacing:0;color:#526276}
+.program-trip-banner p small{font-size:12px;color:#526276}
+.program-display-table{padding:0;background:none}
+.schedule-day,.app:has(.arrival-welcome) .meal-day{margin:20px 0 0;border:0;border-radius:0;background:transparent;overflow:visible}
+.schedule-day h4,.app:has(.arrival-welcome) .meal-day h3{display:flex;align-items:center;gap:8px;padding:0 0 10px;margin:0;border-bottom:2px solid #28384e;background:none;color:#202c3d;font-size:16px;font-weight:700;line-height:1.5}
+.schedule-day h4>small,.app:has(.arrival-welcome) .meal-day h3>small{margin-left:auto;font-size:12px;font-weight:500;color:#516278}
+.schedule-day h4>span>small{font-size:13px;font-weight:500;color:#516278}
+.app:has(.arrival-welcome) .meal-day h3 svg{display:none}
+.schedule-agenda{width:100%;border-collapse:collapse;table-layout:fixed}
+.schedule-agenda th,.schedule-agenda td{padding:14px 8px;border:0;border-bottom:1px solid #e5e9ef;text-align:left;vertical-align:top;line-height:1.65}
+.schedule-agenda thead th,.app:has(.arrival-welcome) .meal-day thead th{background:#f5f7fa;font-size:12px;font-weight:500;color:#516278;padding:8px}
+.schedule-agenda .agenda-time{font-size:13px;font-weight:600;color:#285da5;font-variant-numeric:tabular-nums;white-space:nowrap}
+.agenda-time span{display:block}
+.schedule-agenda td>strong{display:block;font-size:14px;font-weight:600;color:#202c3d;word-break:keep-all;overflow-wrap:anywhere}
+.schedule-agenda .agenda-place{display:block;margin-top:5px;font-size:12px;font-weight:400;color:#516278;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+.app:has(.arrival-welcome) .meal-day th,.app:has(.arrival-welcome) .meal-day td{padding:13px 8px;border-bottom:1px solid #e5e9ef}
+.app:has(.arrival-welcome) .meal-day th:first-child{width:52px}
+.app:has(.arrival-welcome) .meal-day .meal-tag{padding:0;background:none;color:#285da5;font-size:13px;font-weight:600;border-radius:0}
+.app:has(.arrival-welcome) .meal-day td ul{color:#202c3d;font-size:14px;line-height:1.85;word-break:keep-all;overflow-wrap:anywhere}
+.app:has(.arrival-welcome) .meal-day td li{display:inline}
+.app:has(.arrival-welcome) .meal-day td li+li::before{content:' · ';color:#718096}
+.app:has(.arrival-welcome) .arrival-meal-settings{background:#fff9e9;color:#70551d;padding:11px 13px;margin:0 0 12px;border:1px solid #eadfb9;border-radius:12px}
+.app:has(.arrival-welcome) .arrival-meal-settings>strong{font-size:11px;font-weight:700}
+.app:has(.arrival-welcome) .arrival-meal-settings>p{font-size:10px;line-height:1.65;margin:4px 0 0}
+.app:has(.arrival-welcome) .meal-day .meal-empty{color:#516278;font-size:13px}
+.arrival-welcome{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;min-height:44px;margin:16px 0;padding-bottom:16px;border-bottom:1px solid #dce4ee;text-align:center}
+.arrival-heading-icon{color:#2865ca;flex-shrink:0}
+.arrival-welcome h1{font-size:20px;font-weight:750;line-height:1.5;letter-spacing:-.6px;word-break:keep-all}
+@media(max-width:400px){.arrival-welcome h1{font-size:18px}}
+.arrival-heading-cloud{display:block;width:44px;height:36px;flex:0 0 44px}
+.arrival-documents .arrival-document-card>summary>svg.arrival-character-icon,
+.app:has(.arrival-welcome) .arrival-document-card>summary>svg.arrival-character-icon{width:40px;height:40px;flex:0 0 40px;padding:0;box-sizing:border-box;background:transparent;border-radius:0}
+
+.app:has(.arrival-welcome) .arrival-card{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto;align-items:center;gap:12px;padding:8px 0;margin:0 0 20px;border:0;border-radius:0;background:transparent;box-shadow:none}
+.app:has(.arrival-welcome) .arrival-card>.arrival-info,.app:has(.arrival-welcome) .arrival-card>.arrival-info>div{display:contents}
+.app:has(.arrival-welcome) .arrival-card>.arrival-photo{grid-column:3;grid-row:1;align-self:center;justify-self:center;width:108px;max-width:100%;height:auto;aspect-ratio:1;border-radius:17px}
+
+.app:has(.arrival-welcome) .arrival-card .arrival-info dt{font-size:17px;font-weight:700;line-height:1.5;color:#202c3d}
+.app:has(.arrival-welcome) .arrival-card .arrival-info dt{grid-column:1;grid-row:1;text-align:center;word-break:keep-all}
+.app:has(.arrival-welcome) .arrival-card .arrival-info dd{grid-column:2;grid-row:1;transform:translateX(-10px);margin:0;font-size:17px;font-weight:600;text-align:center;line-height:1.5;color:#2069ed;word-break:keep-all;overflow-wrap:anywhere}
+.arrival-documents .group-meal-menu .arrival-meal-settings{background:#fff9e9;color:#70551d;border:1px solid #eadfb9;border-radius:12px;padding:11px 13px;margin:0 0 12px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0 24px}.arrival-documents .group-meal-menu .arrival-meal-settings>strong{font-size:14px;font-weight:700}.arrival-documents .group-meal-menu .arrival-meal-details p{font-size:12px;margin:0}.arrival-documents .group-meal-menu .arrival-meal-details .arrival-lunch-check{font-size:12px;margin-top:4px}@media(max-width:400px){.arrival-documents .group-meal-menu .arrival-meal-settings{column-gap:12px}.arrival-documents .group-meal-menu .arrival-meal-settings>strong{font-size:13px}.arrival-documents .group-meal-menu .arrival-meal-details p,.arrival-documents .group-meal-menu .arrival-meal-details .arrival-lunch-check{font-size:11px}}

@@ -5,15 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/prepare-menu-assets.mjs && tsc --noEmit && vite build",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "start:maps": "node public-api/index.mjs",
-    "start": "node public-api/index.mjs"
+    "start": "node public-api/index.mjs",
+    "prepare:menus": "node scripts/prepare-menu-assets.mjs"
   },
   "dependencies": {
+    "lucide-react": "^0.468.0",
+    "pdfjs-dist": "5.4.624",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "lucide-react": "^0.468.0"
+    "tesseract.js": "6.0.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.0",

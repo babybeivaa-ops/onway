@@ -11,8 +11,8 @@
 .admin-notification-items>button{display:grid;gap:5px;text-align:left;width:100%;padding:12px;border:1px solid #e1e8f0;border-radius:10px;background:white;color:#29455d}
 .admin-notification-items>button.is-unread{background:#F4F5F7;border-color:#dfe3e8}
 .admin-notification-items strong{font-size:15px}.admin-notification-items span{font-size:13px;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}.admin-notification-items time,.notification-kind{font-size:11px!important;color:#637c97}
-.admin-notification-toasts{position:fixed;right:24px;bottom:24px;width:min(370px,calc(100vw - 32px));display:grid;gap:10px;z-index:90}
-.admin-notification-toast{display:flex;align-items:flex-start;background:white;border:1px solid #bcd2ee;border-left:4px solid #2166ed;border-radius:14px;box-shadow:0 8px 28px #243f6026;padding:10px}
+.admin-notification-toasts{position:fixed;right:24px;bottom:24px;width:min(380px,calc(100vw - 32px));display:grid;gap:10px;z-index:90}
+.admin-notification-toast{position:relative;display:flex;align-items:flex-start;background:white;border:1px solid #bcd2ee;border-left:4px solid #2166ed;border-radius:14px;box-shadow:0 8px 28px #243f6026;padding:10px}
 .admin-notification-toast>button:first-child{display:grid;gap:7px;flex:1;min-width:0;text-align:left;padding:6px;border:0;background:transparent;color:#274760}
 .admin-notification-toast span{font-size:13px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
 .admin-notification-toast strong{font-size:16px}.admin-notification-toast b{font-size:12px;color:#2166ed}
@@ -30,3 +30,20 @@
 .admin-notification-toast .notification-movement-text{display:block;overflow:visible;-webkit-line-clamp:unset;white-space:normal;line-height:1.65}
 .admin-notification-items .notification-movement-text{white-space:normal;line-height:1.65}
 .notification-kind>svg,.notification-toast-title>svg{flex-shrink:0;color:#1858b8}
+
+.admin-notification-toast>.notification-toast-confirm{align-self:center;flex:0 0 auto;min-width:44px;min-height:36px;margin-left:8px;padding:6px 10px;border:1px solid #b7cdec;border-radius:9px;background:#edf4ff;color:#245c96;font-size:13px;font-weight:600}
+
+.admin-notification-toast>button:last-child{position:absolute;top:6px;right:6px}
+
+.admin-notification-toast>.notification-toast-confirm{position:relative;left:-1px}
+
+/* Intrinsic width follows the longest visible movement sentence plus controls. */
+.admin-notification-toasts:has(.notification-movement-text){width:max-content;min-width:min(320px,calc(100vw - 48px));max-width:calc(100vw - 48px)}
+.admin-notification-toasts:has(.notification-movement-text) .admin-notification-toast>button:first-child{flex:1 1 auto}
+@media(max-width:600px){.admin-notification-toasts:has(.notification-movement-text){min-width:min(320px,calc(100vw - 32px));max-width:calc(100vw - 32px)}}
+.admin-notification-toast .notification-movement-text{white-space:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-line-clamp:unset}
+.admin-notification-toast .notification-movement-text strong{display:inline}
+.timed-notification-toast{animation:notification-appear .2s ease-out,notification-dismiss .8s ease-in 8s forwards}
+@keyframes notification-appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes notification-dismiss{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(12px)}}
+@media(prefers-reduced-motion:reduce){.timed-notification-toast{animation:none}}

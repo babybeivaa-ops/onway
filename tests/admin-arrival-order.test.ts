@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createGroup} from '../src/workspace.ts';
-import {sortGroupsByArrivalProgress} from '../src/adminArrivalOrder.ts';
+import {sortGroupsByArrivalProgress,adminRoadPlan} from '../src/adminArrivalOrder.ts';
 const date='2026-10-23';
 function group(name:string,point?:string,time='13:47'){
  const g=createGroup({name,travelDate:date,origin:name,youth:10,leaders:1,ic:true,bridge:true});g.id=name;
@@ -36,3 +36,24 @@ test('earlier visit dates stay before future visits',()=>{
 test('different routes compare checkpoint coordinates rather than milestone labels',()=>{const museum=group('우주과학관 출발','start');museum.state.waypoints.find(p=>p.id==='start')!.place={id:'museum',name:'나로우주센터 우주과학관',provider:'kakao',address:'고흥',lat:34.453408084334384,lng:127.51774103712972};const near=group('나로2대교','start');near.state.waypoints.find(p=>p.id==='start')!.place={id:'bridge2',name:'나로2대교',provider:'kakao',address:'고흥',lat:34.47748604682972,lng:127.45806446034042};assert.deepEqual(sortGroupsByArrivalProgress([group('고흥IC','ic'),museum,group('나로1대교','bridge'),near]).map(g=>g.id),['나로1대교','나로2대교','우주과학관 출발','고흥IC']);museum.state.trip.status='도착';assert.equal(sortGroupsByArrivalProgress([near,museum])[0].id,museum.id)});
 
 test('road distance overrides straight-line proximity; missing results follow known distances',()=>{const a=group('IC','ic'),b=group('bridge','bridge'),c=group('unknown','start');assert.deepEqual(sortGroupsByArrivalProgress([b,c,a],{IC:1000,bridge:5000}).map(g=>g.id),['IC','bridge','unknown']);});
+
+test('administrator passage changes road anchor, order and rolls back on cancellation',()=>{
+ const a=group('동명중','start'),b=group('동원고','start');
+ a.state.adminCheckpointChecks=[{waypointId:'ic',confirmedAt:`${date}T14:00:00+09:00`}];
+ assert.equal(adminRoadPlan(a)?.points[0].id,'ic');
+ assert.deepEqual(sortGroupsByArrivalProgress([b,a],{동명중:58000,동원고:200000}).map(g=>g.id),['동명중','동원고']);
+ a.state.adminCheckpointChecks=[];
+ assert.equal(adminRoadPlan(a)?.points[0].id,'start');
+ assert.deepEqual(sortGroupsByArrivalProgress([b,a],{동명중:290000,동원고:200000}).map(g=>g.id),['동원고','동명중']);
+});
+test('administrator-only progress works while guide status is waiting; old and excluded checks do not advance',()=>{
+ const a=group('관리자 확인');
+ a.state.adminCheckpointChecks=[{waypointId:'ic',confirmedAt:`${date}T14:00:00+09:00`}];
+ assert.equal(adminRoadPlan(a)?.points[0].id,'ic');
+ assert.equal(sortGroupsByArrivalProgress([group('대기'),a])[0].id,a.id);
+ a.state.adminCheckpointChecks[0].confirmedAt='2026-10-22T14:00:00+09:00';
+ assert.equal(adminRoadPlan(a),null);
+ a.state.adminCheckpointChecks[0].confirmedAt=`${date}T14:00:00+09:00`;
+ a.state.waypoints.find(p=>p.id==='ic')!.included=false;
+ assert.equal(adminRoadPlan(a),null);
+});

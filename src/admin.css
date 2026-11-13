@@ -54,7 +54,7 @@
 /* School selection and per-school arrival information. */
 .school-selector{margin:0 0 20px}.school-selector-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.school-selector-heading h2{font-size:16px;margin:0}.school-selector-heading h2 span{margin-left:6px;color:#2166f3}.school-selector .archive-tabs{margin:0;gap:6px}.school-selector .archive-tabs button{min-height:38px;padding:7px 11px;font-size:12px}.school-choice-list{display:flex;flex-wrap:wrap;gap:10px}.school-choice{display:flex;flex-direction:column;gap:5px;align-items:flex-start;text-align:left;padding:15px 20px;border:1px solid #d6e1ef;border-radius:14px;background:#fff;color:#375371;font:inherit;min-height:72px;min-width:150px;max-width:100%;overflow-wrap:anywhere}.school-choice strong{font-size:16px}.school-choice span{font-size:12px;color:#778aa2}.school-choice.selected{border-color:#2166f3;background:#2166f3;color:#fff;box-shadow:0 5px 16px #2166f322}.school-choice.selected span{color:#e0eaff}.school-choice:focus-visible{outline:3px solid #8cb5ff;outline-offset:3px}
 .school-arrival-card,.school-visit-summary{background:#fff;border:1px solid #dce5f1;border-radius:18px;padding:24px;margin:18px 0}.school-arrival-title h2{font-size:17px;overflow-wrap:anywhere}.school-arrival-title p{font-size:13px;color:#71839b;margin-top:6px}.school-arrival-fields{display:grid;grid-template-columns:1fr 1.15fr 1.6fr;gap:14px}.school-arrival-fields label{font-size:13px;min-width:0}.school-arrival-fields input{min-width:0;width:100%;font-size:15px}.school-arrival-save{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:14px}.school-arrival-save p{font-size:13px;color:#25754b}.school-arrival-save .secondary{width:auto;min-height:42px;padding:9px 16px;margin:0;font-size:13px;white-space:nowrap}
-.school-visit-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}.school-visit-heading p{font-size:12px;color:#7387a0;margin-bottom:5px}.school-visit-heading h2{font-size:26px;overflow-wrap:anywhere}.school-current-status{flex-shrink:0;color:#1559bf;background:#eaf2ff;padding:10px 15px;border-radius:30px;font-size:14px;font-weight:700}.school-visit-facts{display:grid;grid-template-columns:1fr 1fr 1fr;margin:22px 0;padding:20px 0;border-top:1px solid #e8edf4;border-bottom:1px solid #e8edf4;gap:16px}.school-visit-facts dt{font-size:12px;color:#71839b;margin-bottom:8px}.school-visit-facts dd{margin:0;font-size:21px;font-weight:750;color:#203e65;overflow-wrap:anywhere}.school-visit-facts small{display:block;font-size:12px;color:#70829b;margin-top:7px}.school-journey-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px 22px}.school-journey-steps li{display:flex;align-items:center;gap:8px;color:#8694a7;font-size:13px}.school-step-dot{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#edf1f6;color:#8291a5;font-size:12px}.school-journey-steps li[data-done=true]{color:#347b65}.school-journey-steps li[data-done=true] .school-step-dot{background:#e1f3eb;color:#287256}.school-journey-steps li[aria-current=step]{font-weight:750;color:#2166f3}.school-journey-steps li[aria-current=step] .school-step-dot{background:#2166f3;color:#fff}
+.school-visit-heading{display:flex;align-items:center;justify-content:space-between;gap:14px}.school-visit-heading p{font-size:12px;color:#7387a0;margin-bottom:5px}.school-visit-heading h2{font-size:26px;overflow-wrap:anywhere}.school-current-status{flex-shrink:0;color:#1559bf;background:#eaf2ff;padding:10px 15px;border-radius:30px;font-size:14px;font-weight:700}.school-visit-facts{display:grid;grid-template-columns:1fr 1fr 1fr;margin:22px 0;padding:20px 0;border-top:1px solid #e8edf4;border-bottom:1px solid #e8edf4;gap:16px}.school-visit-facts dt{font-size:12px;color:#71839b;margin-bottom:8px}.school-visit-facts dd{margin:0;font-size:21px;font-weight:750;color:#203e65;overflow-wrap:anywhere}.school-visit-facts small{display:block;font-size:12px;color:#70829b;margin-top:7px}.school-journey-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px 22px}.school-journey-steps li{display:flex;align-items:center;gap:8px;color:#8694a7;font-size:13px}.school-step-dot{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#edf1f6;color:#8291a5;font-size:12px}.school-journey-steps li[data-done=true]{color:#245db8}.school-journey-steps li[data-done=true] .school-step-dot{background:#2166f3;color:#fff}.school-journey-steps li[aria-current=step]{font-weight:750;color:#2166f3}.school-journey-steps li[aria-current=step] .school-step-dot{background:#2166f3;color:#fff}
 @media(max-width:600px){.school-selector-heading{align-items:flex-start;flex-direction:column;gap:10px}.school-choice-list{gap:8px}.school-choice{min-width:0;flex:1 1 140px;padding:12px 14px}.school-arrival-card,.school-visit-summary{padding:18px}.school-arrival-fields{grid-template-columns:1fr;gap:0}.school-arrival-fields label{margin-top:14px}.school-visit-heading h2{font-size:22px}.school-current-status{font-size:12px;padding:8px 11px;max-width:45%;white-space:normal}.school-visit-facts{grid-template-columns:1fr 1fr;gap:20px 12px}.school-visit-facts>div:last-child{grid-column:1/-1}.school-visit-facts dd{font-size:19px}.school-journey-steps{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px}.school-journey-steps li{font-size:12px}}
 
 /* School-specific expandable administration, 2026-10-16 */
@@ -303,7 +303,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 .visit-people-table thead th {background:#f4f7fa;font-size:13px;font-weight:500;color:#526477}
 .visit-people-table tbody tr:not(.people-leader-row)>th {color:#08756c;font-weight:500}
 .visit-people-table tbody td:last-child {font-weight:600;color:#1d5fb8}
-.visit-people-table .people-leader-row>* {border-top:1px solid #cbd8e4;background:#fafbfc;border-bottom:0}
+.visit-people-table .people-leader-row>* {border-top:1px solid #cbd8e4;background:transparent;border-bottom:0}
 @media(max-width:600px){.visit-people-table{font-size:14px}.visit-people-table .people-label-column{width:34%}.visit-people-table th,.visit-people-table td{padding:7px 6px}}
 
 .selected-visit-date {display:flex;flex-direction:column;gap:3px;flex-shrink:0}
@@ -585,7 +585,7 @@ dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
 .guide-count-dialog>form{display:flex;flex-direction:column;min-height:0;overflow:hidden}
 .guide-count-dialog .guide-count-scroll{overflow:auto;overscroll-behavior:contain;padding:10px 14px;min-height:0}
 .guide-count-dialog .participant-edit-hint{white-space:normal;margin:0 0 8px}
-.guide-count-dialog .participant-editor{margin:0;padding:10px;gap:8px}
+.guide-count-dialog .participant-editor{margin:0;padding:10px 10px 8px;gap:8px}
 .guide-count-dialog .participant-editor-title h3{font-size:16px}
 .guide-count-dialog .participant-level-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .guide-count-dialog .participant-level-tabs button{min-height:48px;padding:4px;gap:2px}
@@ -600,7 +600,7 @@ dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
 .guide-count-dialog>.form-error{flex:none;padding:6px 14px;max-height:20dvh;overflow:auto}
 @media(max-width:600px){
 .guide-count-dialog .guide-count-scroll{padding:8px}
-.guide-count-dialog .participant-editor{padding:8px}
+.guide-count-dialog .participant-editor{padding:8px 8px 6px}
 .guide-count-dialog .count-entry-table{min-width:0}
 .guide-count-dialog .count-entry-table .entry-name-column{width:25%}
 .guide-count-dialog .count-entry-table .entry-action-column{width:48px}
@@ -614,8 +614,8 @@ dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
 
 /* Group identity uses borders; selection uses the cloud mascot, never color alone. */
 .group-quick-tabs{padding:20px 12px 12px}
-.group-quick-tabs button[data-program],.group-quick-tabs button[data-program][aria-selected=true]{position:relative;background:#fff;color:#17375c;border:2px solid var(--group-border,#7b91ad);box-shadow:none;padding:12px 16px}
-.group-quick-tabs button[data-program][aria-selected=true]{border-width:4.032px;padding:9.968px 13.968px;border-color:color-mix(in srgb,var(--group-border,#7b91ad) 72%,#17375c 28%)}
+.group-quick-tabs button[data-program],.group-quick-tabs button[data-program][aria-selected=true]{position:relative;background:#fff;color:#17375c;border:2px solid var(--program-accent,#7b91ad);box-shadow:none;padding:12px 16px}
+.group-quick-tabs button[data-program][aria-selected=true]{border-width:4.032px;padding:9.968px 13.968px;border-color:color-mix(in srgb,var(--program-accent,#7b91ad) 72%,#17375c 28%)}
 .group-quick-tabs button[data-program] .journey-badge,.group-quick-tabs button[data-program] .journey-badge-copy,.group-quick-tabs button[data-program] .journey-badge-copy>strong,.group-quick-tabs button[data-program] .journey-status-time,.group-quick-tabs button[data-program] .journey-badge-compact .journey-status-label{color:#30485f}
 .group-quick-tabs .selected-cloud-icon{position:absolute;right:5px;top:-19px;pointer-events:none;filter:drop-shadow(0 1px 1px #ffffff);z-index:1}
 .group-quick-tabs button:focus-visible{outline:3px solid #17375c;outline-offset:3px}
@@ -653,9 +653,398 @@ dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
 .school-visit-facts>.visit-date-program>.visit-date-arrival{grid-column:1;grid-row:2;margin:0;min-width:0;font-size:14px;font-weight:400;line-height:1.5}
 .admin .visit-date-arrival .planned-arrival-card.planned-arrival-compact{grid-template-columns:minmax(0,1fr);align-content:start;gap:8px;width:100%;max-width:none;padding:14px 0 0;margin:0;border:0;border-top:1px solid #dce5ed;border-radius:0;background:transparent}
 .admin .visit-date-arrival .planned-arrival-heading{gap:7px;min-height:32px}
-.admin .visit-date-arrival .planned-arrival-heading>svg{width:34px;height:32px;flex:0 0 34px}
+.admin .visit-date-arrival .planned-arrival-heading>svg{width:26px;height:26px;flex:0 0 26px}
 .admin .visit-date-arrival h3{font-size:13px;line-height:20px;font-weight:600;letter-spacing:0;color:#526477}
-.admin .visit-date-arrival form{grid-template-columns:72px minmax(0,1fr) 44px;gap:8px;max-width:300px;min-width:0;margin-top:6px}
+.admin .visit-date-arrival form{grid-template-columns:70px minmax(0,1fr) 42px;gap:12px;width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin-top:6px}
 .admin .visit-date-arrival .planned-period-tabs button{font-size:11px;width:36px}
 .admin .visit-date-arrival .planned-arrival-meta{grid-column:1;grid-row:auto;justify-self:stretch;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:17px 0 0;gap:2px;font-size:11px;font-weight:400}
-@media(min-width:760px){.school-visit-facts{grid-template-columns:minmax(238px,.65fr) minmax(320px,1.75fr)}}
+@media(min-width:760px){.school-visit-facts{grid-template-columns:minmax(272px,.65fr) minmax(320px,1.75fr)}}
+
+.school-journey-steps li{align-items:flex-start}.school-step-copy{display:grid;gap:3px;line-height:28px;text-align:center}.school-step-copy>time{font-size:13px;line-height:18px;font-weight:400;font-variant-numeric:tabular-nums;color:#60748a}
+/* Compact, equally sized arrival controls in the administrator view. */
+.admin .planned-arrival-compact :is(.planned-period-tabs,.planned-clock-digits,form .secondary){height:36px;min-height:36px}
+.admin .planned-arrival-compact :is(.planned-period-tabs button,.planned-clock-digits :is(input,select)){height:34px;min-height:34px}
+
+.admin-recent-changes{margin-top:18px;padding-top:16px;border-top:1px solid #dce5ed;color:#28465e}.admin-recent-changes h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:15px}.admin-recent-changes small{font-size:13px;font-weight:400;color:#60758d}.admin-recent-changes ul{list-style:none;margin:0;padding:0}.admin-recent-changes li{padding:10px 12px;margin-top:6px;background:#f5f8fc;border-radius:9px}.admin-recent-changes li>div{display:flex;align-items:center;gap:10px;font-size:13px;flex-wrap:wrap}.admin-recent-changes time{margin-left:auto;color:#60758d;font-size:12px}.admin-recent-changes p{font-size:13px;line-height:1.6;margin:6px 0 0}.admin-recent-changes summary{cursor:pointer;font-size:13px;padding:12px 0 0}
+
+.admin .visit-date-arrival form .secondary{width:42px;min-width:0}
+
+.admin-recent-changes li>div{flex-wrap:nowrap;gap:12px;min-width:0}.admin-recent-changes li>div>strong,.admin-recent-changes li>div>span:not(.recent-change-detail),.admin-recent-changes time{flex-shrink:0;white-space:nowrap}.admin-recent-changes .recent-change-detail{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.admin-recent-changes li{padding-top:9px;padding-bottom:9px}
+
+.admin-recent-changes li>div{display:grid;grid-template-columns:96px 56px minmax(0,1fr) max-content;column-gap:12px;align-items:center}.admin-recent-changes .recent-change-detail{font-variant-numeric:tabular-nums}.admin-recent-changes time{margin-left:0}
+
+.admin .visit-date-arrival .planned-clock-digits :is(input,select){font-size:16px;min-width:0;width:100%;box-sizing:border-box}
+
+.admin .visit-date-arrival :is(.planned-period-tabs,.planned-clock-digits){width:100%;min-width:0;box-sizing:border-box}.admin .visit-date-arrival .planned-period-tabs button{flex:1 1 0;width:0;min-width:0}
+
+.admin-recent-changes li>div{grid-template-columns:40px 96px 110px minmax(0,1fr) max-content}.admin-recent-changes .recent-change-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:5px;padding:3px 0;font-size:11px;font-weight:600;line-height:16px;background:#e2f2e9;color:#276b50}.admin-recent-changes .recent-change-badge[data-action="변경"]{background:#fcebf2;color:#96506d}.admin-recent-changes .recent-change-badge[data-action="삭제"]{background:#fce8e5;color:#a34035}
+
+
+
+.admin-recent-changes .recent-changes-order-hint{margin-left:auto;font-size:11px;line-height:18px;font-weight:400;color:#7387a0}.admin-recent-changes h3{flex-wrap:wrap}
+
+.admin-recent-changes li{background:transparent;border-radius:0;margin-top:0;padding:10px 12px}.admin-recent-changes li+li{border-top:1px solid #e4ebf3}.admin-recent-changes details ul{border-top:1px solid #e4ebf3;margin-top:8px}
+
+/* Choose the origin before editing the route. */
+.admin-route-origin{margin:20px 0;padding:18px;border:1px solid #dbe5f2;border-radius:12px;background:#f7faff}.admin-route-origin h3,.route-edit-step{font-size:17px;color:#29475f}.admin-route-origin .origin-settings{max-width:640px}.admin-route-origin .secondary{width:auto;margin-top:12px}.admin-route-checkpoints{margin:0;padding:0;border:0;min-width:0}.admin-route-checkpoints .checkpoint-editor{border-top:0;padding-top:0}.admin-route-checkpoints .checkpoint-editor>h3{display:none}
+
+.checkpoint-success{text-align:right}
+.count-entry-table .entry-level-label{display:block;color:#526d8a;font-size:11px;margin-bottom:4px}
+
+/* Aligned columns for mixed participant categories. */
+.participant-editor-stepped .mixed-count-table{min-width:410px;background:#fff}
+.mixed-count-table .mixed-level-column{width:50px}.mixed-count-table .mixed-grade-column{width:104px}.mixed-count-table .mixed-total-column{width:48px}.mixed-count-table .mixed-actions-column{width:80px}
+.participant-editor-stepped .mixed-count-table :is(th,td){height:60px;padding:8px 5px!important;vertical-align:middle;text-align:center!important;border-right:1px solid #e5ebf1;box-sizing:border-box}
+.participant-editor-stepped .mixed-count-table tr>:last-child{border-right:0}
+.participant-editor-stepped .mixed-count-table thead th{height:38px;background:#edf3f9;color:#3b536c;font-size:13px;font-weight:600}
+.participant-editor-stepped .mixed-count-table .mixed-level-cell{background:#f7f9fc;color:#35516f;font-size:13px;font-weight:600;white-space:nowrap}
+.participant-editor-stepped .mixed-count-table :is(input,select){display:block;box-sizing:border-box;width:100%;max-width:none;height:40px;min-height:40px;margin:0;padding:6px 4px;border:1px solid #bccddd;border-radius:6px;background:#fff;font-size:15px;line-height:24px;color:#243e54}
+.participant-editor-stepped .mixed-count-table select{font-size:13px}
+.participant-editor-stepped .mixed-count-table .count-entry-total{display:block;font-size:16px;font-weight:700;line-height:40px}
+.participant-editor-stepped .mixed-count-table .count-entry-row-actions{display:flex;align-items:center;justify-content:center;gap:6px;margin:0}
+.participant-editor-stepped .mixed-count-table .count-entry-row-actions>button{display:grid;place-items:center;width:30px;min-width:30px;height:40px;min-height:40px;padding:0;margin:0}
+.participant-editor-stepped .mixed-count-table .mixed-no-grade{color:#8290a0}
+
+/* Soft category colors, with aligned inputs instead of a full grid. */
+.participant-editor [data-level="elementary"]{--level-ink:#386b59;--level-tint:#f0f8f3;--level-border:#a9cdb8}
+.participant-editor [data-level="middle"]{--level-ink:#38658c;--level-tint:#f0f6fc;--level-border:#a9c4df}
+.participant-editor [data-level="high"]{--level-ink:#77568f;--level-tint:#f7f2fa;--level-border:#cbb5db}
+.participant-editor [data-level="university"]{--level-ink:#946735;--level-tint:#fcf6ed;--level-border:#dfc49d}
+.participant-editor [data-level="adult"]{--level-ink:#934560;--level-tint:#f7e9ef;--level-border:#c88fa4}
+.participant-editor [data-level="preschool"]{--level-ink:#857326;--level-tint:#faf8eb;--level-border:#d7ce99}
+.participant-editor-stepped .participant-level-tabs button[data-level]{background:var(--level-tint);color:var(--level-ink);border-color:var(--level-border)}
+.participant-editor-stepped .participant-level-tabs button[data-level][aria-pressed=true]{border:2px solid var(--level-ink);background:var(--level-tint);color:var(--level-ink)}
+.participant-editor-stepped .participant-level-tabs button[data-level] span{color:var(--level-ink)}
+.participant-editor-stepped .mixed-count-table{border-collapse:separate;border-spacing:0 6px}
+.participant-editor-stepped .count-entry-scroll:has(.mixed-count-table){border:0;border-radius:0}
+.participant-editor-stepped .mixed-count-table :is(th,td){border:0!important;height:56px;padding:7px 5px!important}
+.participant-editor-stepped .mixed-count-table thead th{height:30px;background:transparent;color:#62758a;font-weight:500;padding-block:3px!important}
+.participant-editor-stepped .mixed-count-table tbody tr>*{background:var(--level-tint)}
+.participant-editor-stepped .mixed-count-table .mixed-level-cell{background:var(--level-tint);color:var(--level-ink);border-radius:9px 0 0 9px}
+.participant-editor-stepped .mixed-count-table tbody tr>:last-child{border-radius:0 9px 9px 0}
+.participant-editor-stepped .mixed-count-table :is(input,select){background:#fff;border:1px solid #d3dde6;box-shadow:none}
+.participant-editor-stepped .mixed-count-table :is(input,select):focus{border-color:var(--level-ink);outline:2px solid var(--level-border);outline-offset:1px}
+.participant-editor-stepped .mixed-count-table .count-entry-total{color:var(--level-ink)}
+.participant-editor-stepped .mixed-count-table .count-entry-add{background:#fff;border:1px solid var(--level-border);color:var(--level-ink)}
+
+/* Share participant/leader column widths and input styling across both views. */
+
+
+.admin .participant-editor-stepped .mixed-count-table td input,.participant-editor-stepped .mixed-count-table td input{display:block;box-sizing:border-box;width:100%;max-width:none;height:40px;min-height:40px;margin:0;padding:6px 4px;border:1px solid #d3dde6;border-radius:6px;background:#fff;font-size:15px;line-height:24px;color:#243e54;text-align:center}
+.admin .participant-editor-stepped .mixed-count-table td input:hover{background:#fff;border-color:#a9bdce}
+.admin .participant-editor-stepped .mixed-count-table td input:focus{background:#fff;border-color:var(--level-ink);outline:2px solid var(--level-border);outline-offset:1px}
+
+/* Neutral participant headings. */
+.participant-editor-stepped .mixed-count-table thead th{background:#f1f3f5;color:#5b6876;height:36px}
+.participant-editor-stepped .mixed-count-table thead th:first-child{border-radius:8px 0 0 8px}
+.participant-editor-stepped .mixed-count-table thead th:last-child{border-radius:0 8px 8px 0}
+/* Equal data columns across participant and leader tables; preserve full frames. */
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table){width:100%;max-width:none;min-width:440px;margin:0;table-layout:fixed}
+.participant-editor-stepped .count-entry-scroll:has(.leader-aligned-table){width:100%;max-width:none;box-sizing:border-box;margin:0}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) :is(.mixed-level-column,.mixed-grade-column,.mixed-number-column,.mixed-total-column){width:calc((100% - 80px)/5)}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-actions-column{width:80px}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) :is(th,td){text-align:center!important;padding-inline:5px!important}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) td input,.admin .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) td input{max-width:58px;margin-inline:auto;height:40px;min-height:40px;box-sizing:border-box}
+.participant-editor-stepped .mixed-count-table tbody td:nth-child(2)>label{display:block;position:relative;width:100%;max-width:94px;height:40px;margin:0 auto}
+.participant-editor-stepped .mixed-count-table tbody td:nth-child(2)>label :is(input,select),.admin .participant-editor-stepped .mixed-count-table tbody td:nth-child(2)>label :is(input,select){width:100%;max-width:none;height:40px;min-height:40px;margin:0;box-sizing:border-box}
+.participant-editor-stepped .mixed-count-table tbody td:nth-child(2)>label.age-entry input,.admin .participant-editor-stepped .mixed-count-table tbody td:nth-child(2)>label.age-entry input{padding:6px 23px 6px 6px;text-align:center}
+.participant-editor-stepped .mixed-count-table label.age-entry>span:last-child{position:absolute;right:9px;top:0;height:40px;display:flex;align-items:center;pointer-events:none;font-size:13px;color:#64758b}
+.participant-editor-stepped .mixed-count-table .count-entry-row-actions{justify-content:center;padding-left:0}
+.registration-dialog form>.participant-editor{position:relative;top:2px}
+
+/* Match the leader row to the participant editor's cards and controls. */
+.participant-editor-stepped .count-entry-scroll:has(.leader-aligned-table){border:0;border-radius:0}
+.participant-editor-stepped .leader-aligned-table{border-collapse:separate;border-spacing:0 6px;background:#fff}
+.participant-editor-stepped .leader-aligned-table :is(th,td){border:0!important;height:56px;padding:7px 5px!important;vertical-align:middle;box-sizing:border-box}
+.participant-editor-stepped .leader-aligned-table thead :is(th,td){height:36px;padding-block:3px!important;background:#f1f3f5;color:#5b6876;font-size:13px;font-weight:500}
+.participant-editor-stepped .leader-aligned-table thead tr>:first-child{border-radius:8px 0 0 8px}
+.participant-editor-stepped .leader-aligned-table thead tr>:last-child{border-radius:0 8px 8px 0}
+.participant-editor-stepped .leader-aligned-table tbody tr>*{background:transparent}
+.participant-editor-stepped .leader-aligned-table tbody th{font-size:13px;font-weight:600;color:#526477;border-radius:9px 0 0 9px;white-space:nowrap}
+@media(max-width:430px){.participant-editor-stepped .leader-aligned-table tbody th{font-size:11px}}
+.participant-editor-stepped .leader-aligned-table tbody tr>:last-child{border-radius:0 9px 9px 0}
+.participant-editor-stepped .leader-aligned-table td input,.admin .participant-editor-stepped .leader-aligned-table td input{display:block;width:100%;max-width:58px;height:40px;min-height:40px;margin:0 auto;padding:6px 4px;border:1px solid #d3dde6;border-radius:6px;background:#fff;box-shadow:none;font-size:15px;line-height:24px;color:#243e54;text-align:center}
+.participant-editor-stepped .leader-aligned-table td input:hover{background:#fff;border-color:#a9bdce}
+.participant-editor-stepped .leader-aligned-table td input:focus{background:#fff;border-color:#526477;outline:2px solid #cbd5e1;outline-offset:1px}
+.participant-editor-stepped .leader-aligned-table .count-entry-total{display:block;font-size:16px;font-weight:700;line-height:40px;color:#526477}
+.participant-editor-stepped .mixed-count-table label.age-entry input::placeholder{font-size:12px}
+.participant-editor-stepped .mixed-count-table label.age-entry>span:last-child{font-size:12px}
+
+/* Guide schools show their own categories; other categories are added on demand. */
+.participant-editor-stepped .participant-level-tabs.compact-level-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start}
+.participant-editor-stepped .compact-level-tabs>button{flex:0 0 94px;min-width:0;margin:0}
+.participant-add-level{margin-top:8px}
+.participant-editor-stepped .participant-add-level-toggle{display:inline-flex;align-items:center;gap:5px;width:auto;min-height:32px;padding:5px 9px;margin:0;border:1px dashed #bdcbd9;border-radius:7px;background:#fff;color:#526d8a;font-size:12px}
+.participant-add-level>.participant-level-tabs{margin-top:8px}
+
+.participant-editor-stepped .participant-step-heading>.participant-add-level-toggle{margin-left:auto;flex-shrink:0}
+.participant-editor-stepped .participant-help.participant-help-compact{font-size:11px!important;line-height:1.5}
+
+.participant-editor-stepped .participant-add-level-heading{display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-left:auto;max-width:100%}
+.participant-editor-stepped .participant-add-level-heading .participant-help{margin:0;text-align:right}
+
+.visit-count-top-summary>.visit-count-edit{margin:0 0 0 auto;width:auto;min-height:30px;padding:5px 10px;font-size:12px;white-space:nowrap;align-self:center}
+
+.admin-recent-changes .recent-change-detail{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.65}
+.admin-recent-changes li>div{align-items:start}
+.admin-recent-changes h3>svg{width:30px;height:30px;flex-shrink:0}
+
+.school-step-copy>time{color:#2e8061}
+
+.admin-route-origin .origin-settings-school-compact{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px;max-width:none}
+.admin-route-origin .origin-settings-school-compact>label{margin:0;min-width:0}
+.admin-route-origin .origin-change-button{margin:0;min-height:52px;white-space:nowrap;padding-inline:10px}
+
+/* Compact checkpoint editing dialog, including narrow phone screens. */
+dialog:has(>.checkpoint-editor){padding:12px 18px;max-height:85dvh;overflow:auto}
+dialog>.checkpoint-editor{padding:4px 0;margin:0;border:0}
+dialog>.checkpoint-editor>.checkpoint-success:empty{display:none}
+dialog>.checkpoint-editor :is(.checkpoint-add-heading,.checkpoint-order-heading){margin:10px 0 6px}
+dialog>.checkpoint-editor .point-presets{margin:6px 0 10px;gap:6px}
+dialog>.checkpoint-editor .route-draft-row{padding-block:5px;min-height:48px}
+dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
+@media(max-width:600px){
+ dialog:has(>.checkpoint-editor){width:calc(100vw - 24px);padding:10px 12px;max-height:82dvh}
+ dialog>.checkpoint-editor .point-presets button{font-size:12px;padding:7px 9px;min-height:40px}
+ dialog>.checkpoint-editor>.fine{font-size:11px;line-height:1.5}
+}
+
+/* Keep both headcount tables inside narrow phone dialogs. */
+@media(max-width:600px){
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table){min-width:0}
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) :is(.mixed-level-column,.mixed-number-column,.mixed-total-column){width:calc((100% - 120px)/4)}
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-grade-column{width:64px}
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-actions-column{width:56px}
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) :is(th,td){padding-inline:2px!important}
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) :is(input,select){min-width:0}
+ .participant-editor-stepped .mixed-count-table select{padding-inline:3px;font-size:12px}
+ .participant-editor-stepped .mixed-count-table .count-entry-row-actions{gap:2px}
+ .participant-editor-stepped .mixed-count-table :is(.count-entry-add,.count-entry-remove){min-width:0;width:24px;padding-inline:0}
+}
+
+[data-program="기타"]{--program-bg:#f4f4f5;--program-border:#d7d9dd;--program-ink:#606975;--program-accent:#9ca3af}
+
+.group-quick-tabs button>.remaining-road-distance{display:block;width:100%;box-sizing:border-box;margin-inline:0;padding-left:34px;text-align:left}
+
+/* Independent administrator acknowledgments; reported journey stays unchanged. */
+.admin-checkpoint-checks{display:block;margin:0 0 14px;padding:0;border:0;background:transparent}
+.admin-checkpoint-heading{display:flex;align-items:center;margin:0;flex:0 0 auto}
+.admin-checkpoint-heading strong{font-size:13px}
+.admin-checkpoint-heading small{font-size:11px;color:#71829a}
+.admin-checkpoint-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.school-visit-summary .admin-checkpoint-buttons>button.secondary{display:inline-flex;flex:0 0 auto;align-items:center;gap:7px;width:auto;max-width:100%;min-height:34px;margin:0;padding:6px 10px;font-size:12px;line-height:1.4;border-radius:8px;box-shadow:none}
+.admin-checkpoint-buttons button b{font-size:11px}
+.admin-checkpoint-buttons button[aria-pressed="true"]{background:#edf7f2;border-color:#8bbca6;color:#276c54}
+
+/* Keep group selector cards as compact and uniform as the Dongmyeong card. */
+.group-quick-tabs{align-items:stretch}
+.group-quick-tabs button[data-program]{box-sizing:border-box;flex:0 0 170px;width:170px;min-width:170px;max-width:170px;min-height:138px}
+.group-quick-tabs button[data-program]>strong{max-width:100%;box-sizing:border-box;white-space:normal;overflow-wrap:anywhere}
+.group-quick-tabs button[data-program] .journey-badge-compact{min-width:0;max-width:100%;box-sizing:border-box}
+.group-quick-tabs button[data-program] .journey-badge-copy{min-width:0}
+.group-quick-tabs button>.remaining-road-distance{white-space:normal;overflow-wrap:anywhere}
+.admin-checkpoint-toggle{display:inline-flex;align-items:center;gap:4px;width:fit-content;max-width:100%;box-sizing:border-box;padding:7px 10px;border:1px solid #d5e1ef;border-radius:8px;background:#f8fafd;color:#375779;font-size:12px;line-height:1.4;cursor:pointer;list-style:none}
+.admin-checkpoint-toggle::-webkit-details-marker{display:none}
+.admin-checkpoint-toggle:focus-visible{outline:2px solid #2166ee;outline-offset:3px}
+.admin-checkpoint-checks[open]>.admin-checkpoint-toggle{background:#edf4ff}
+.admin-checkpoint-checks[open] .admin-checkpoint-toggle-icon{transform:rotate(45deg)}
+.admin-checkpoint-checks>.admin-checkpoint-buttons{margin-top:8px}
+.admin-checkpoint-checks:not([open])>.admin-checkpoint-buttons{display:none}
+.school-visit-summary .admin-checkpoint-toggle{display:flex;margin-left:auto}
+.school-visit-summary .admin-checkpoint-toggle::before,.school-visit-summary .admin-checkpoint-toggle::after{content:none}
+.school-visit-summary .admin-checkpoint-buttons{justify-content:flex-end}
+
+/* Reserve the guide's timestamp row above the independent administrator controls. */
+.school-visit-heading .school-step-copy{min-height:49px;grid-template-rows:28px 18px}
+.school-visit-summary .admin-checkpoint-checks{margin-top:16px}
+.school-visit-summary .admin-checkpoint-toggle,.school-visit-summary .admin-checkpoint-checks[open]>.admin-checkpoint-toggle{border:1px solid #efd6e1;background:#fff8fb;color:#92516c;padding:4px 7px;min-height:28px;font-size:11px;line-height:1.4;border-radius:7px}
+.school-visit-summary .admin-checkpoint-buttons{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:flex-end;gap:10px 14px;list-style:none;margin:16px 0 0;padding:0}
+.school-visit-summary .admin-checkpoint-buttons>li{margin:0;padding:0}
+.school-visit-summary .admin-checkpoint-buttons .admin-checkpoint-step{display:inline-flex;align-items:flex-start;gap:8px;width:auto;min-height:49px;margin:0;padding:0;border:0;border-radius:6px;background:transparent;box-shadow:none;color:#60748a;font-size:12px;font-weight:400;text-align:center;line-height:28px}
+.school-visit-summary .admin-checkpoint-buttons .admin-checkpoint-step[data-checked=true]{color:#245db8;font-weight:700;background:transparent}
+.admin-checkpoint-dot{display:flex;align-items:center;justify-content:center;flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:#e9eef4;color:#5d7188;font-size:12px}
+.admin-checkpoint-step[data-checked=true] .admin-checkpoint-dot{background:#2166f3;color:#fff}
+.admin-checkpoint-copy{display:grid;grid-template-rows:28px 18px;gap:3px}
+.admin-checkpoint-copy time{font-size:13px;font-weight:400;line-height:18px;color:#2e8061;font-variant-numeric:tabular-nums}
+.admin-checkpoint-step:focus-visible{outline:2px solid #2166ee;outline-offset:4px}
+.school-visit-summary .admin-checkpoint-checks:not([open])>.admin-checkpoint-buttons{display:none}
+/* Identical tracks keep guide reports and admin acknowledgments vertically aligned. */
+.school-visit-summary .school-visit-heading>.school-journey-steps,
+.school-visit-summary .admin-checkpoint-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,124px),1fr));gap:10px 0;flex-shrink:0;max-width:100%;margin-left:auto;justify-content:normal}
+.school-visit-summary .school-journey-steps>li,
+.school-visit-summary .admin-checkpoint-buttons>li{min-width:0;justify-content:flex-start}
+.school-visit-summary .admin-checkpoint-buttons .admin-checkpoint-step{font-size:13px;gap:8px;text-align:center}
+.school-visit-summary .school-step-copy,
+.school-visit-summary .admin-checkpoint-copy{min-width:0;grid-template-rows:minmax(28px,auto) 18px;line-height:28px;overflow-wrap:anywhere}
+.school-visit-summary .school-step-copy>span,.school-visit-summary .admin-checkpoint-copy>span{white-space:nowrap;overflow-wrap:normal}
+
+.admin-checkpoint-item{position:relative;display:inline-block}
+.school-visit-summary .admin-checkpoint-item .admin-checkpoint-time{position:absolute;top:31px;left:36px;width:calc(100% - 36px);min-height:18px;padding:0;margin:0;border:0;background:transparent;box-shadow:none;color:#2e8061;font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums;cursor:text}
+.school-visit-summary .admin-checkpoint-item .admin-checkpoint-time-editor{position:absolute;top:28px;left:30px;width:76px;height:25px;min-height:25px;padding:2px 4px;border:1px solid #a8cbbb;border-radius:4px;background:#fff;color:#2e8061;font-size:13px;text-align:center;box-sizing:border-box}
+
+.school-visit-summary .admin-checkpoint-dot{background:#fceef3;color:#a6496a}
+.school-visit-summary .admin-checkpoint-step[data-checked=true] .admin-checkpoint-dot{background:#cf7e9e;color:#fff}
+.school-visit-summary .admin-checkpoint-buttons .admin-checkpoint-step[data-checked=true]{color:#a6496a}
+
+.school-visit-summary .admin-checkpoint-time-hint{margin:15px 0 0;text-align:right;font-size:11px;font-weight:400;line-height:1.5;color:#71839b}
+
+.school-visit-summary .admin-checkpoint-checks{margin-top:12px}
+.school-visit-summary .admin-checkpoint-buttons{margin-top:20px}
+
+.school-visit-summary .school-departure-label{position:relative;top:2px}
+
+.school-visit-summary .admin-checkpoint-dot{position:relative}
+.school-visit-summary .admin-checkpoint-step[data-checked=true] .admin-checkpoint-dot{background:#fceef3;color:#a6496a}
+.admin-checkpoint-checkmark{position:absolute;right:-3px;top:-6px;display:flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#cf7e9e;color:#fff;font-size:10px;font-weight:500;line-height:14px;border:1px solid #fff}
+@media(min-width:701px){
+.school-visit-summary .school-visit-heading>.school-journey-steps,
+.school-visit-summary .admin-checkpoint-buttons{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.school-visit-summary .school-journey-steps>li,
+.school-visit-summary .admin-checkpoint-buttons>li{flex:0 0 auto}
+}
+
+/* Keep hour/minute fields and the colon visible while editing. */
+.school-visit-summary .admin-checkpoint-item .admin-checkpoint-time-editor{display:flex;align-items:center;justify-content:center;gap:0;padding:0 2px}
+.admin-checkpoint-time-editor .admin-time-part{display:flex;align-items:center;gap:2px}
+.school-visit-summary .admin-checkpoint-time-editor input{position:static;width:27px;min-width:0;height:23px;min-height:0;padding:0;border:0;border-radius:2px;background:transparent;color:inherit;font:inherit;text-align:center;box-shadow:none}
+.admin-checkpoint-time-editor input::placeholder{color:#77988a;opacity:1}
+
+.school-visit-summary .admin-checkpoint-toggle{position:relative;top:-5px}
+
+.onway-check-reset-dialog{box-sizing:border-box;width:min(380px,calc(100vw - 32px));max-width:calc(100vw - 32px);padding:20px;border:1px solid #d8e4f1;border-left:4px solid #cf7e9e;border-radius:18px;background:#fff;color:#234563;box-shadow:0 16px 48px #183e6426}
+.onway-check-reset-dialog::backdrop{background:#243b5359}
+.onway-check-reset-dialog header{display:flex;align-items:center;gap:9px}
+.onway-check-reset-dialog h2{margin:0;font-size:16px;line-height:1.5}
+.check-reset-icon{display:flex;color:#cf7e9e;background:#fff1f6;border-radius:10px;padding:7px}
+.onway-check-reset-dialog .check-reset-close{margin-left:auto;display:flex;align-items:center;justify-content:center;padding:6px;min-height:30px;border:0;background:transparent;color:#71839b}
+.onway-check-reset-dialog p{margin:18px 0 22px;font-size:14px;line-height:1.7;word-break:keep-all}
+.check-reset-actions{display:flex;justify-content:flex-end;gap:8px}
+.onway-check-reset-dialog .check-reset-actions button{min-width:76px;min-height:38px;padding:8px 14px;border:1px solid #d9e3ed;border-radius:10px;background:#fff;color:#526c86;font:inherit;font-size:13px;cursor:pointer}
+.onway-check-reset-dialog .check-reset-actions .check-reset-confirm{border-color:#edc8d8;background:#fceef4;color:#9a4869;font-weight:700}
+
+/* Slightly widen the original schedule card without resizing its controls. */
+@media(min-width:651px){.school-visit-summary .school-visit-facts{grid-template-columns:minmax(220px,.745fr) minmax(320px,1.655fr)}}
+
+.admin .visit-date-arrival form{column-gap:12px;justify-content:stretch}
+
+.admin .visit-date-arrival .planned-arrival-card.planned-arrival-compact{padding:18px 0 4px}
+
+/* Reserve two name lines so status, time, and distance align across quick cards. */
+.group-quick-tabs button[data-program]>strong{min-height:54px;line-height:24px}
+.group-quick-tabs button[data-program] .journey-badge-compact .journey-badge-copy{min-height:49px;justify-content:flex-start;gap:2px}
+.group-quick-tabs button[data-program] .journey-badge-compact .journey-status-time-placeholder{display:block}
+
+/* Slightly larger arrival controls with equal spacing. */
+.admin .visit-date-arrival form{display:grid;grid-template-columns:64px minmax(64px,1fr) 40px;gap:6px}
+.admin .visit-date-arrival form .planned-clock-digits{min-width:64px;width:100%}
+.admin .visit-date-arrival .planned-arrival-compact :is(.planned-period-tabs,.planned-clock-digits,form .secondary){height:40px;min-height:40px}
+.admin .visit-date-arrival .planned-arrival-compact :is(.planned-period-tabs button,.planned-clock-digits input){height:38px;min-height:38px}
+.admin .visit-date-arrival .planned-period-tabs button{font-size:12px}
+.admin .visit-date-arrival .planned-clock-digits input{font-size:12px;font-weight:700}
+.admin .visit-date-arrival form .secondary{width:40px;font-size:13px;padding-inline:2px}
+
+.admin .visit-date-arrival .planned-clock-digits input::placeholder{font-size:12px;font-weight:400}
+
+.admin .visit-date-arrival .planned-clock-digits input{padding:0;text-align:center;line-height:38px}
+.admin .visit-date-arrival .planned-clock-digits input:placeholder-shown{font-size:12px;font-weight:700}
+.admin .visit-date-arrival .planned-clock-digits input::placeholder{font-size:inherit;font-weight:inherit;line-height:inherit;text-align:center}
+
+.admin .visit-date-arrival .planned-clock-digits input{color:#62758a}
+.admin .visit-date-arrival .planned-clock-digits input::placeholder{color:inherit;opacity:1}
+
+/* Shared one-line checkpoint columns and participant categories. */
+.school-visit-summary .school-visit-heading>.school-journey-steps,
+.school-visit-summary .admin-checkpoint-buttons{display:grid;gap:0;overflow-x:auto;max-width:100%;justify-content:start;flex-wrap:nowrap}
+.participant-editor-stepped .participant-level-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px}
+.participant-editor-stepped .participant-level-tabs button{flex:1 0 76px;white-space:nowrap}
+.participant-editor-stepped .participant-level-tabs.compact-level-tabs{flex-wrap:nowrap}
+.participant-editor-stepped .participant-level-tabs.compact-level-tabs button{flex:0 0 82px}
+.participant-editor [data-level="lateYouth"]{--level-ink:#486c75;--level-tint:#eff7f8;--level-border:#b5d3d9}
+.group-quick-tabs .group-name-word{display:inline;white-space:nowrap}
+.group-quick-tabs button[data-program] .journey-badge-compact .journey-status-label{color:var(--program-ink,#30485f)}
+
+.group-quick-tabs button > strong .group-name-word{display:inline-block;font:inherit;color:inherit;line-height:inherit;white-space:nowrap}
+
+.school-visit-summary .school-visit-heading>.school-journey-steps,.school-visit-summary .admin-checkpoint-buttons{column-gap:24px}
+
+/* Keep the compact timeline; add a small gap before the second stop. */
+.school-visit-summary .school-visit-heading>.school-journey-steps>li:first-child,.school-visit-summary .admin-checkpoint-buttons>li:first-child{margin-right:8px}
+
+.admin-recent-changes .recent-change-actor{white-space:nowrap}
+.admin-recent-changes .recent-change-actor small{font-size:10px;color:#71839a}
+
+@media(max-width:700px){
+ .admin-recent-changes li>div{grid-template-columns:40px minmax(0,1fr) max-content;row-gap:8px;column-gap:10px}
+ .admin-recent-changes .recent-change-actor{grid-column:3}
+ .admin-recent-changes .recent-change-detail{grid-column:1 / -1}
+ .admin-recent-changes time{grid-column:1 / -1;justify-self:end}
+}
+
+/* Recent changes: shared column headings keep actors and details distinct. */
+.admin-recent-changes .recent-changes-table-scroll{width:100%;overflow-x:auto;margin-top:8px}
+.admin-recent-changes .recent-changes-table{width:100%;min-width:620px;table-layout:fixed;border-collapse:collapse;font-size:12px;line-height:1.65}
+.recent-changes-table .change-type-column{width:158px}
+.recent-changes-table .change-actor-column{width:86px}
+.recent-changes-table .change-time-column{width:148px}
+.admin-recent-changes .recent-changes-table th{padding:9px 10px;background:#f3f6fa;color:#60758d;text-align:left;font-size:12px;font-weight:600;border-bottom:1px solid #dce5ed}
+.admin-recent-changes .recent-changes-table td{padding:12px 10px;vertical-align:top;border-bottom:1px solid #e4ebf3;overflow-wrap:anywhere}
+.admin-recent-changes .recent-changes-table tbody tr:last-child td{border-bottom:0}
+.admin-recent-changes .recent-change-type{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.admin-recent-changes .recent-change-type .recent-change-badge{min-width:34px;flex-shrink:0}
+.admin-recent-changes .recent-changes-table time{display:block;white-space:nowrap;font-size:11px}
+.admin-recent-changes .recent-changes-table th:last-child{text-align:right}
+.admin-recent-changes .recent-changes-table td:last-child{text-align:right}
+
+/* Align the first heading with the change title after its status badge. */
+.admin-recent-changes .recent-changes-table th:first-child{padding-left:52px}
+.admin-recent-changes .recent-changes-table th:not(:first-child),
+.admin-recent-changes .recent-changes-table td:not(:first-child){text-align:center}
+
+.school-sharing .share-link-card>button{display:inline-flex;align-items:center;gap:6px}
+.school-sharing .share-qr{display:flex;flex-direction:column;align-items:center;gap:8px;margin:16px 0}
+.school-sharing .share-qr img{width:200px;max-width:100%;object-fit:contain}
+.school-sharing .qr-download{padding:8px 14px;border:1px solid #cbdcf3;border-radius:10px;color:#2364bc;background:#f5f9ff;text-decoration:none;font-size:13px}
+
+/* Slightly denser admin route editor without changing the guide dialog. */
+#group-detail .admin-route-origin{margin:16px 0 20px;padding:18px;border:1px solid #b9cde8;border-radius:12px;background:#f0f6ff}
+#group-detail .admin-route-origin .origin-settings-school-compact{grid-template-columns:minmax(0,1fr) auto;justify-content:stretch;align-items:end;gap:12px}
+#group-detail .admin-route-origin>h3{margin:0 0 10px;font-size:20px;line-height:1.5;color:#244665}
+#group-detail .admin-route-origin>.fine{margin:0 0 20px;font-size:15px;line-height:1.7;color:#48617a}
+#group-detail .admin-route-origin .origin-settings>label{font-size:15px;line-height:1.5;color:#365573}
+#group-detail .admin-route-origin select{min-height:42px;height:42px;padding:8px 12px;font-size:15px;line-height:1.4;box-sizing:border-box;background-color:#fff}
+#group-detail .admin-route-origin .origin-change-button{align-self:end;min-height:36px;margin-bottom:3px;padding:6px 10px;border:1px solid #cdd9e8;border-radius:8px;background:#f8faff;font-size:12px;font-weight:400;color:#657d97}
+@media(max-width:600px){#group-detail .admin-route-origin{padding:18px 16px}#group-detail .admin-route-origin .origin-settings-school-compact{grid-template-columns:minmax(0,1fr)}#group-detail .admin-route-origin .origin-change-button{justify-self:end;margin-bottom:0}}
+#group-detail .checkpoint-editor .route-draft-row{min-height:52px;padding-block:6px}
+#group-detail .checkpoint-editor .point-presets{margin:10px 0;gap:8px}
+#group-detail .checkpoint-editor .point-presets button{padding:7px 11px}
+#group-detail .checkpoint-editor :is(.checkpoint-add-heading,.checkpoint-order-heading){margin:14px 0 6px}
+#group-detail .admin-route-checkpoints .checkpoint-editor{padding-bottom:14px;margin-bottom:16px}
+/* Make room inside the scrolling timeline for raised confirmation badges. */
+.school-visit-summary .admin-checkpoint-buttons{padding-top:8px;margin-top:12px}
+
+/* Compact the admin road-distance card while retaining readable controls. */
+#group-detail .baseline-times{padding:14px 18px;margin-top:16px}
+#group-detail .baseline-times h3{font-size:15px;line-height:1.4;margin:0 0 8px}
+#group-detail .baseline-times .fine{margin:8px 0;line-height:1.5}
+#group-detail .baseline-times .fine:last-child{margin-bottom:0}
+#group-detail .baseline-times .road-distance-number{font-size:26px;margin:8px 0}
+#group-detail .baseline-times .secondary{min-height:42px;padding:9px 12px;margin-top:10px}
+
+/* Keep the guide-sharing card compact without shrinking its controls. */
+.school-sharing{padding-block:12px}
+.school-sharing>h3{margin-bottom:8px}
+.school-sharing>p{margin-block:5px}
+.school-sharing .share-link-card{padding-block:6px;margin-block:8px}
+.school-sharing .center-access{margin:8px 0 0;padding-block:9px}
+
+.admin-dashboard-launch{display:flex;justify-content:flex-end;margin:0 0 18px}
+.admin-dashboard-launch>.admin-dashboard-open{display:inline-flex;align-items:center;justify-content:center;min-height:46px;width:auto;margin:0;padding:10px 20px;border:1px solid #bdd1f0;border-radius:12px;background:#fff;color:#2465bb;font-size:15px;font-weight:600;white-space:nowrap}
+.admin-dashboard-launch>.admin-dashboard-open:hover{background:#eef5ff;border-color:#82a9e4}
+
+.workspace-shell.admin .admin-page:has(>.admin-dashboard-launch){padding-top:0}
+.admin-dashboard-launch{margin-bottom:12px}
+
+.admin-page>.admin-heading{padding-block:16px}
+.admin-page>.admin-heading h1{margin-block:4px 6px}
+.admin-page>.admin-heading p{margin-block:6px 0}
+.notification-target-highlight{outline:3px solid #2970de!important;outline-offset:5px;box-shadow:0 0 0 8px #2970de12!important;border-radius:12px}

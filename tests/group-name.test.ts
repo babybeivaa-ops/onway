@@ -20,3 +20,12 @@ test('separates known region prefixes on school names', () => {
 test('preserves already spaced names and unrelated names', () => {
  for (const name of ['창원 현동초','현동초등학교','창원초등학교','창원청소년센터','서울대학교']) assert.equal(formatGroupName(name),name);
 });
+
+test('keeps region-only school names attached to their school suffix',()=>{
+ for(const city of ['포항','순천','여수','창원']){
+  assert.equal(formatGroupName(city+'중학교'),city+'중학교');
+  assert.equal(formatSchoolGroupName(city+'중학교',countsFor('middle')),city+'중');
+  assert.equal(formatSchoolGroupName(city+' 중',countsFor('middle')),city+'중');
+ }
+ assert.equal(formatSchoolGroupName('울산동평초등학교',countsFor('elementary')),'울산 동평초');
+});

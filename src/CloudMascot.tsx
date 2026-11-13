@@ -1,4 +1,17 @@
 import {Cloud} from './Visuals';
+export function JourneyToSpaceIcon(){return <svg className="journey-to-space-icon" width="38" height="30" viewBox="0 0 100 78" fill="none" aria-hidden="true">
+ <path d="M30 66c14 9 42 5 44-7" stroke="#86b6df" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 5"/>
+ <path d="M61 44a16 16 0 0 1 32 0" fill="#d4e7fa" stroke="#6b94bc" strokeWidth="2"/>
+ <path d="M77 28v16m-16 0h32" stroke="#89afd1" strokeWidth="2"/>
+ <rect x="59" y="44" width="36" height="17" rx="3" fill="#eaf3fc" stroke="#6b94bc" strokeWidth="2"/>
+ <path d="M72 61V50h10v11" fill="#98c5e9" stroke="#6b94bc" strokeWidth="2"/>
+ <path d="m82 17 4-7 4 7-4 7Z" fill="#ffd36a"/>
+ <path d="M11 53C0 52 0 38 11 35 8 20 27 15 35 28c12-12 28 0 22 12 13 6 7 20-7 18H14Z" fill="#9bd7ff"/>
+ <circle cx="24" cy="40" r="2.7" fill="#285a80"/><circle cx="42" cy="40" r="2.7" fill="#285a80"/>
+ <path d="M28 48q5 5 10 0" stroke="#285a80" strokeWidth="2" strokeLinecap="round"/>
+ <ellipse cx="17" cy="47" rx="4" ry="2" fill="#7ec5fb"/><ellipse cx="49" cy="47" rx="4" ry="2" fill="#7ec5fb"/>
+ <path d="m51 60 7-2-1 7" stroke="#4e9bce" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+ </svg>}
 export function CloudPersonIcon(){return <svg className="cloud-person-icon" width="30" height="32" viewBox="0 0 64 68" fill="none" aria-hidden="true">
  <path d="M21 39c-7 4-11 11-11 19 0 5 44 5 44 0 0-8-4-15-11-19Z" fill="#d5edff" stroke="#8bc9f3" strokeWidth="1.5"/>
  <path d="m20 55-3 7m27-7 3 7" stroke="#77b9e7" strokeWidth="5" strokeLinecap="round"/>
@@ -15,10 +28,10 @@ export function KoreaMapCloudIcon(){return <svg className="korea-map-cloud-icon"
  <path d="m57 16-5 15 1 14-7 10 9 12-8 9" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 5"/>
  <ellipse cx="34" cy="88" rx="7" ry="3" transform="rotate(-12 34 88)" fill="#f2f3f5" stroke="#d9dde2" strokeWidth="1.5"/>
  <circle cx="29" cy="73" r="1.8" fill="#e0e3e7"/><circle cx="73" cy="47" r="1.6" fill="#e0e3e7"/>
- <path d="M17 51C4 51 2 35 14 32C11 17 31 12 39 24C51 12 67 25 61 36C75 42 65 56 53 54H17Z" fill="#9bd7ff" stroke="#7fc4f0" strokeWidth="1"/>
+ <g transform="translate(38 38) scale(.88) translate(-38 -38)"><path d="M17 51C4 51 2 35 14 32C11 17 31 12 39 24C51 12 67 25 61 36C75 42 65 56 53 54H17Z" fill="#9bd7ff" stroke="#7fc4f0" strokeWidth="1"/>
  <circle cx="28" cy="36" r="2.6" fill="#285a80"/><circle cx="47" cy="36" r="2.6" fill="#285a80"/>
  <path d="M33 43q5 5 10 0" stroke="#285a80" strokeWidth="2" strokeLinecap="round"/>
- <ellipse cx="21" cy="43" rx="4" ry="2" fill="#7ec5fb"/><ellipse cx="54" cy="43" rx="4" ry="2" fill="#7ec5fb"/>
+ <ellipse cx="21" cy="43" rx="4" ry="2" fill="#7ec5fb"/><ellipse cx="54" cy="43" rx="4" ry="2" fill="#7ec5fb"/></g>
  </svg>}
 export function ThinkingNoteCloudIcon(){return <svg className="thinking-note-cloud-icon" width="42" height="40" viewBox="0 0 84 80" fill="none" aria-hidden="true">
  <path d="M15 57C2 57 1 40 13 37C9 20 31 14 40 28C53 15 70 29 63 41C78 47 68 62 55 60H15Z" fill="#9bd7ff"/>

@@ -1,7 +1,10 @@
+import {createFileDocumentStore,createCloudDocumentStore,createLocalDocumentHandler} from './documents.mjs';
 import {importBackup} from './import-backup.mjs';
+import {importFullData} from './import-full-data.mjs';
 import {readDemoWorkspace,removeServerOnlyGroups} from './demo-workspace.mjs';
 import {createSupabaseStore} from './supabase-store.mjs';
 import {createTrafficHandler} from './traffic.mjs';
+import {createTrafficRelayFetch} from './traffic-relay.mjs';
 import {createWeatherHandler} from './weather.mjs';
 import {randomBytes} from 'node:crypto';
 import {createSharingHandler} from './sharing.mjs';
@@ -23,7 +26,8 @@ if(!weatherKey&&process.env.KMA_KEY_FILE){try{weatherKey=fs.readFileSync(process
 const weatherHandler=createWeatherHandler({key:weatherKey});
 let trafficKey=process.env.ITS_API_KEY?.trim()||'';
 if(!trafficKey&&process.env.ITS_KEY_FILE){try{trafficKey=fs.readFileSync(process.env.ITS_KEY_FILE,'utf8').trim()}catch{console.error('도로 키 파일을 읽을 수 없습니다.')}}
-const trafficHandler=createTrafficHandler({key:trafficKey});
+const trafficRelayFetch=createTrafficRelayFetch({url:process.env.ITS_RELAY_URL?.trim(),token:process.env.ITS_RELAY_TOKEN?.trim(),ca:process.env.ITS_RELAY_CA_PEM?.trim()});
+const trafficHandler=createTrafficHandler({key:trafficRelayFetch?'oracle-relay':trafficKey,fetchImpl:trafficRelayFetch||fetch});
 const supabaseUrl=process.env.SUPABASE_URL?.trim();
 const supabaseKey=process.env.SUPABASE_SECRET_KEY?.trim()||process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 if(!!supabaseUrl!==!!supabaseKey)throw Error('Supabase URL과 서버 키를 함께 설정해주세요.');
@@ -40,7 +44,12 @@ let adminToken=process.env.ONWAY_ADMIN_TOKEN?.trim();
 if(!adminToken&&store)throw Error('ONWAY_ADMIN_TOKEN을 설정해주세요.');
 if(!adminToken){if(!fs.existsSync(adminFile))fs.writeFileSync(adminFile,randomBytes(32).toString('base64url'),{mode:0o600});adminToken=fs.readFileSync(adminFile,'utf8').trim();}
 if(adminToken.length<32)throw Error('관리자 접속 코드는 32자 이상이어야 합니다.');
-const sharingHandler=createSharingHandler({directory:dataDirectory,adminToken,store});
+const documentStore=store?createCloudDocumentStore({url:supabaseUrl,key:supabaseKey}):createFileDocumentStore(path.join(dataDirectory,'documents'));
+const fullData=process.env.ONWAY_IMPORT_FULL_DATA_GZIP_BASE64||[1,2,3,4,5,6,7,8].map(n=>process.env['ONWAY_IMPORT_FULL_DATA_PART_'+n]||'').join('');
+const fullImport=await importFullData(store,documentStore,fullData);
+if(fullImport)console.log('ONWAY full data import verified',JSON.stringify(fullImport));
+const sharingHandler=createSharingHandler({directory:dataDirectory,adminToken,store,documentStore});
+const localDocuments=!store&&!process.env.RENDER?createLocalDocumentHandler(createFileDocumentStore(path.join(dataDirectory,'local-documents'))):null;
 const root=fileURLToPath(new URL('../dist/',import.meta.url));
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8'};
 let windowStart=Date.now(),requests=0;
@@ -55,6 +64,7 @@ const server=http.createServer(async(req,res)=>{
    if(Date.now()-windowStart>60_000){windowStart=Date.now();requests=0;}
    if(++requests>1000){res.writeHead(429,{'Retry-After':'60'});res.end();return;}
    if(req.headers['sec-fetch-site']==='cross-site'){res.writeHead(403);res.end();return;}
+   if(localDocuments&&await localDocuments(req,res,url))return;
    if(await sharingHandler(req,res,url))return;
    if(await weatherHandler(req,res,url))return;
    if(await trafficHandler(req,res,url))return;

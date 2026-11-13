@@ -1,11 +1,15 @@
+import {serveWeeklyMenus} from './weekly-menus.mjs';
+import {serveProgramPlans} from './program-plans.mjs';
+import {serveDocuments,createFileDocumentStore} from './documents.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {randomBytes,createHash,timingSafeEqual} from 'node:crypto';
 import {validWorkspace,validGroup} from './workspace-schema.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const eq=(a,b)=>typeof a==='string'&&typeof b==='string'&&a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
-export function createSharingHandler({directory,adminToken,now=Date.now,store}){
+export function createSharingHandler({directory,adminToken,now=Date.now,store,documentStore}){
  if(!store)fs.mkdirSync(directory,{recursive:true,mode:0o700});
+ const pdfStore=documentStore??(!store?createFileDocumentStore(path.join(directory,'documents')):null);
  const file=path.join(directory||'.','workspace.json');
  let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};
  if(!store&&fs.existsSync(file)){db=JSON.parse(fs.readFileSync(file,'utf8'));if(!validWorkspace(db.workspace)||!Number.isSafeInteger(db.revision)||!db.links)throw Error('공유 저장 데이터가 손상되어 서버 시작을 중단합니다.');}
@@ -27,6 +31,12 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
    const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)throw denied();
    if(store){db=await store.load();if(!validWorkspace(db.workspace)||!Number.isSafeInteger(db.revision)||!db.links)throw Error('invalid stored state');}
    const actor=auth(req);if(!actor){json(res,401,{error:'접속 코드가 잘못되었거나 만료된 링크예요.'});return true;}
+   if(url.pathname==='/api/shared/program-plans'){await serveProgramPlans(req,res,{store:pdfStore,registeredNames:db.workspace.groups.map(g=>g.state.organization.name),canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
+   if(url.pathname==='/api/shared/weekly-menus'){await serveWeeklyMenus(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
+   if(url.pathname==='/api/shared/documents'){
+    if(!pdfStore)throw Object.assign(Error('PDF 저장소가 설정되지 않았어요.'),{status:503});
+    await serveDocuments(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',authorize:(id,date)=>db.workspace.groups.some(g=>g.id===id&&g.travelDate===date&&(actor.role==='admin'||actor.groupId===id))});return true;
+   }
    if(url.pathname==='/api/shared/workspace'&&req.method==='GET'){json(res,200,snapshot(actor));return true;}
    if(url.pathname==='/api/shared/workspace'&&req.method==='PUT'){
     const input=await body(req);if(input.revision!==db.revision){json(res,409,{error:'다른 기기에서 변경했어요. 최신 기록을 불러온 뒤 다시 수정해주세요.'});return true;}
@@ -36,7 +46,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      const g=workspace.groups[0],old=db.workspace.groups.find(g=>g.id===actor.groupId);
      if(workspace.groups.length!==1||g.id!==actor.groupId||g.travelDate<new Date(now()+9*3600000).toISOString().slice(0,10))throw denied();
      // Guides can edit their own journey; identity, dates and destination stay protected.
-     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['plannedArrival','centerMessages','sharedPosition','counts','changes','reports','confirmed','countsConfirmedAt','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
+     const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['plannedArrival','arrivalChanges','centerMessages','sharedPosition','counts','changes','reports','confirmed','countsConfirmedAt','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
      if(protectedGroup(g)!==protectedGroup(old))throw denied();
      const fixedDestination=x=>x.state.waypoints.filter(p=>p.kind==='destination').map(({order,...p})=>p);
      if(JSON.stringify(fixedDestination(g))!==JSON.stringify(fixedDestination(old)))throw denied();
@@ -47,8 +57,8 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store}){
      if(old.state.reports.some(r=>!g.state.reports.some(n=>n.id===r.id)))throw denied();
      if(g.state.reports.some(r=>!g.state.waypoints.some(p=>p.id===r.waypointId&&p.kind!=='destination')))throw denied();
      if(old.state.changes.some(c=>!g.state.changes.some(n=>JSON.stringify(c)===JSON.stringify(n))))throw denied();
-     if((old.state.centerMessages??[]).some(m=>!(g.state.centerMessages??[]).some(n=>n.id===m.id&&n.text===m.text&&n.at===m.at&&n.acknowledgedAt===m.acknowledgedAt)))throw denied();
-     if((g.state.centerMessages??[]).some(m=>m.acknowledgedAt!==undefined&&!(old.state.centerMessages??[]).some(n=>n.id===m.id)))throw denied();
+     if((old.state.centerMessages??[]).some(m=>!(g.state.centerMessages??[]).some(n=>n.id===m.id&&n.text===m.text&&n.at===m.at&&n.acknowledgedAt===m.acknowledgedAt&&JSON.stringify(n.replies??[])===JSON.stringify(m.replies??[]))))throw denied();
+     if((g.state.centerMessages??[]).some(m=>(m.acknowledgedAt!==undefined||(m.replies?.length??0)>0)&&!(old.state.centerMessages??[]).some(n=>n.id===m.id)))throw denied();
      for(const c of g.state.changes)if(!old.state.changes.some(n=>n.id===c.id))c.actor='guide';
      workspace={...db.workspace,groups:db.workspace.groups.map(x=>x.id===g.id?g:x)};
     }

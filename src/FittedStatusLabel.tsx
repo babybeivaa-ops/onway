@@ -1,11 +1,11 @@
 import {useLayoutEffect,useRef} from 'react';
 
 /** Measure rendered text so Korean, Latin letters and digits all fit correctly. */
-export function FittedStatusLabel({text,compact}:{text:string;compact:boolean}){
+export function FittedStatusLabel({text,compact,singleLine=false}:{text:string;compact:boolean;singleLine?:boolean}){
  const label=useRef<HTMLElement>(null);
  useLayoutEffect(()=>{
   const element=label.current;
-  if(!element||compact)return;
+  if(!element||(compact&&!singleLine))return;
   let disposed=false;
   const fit=()=>{
    if(disposed||element.clientWidth===0)return;
@@ -15,10 +15,10 @@ export function FittedStatusLabel({text,compact}:{text:string;compact:boolean}){
    let low=1,high=largest;
    for(let step=0;step<9;step++){
     const size=(low+high)/2;
-    element.style.fontSize=`${size}px`;
+    element.style.setProperty('font-size',`${size}px`,singleLine?'important':'');
     if(element.scrollWidth<=element.clientWidth)low=size;else high=size;
    }
-   element.style.fontSize=`${Math.floor(low*10)/10}px`;
+   element.style.setProperty('font-size',`${Math.floor(low*10)/10}px`,singleLine?'important':'');
   };
   fit();
   const observer=new ResizeObserver(fit);
@@ -26,6 +26,6 @@ export function FittedStatusLabel({text,compact}:{text:string;compact:boolean}){
   document.fonts.ready.then(fit);
   window.addEventListener('resize',fit);
   return ()=>{disposed=true;observer.disconnect();window.removeEventListener('resize',fit)};
- },[text,compact]);
+ },[text,compact,singleLine]);
  return <strong ref={label} className="journey-status-label">{text}</strong>;
 }

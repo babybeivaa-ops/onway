@@ -1,0 +1,14 @@
+import {BusCloudIcon} from './CloudMascot';
+type Scene='road'|'ic'|'bridge'|'space'|'waiting';
+function LittleCloud(){return <g><path d="M12 40C0 40 0 25 12 23C8 8 27 3 35 16C48 4 64 17 57 29C70 35 59 47 48 44H15Z" fill="#9bd7ff" stroke="#70b9e5" strokeWidth="1.5"/><circle cx="25" cy="28" r="2.5" fill="#285a80"/><circle cx="44" cy="28" r="2.5" fill="#285a80"/><path d="M30 35q5 5 10 0" stroke="#285a80" strokeWidth="2" strokeLinecap="round"/><ellipse cx="18" cy="35" rx="4" ry="2" fill="#7ec5fb"/><ellipse cx="51" cy="35" rx="4" ry="2" fill="#7ec5fb"/></g>}
+/** Small scene illustrations share the existing ONWAY cloud's face and palette. */
+export function JourneyCloudScene({scene}:{scene:Scene}){return <svg className="journey-cloud-scene" data-scene={scene} viewBox="0 0 120 100" fill="none" aria-hidden="true">
+ {scene==='space'?<><ellipse cx="58" cy="91" rx="51" ry="7" fill="#edf2fb"/><path d="M84 21c-11 10-15 25-13 43h26c2-18-2-33-13-43Z" fill="#fff" stroke="#7c94b7" strokeWidth="2"/><path d="m71 50-9 21 12-7m23-14 10 21-13-7" fill="#c6bcec" stroke="#8e80b8" strokeWidth="2"/><path d="M76 65q8 23 16 0" fill="#ffce65"/><path d="M80 65q4 13 8 0" fill="#f6a466"/><circle cx="84" cy="43" r="7" fill="#b4e5ff" stroke="#7c94b7" strokeWidth="2"/><path d="m84 21-7 10h14Z" fill="#f3b6c8"/><g transform="translate(1 41) scale(.9)"><LittleCloud/></g><path d="m52 62 9-10" stroke="#70b9e5" strokeWidth="5" strokeLinecap="round"/><path d="m29 15 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#ffce65"/><circle cx="105" cy="16" r="3" fill="#c6bcec"/></>:
+ <>
+ {scene==='bridge'?<><path d="M4 87q14-7 28 0t28 0 28 0 28 0v10H4Z" fill="#c7eaff"/><path d="M5 74h110" stroke="#657d97" strokeWidth="6" strokeLinecap="round"/><path d="M20 27v52m80-52v52" stroke="#8e9fb9" strokeWidth="5"/><path d="M5 55q15-4 15-28 40 55 80 0 0 24 15 28" stroke="#9eadd0" strokeWidth="3"/><path d="M35 43v29m15-18v18m20-18v18m15-29v29" stroke="#9eadd0" strokeWidth="2"/></>:
+ <><path d="M5 72h110v20H5Z" fill="#d9e1ea"/><path d="M10 82h16m12 0h16m12 0h16m12 0h16" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>{scene==='ic'&&<><path d="M80 17v57m26-57v57" stroke="#8da6b4" strokeWidth="4"/><rect x="68" y="8" width="47" height="27" rx="5" fill="#629b89" stroke="#467e6c" strokeWidth="2"/><text x="91" y="27" fill="white" textAnchor="middle" fontSize="17" fontFamily="sans-serif" fontWeight="700">IC</text><path d="m76 42 8 8-8 8" stroke="#6c9b8c" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></>}</>}
+ <svg x={scene==='ic'?4:18} y={scene==='bridge'?18:28} width="85" height="60" viewBox="0 0 80 56"><BusCloudIcon/></svg>
+ 
+ {scene==='waiting'&&<><circle cx="100" cy="25" r="12" fill="#fff8df" stroke="#d9bd72" strokeWidth="2"/><path d="M100 18v8l5 3" stroke="#9e8954" strokeWidth="2" strokeLinecap="round"/></>}
+ </>}
+ </svg>}

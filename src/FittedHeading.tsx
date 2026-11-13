@@ -1,3 +1,4 @@
+import {GroupNameText} from './GroupNameText';
 import {useLayoutEffect,useRef} from 'react';
 /** Keep the normal heading size unless the rendered text exceeds its column. */
 export function FittedHeading({as:Tag='h2',children}:{as?:'h1'|'h2';children:string}){
@@ -23,5 +24,5 @@ export function FittedHeading({as:Tag='h2',children}:{as?:'h1'|'h2';children:str
   fit();const observer=new ResizeObserver(fit);observer.observe(el);document.fonts.ready.then(fit);
   return()=>{disposed=true;observer.disconnect()};
  },[children]);
- return <Tag ref={ref} className="fitted-heading" aria-live={Tag==='h2'?'polite':undefined}>{children}</Tag>;
+ return <Tag ref={ref} className="fitted-heading" aria-live={Tag==='h2'?'polite':undefined}><GroupNameText name={children}/></Tag>;
 }

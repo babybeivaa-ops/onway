@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createGroup,updateGroup,saveWorkspace,loadWorkspace,copyJourney} from '../src/workspace.ts';
-import {addCenterMessage,acknowledgeCenterMessage} from '../src/centerMessageState.ts';
+import {addCenterMessage,acknowledgeCenterMessage,replyToCenterMessage} from '../src/centerMessageState.ts';
 import {backupText,parseBackup,recordsCsv} from '../src/backup.ts';
 
 const input={name:'전달사항 시험학교',travelDate:'2099-01-01',origin:'학교',youth:20,leaders:2,ic:true,bridge:true};
@@ -42,4 +42,15 @@ test('acknowledgment preserves message content and first confirmation time acros
  assert.deepEqual(loadWorkspace(storage).groups[0].state.centerMessages,confirmed.centerMessages);
  const invalid=structuredClone(workspace);invalid.groups[0].state.centerMessages![0].acknowledgedAt='invalid';
  assert.throws(()=>parseBackup(backupText(invalid)));
+});
+
+test('admin replies append without replacing messages, persist in backups and reject invalid content',()=>{
+ const group=createGroup(input);group.state=addCenterMessage(group.state,'하차 위치 문의');const id=group.state.centerMessages![0].id;
+ const first=replyToCenterMessage(group.state,id,' 정문으로 와주세요. ');const next=replyToCenterMessage(first,id,'담당자가 안내할게요.');
+ assert.equal(group.state.centerMessages![0].replies,undefined);assert.equal(next.centerMessages![0].replies?.length,2);
+ assert.equal(next.centerMessages![0].acknowledgedAt,first.centerMessages![0].acknowledgedAt);
+ const w={version:2 as const,view:'admin' as const,activeGroupId:group.id,groups:[{...group,state:next}]};
+ assert.deepEqual(parseBackup(backupText(w)),w);assert(recordsCsv(w).includes('정문으로 와주세요.'));
+ assert.throws(()=>replyToCenterMessage(next,id,' '));assert.throws(()=>replyToCenterMessage(next,id,'가'.repeat(2001)));assert.throws(()=>replyToCenterMessage(next,'missing','답변'));
+ const invalid=structuredClone(w);invalid.groups[0].state.centerMessages![0].replies![0].at='bad';assert.throws(()=>parseBackup(backupText(invalid)));
 });

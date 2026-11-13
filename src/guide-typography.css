@@ -18,7 +18,7 @@
 .app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{padding-left:2px}
 @media(min-width:340px) and (max-width:430px){
  .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 168px;column-gap:6px}
- .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:56px 64px 36px;gap:8px;justify-self:start;transform:translateX(-5px)}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:56px 64px 36px;gap:10px;justify-self:start;transform:translateX(-5px)}
  .app .planned-arrival-card[data-audience="guide"] .planned-period-tabs button{width:28px}
  .app .planned-arrival-card[data-audience="guide"] form .secondary{width:36px}
 }
@@ -29,13 +29,13 @@
 .app .group-summary .guide-people-simple>div{min-height:38px;padding:6px 10px;line-height:24px}
 .app .group-summary .guide-people-simple>.simple-leader-counts{margin-top:0}
 .app .group-summary .participant-mascot-guide{justify-content:flex-start;margin-top:8px;margin-left:-2px;top:0;gap:8px}
-.app .group-summary .participant-speech{transform:none;font-size:11px;padding:4px 6px;line-height:1.5;border-radius:9px}
+.app .group-summary .participant-speech{transform:none;font-size:13.2px;padding:4.8px 7.2px;line-height:1.5;border-radius:10.8px}
 .app .group-summary .group-confirm-inline{margin-top:8px;padding-top:4px;gap:4px 8px}
 @media(max-width:380px){.app .group-summary .guide-people-simple>div{padding-inline:10px}}
 
 /* Balance the arrival controls above their supporting hint. */
 .app .planned-arrival-card[data-audience="guide"]{padding-top:16px;padding-bottom:8px;row-gap:4px;align-content:center}
-.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{margin-top:2px;line-height:16px}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{margin-top:5px;line-height:16px;text-align:right}
 /* Compact forecast card, with a shared title baseline and a visible refresh control. */
 .app .center-weather{padding:14px 16px}
 .app .center-weather .section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
@@ -60,7 +60,7 @@
 .app .center-weather .section-heading{flex-wrap:nowrap}
 .app .center-weather .weather-title-line{flex:1}
 
-.app .group-summary .group-count-line{align-items:baseline}
+.app .group-summary .group-count-line{align-items:baseline;position:relative;top:-1px}
 .app .group-summary .group-count-line .participant-edit-inline{align-self:baseline;margin-top:0;transform:translateY(-8px)}
 
 .app .action-card .speech>span{color:#638bb5}
@@ -80,13 +80,13 @@
 
 .app :is(.center-weather,.road-traffic) .section-heading h2{font-family:inherit;font-size:18px;font-weight:700;line-height:28px;letter-spacing:-.65px}
 
-.app .group-summary{padding-top:14px;padding-bottom:14px;margin-top:18px;margin-bottom:18px}
-.app .group-summary .simple-youth-counts>strong{font-weight:400}
-.app .group-summary .group-count-line .participant-edit-inline{width:40px;height:32px;min-height:32px;padding:2px;border:1px solid #9bb8da;border-radius:10px;background:#fffaf0;color:#446789;font-size:13px;line-height:24px;gap:0}
-.app .group-summary .group-count-line .participant-edit-inline:hover{background:#fff6df;border-color:#9bb8da}
+.app .group-summary{padding-top:23px;padding-bottom:11px;margin-top:18px;margin-bottom:18px}
+.app .group-summary .simple-youth-counts>strong{font-weight:700}
+.app .group-summary .group-count-line .participant-edit-inline{width:40px;height:32px;min-height:32px;padding:2px;border:1px solid #c6dcd2;border-radius:10px;background:#f1f7f4;color:#37634f;font-size:13px;line-height:24px;gap:0}
+.app .group-summary .group-count-line .participant-edit-inline:hover{background:#e6f2ec;border-color:#a8cbbb}
 .app .road-traffic>p.fine{margin:4px 0 6px;font-size:11px;line-height:17px}
 
-.app .group-summary .guide-people-simple .simple-youth-counts>strong{color:#28634e}
+.app .group-summary .guide-people-simple .simple-youth-counts>strong{color:#285f9a}
 
 .app #guide-location-action .current-location-button{transform:translateY(3px)}
 
@@ -122,26 +122,26 @@
 }
 
 /* Icon-free arrival heading and evenly sized period controls. */
-.app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 270px;column-gap:10px}
+.app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 278px;column-gap:10px}
 .app .planned-arrival-card[data-audience="guide"] h3{font-size:18px;line-height:26px;letter-spacing:-.5px;white-space:nowrap}
-.app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:96px 102px 48px;gap:12px;justify-self:end;transform:none}
+.app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:96px 102px 48px;gap:16px;justify-self:end;transform:none}
 .app .planned-arrival-card[data-audience="guide"] .planned-period-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 .app .planned-arrival-card[data-audience="guide"] .planned-period-tabs button{width:100%;box-sizing:border-box}
 @media(max-width:430px){
- .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 172px;column-gap:8px}
- .app .planned-arrival-card[data-audience="guide"] h3{font-size:17px}
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 176px;column-gap:8px}
+ .app .planned-arrival-card[data-audience="guide"] h3{font-size:18px}
  .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:56px 64px 36px;gap:8px}
 }
 
 @media(min-width:350px) and (max-width:430px){
- .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 184px;column-gap:6px}
- .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:60px 68px 40px;gap:8px}
+ .app .planned-arrival-card[data-audience="guide"]{grid-template-columns:minmax(0,1fr) 188px;column-gap:6px}
+ .app .planned-arrival-card[data-audience="guide"] form{grid-template-columns:60px 68px 40px;gap:10px}
  .app .planned-arrival-card[data-audience="guide"] form .secondary{width:40px}
 }
 
 /* Compact, equal-height guide arrival controls. */
 .app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs,.planned-clock-digits,form .secondary){height:40px;min-height:40px}
-.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs button,.planned-clock-digits input){height:38px;min-height:38px}
+.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs button,.planned-clock-digits :is(input,select)){height:38px;min-height:38px}
 
 /* Long place names use the full first row. */
 .app .action-card .checkpoint-title-row.checkpoint-title-long>h2{grid-column:1 / -1;grid-row:1}
@@ -156,6 +156,168 @@
 .app .group-summary .guide-people-simple .participant-row-total{display:grid;grid-template-columns:4em calc(3ch + 1em);gap:4px;align-items:baseline;justify-self:start;white-space:nowrap}
 .app .group-summary .guide-people-simple .participant-row-total>span:last-child{text-align:right}
 .app .group-summary .guide-people-simple>div>:nth-child(n+2){grid-template-columns:1em calc(3ch + 1em);gap:4px}
-.app .group-summary .guide-people-simple .simple-youth-counts .participant-row-total>span:last-child{color:#173b62}
+.app .group-summary .guide-people-simple .simple-youth-counts .participant-row-total>span:last-child{color:#285f9a}
 .admin-page .visit-count-top-summary .visit-summary-youth{color:#173b62}
 .app .group-summary .guide-people-simple>div,.app .group-summary .guide-people-simple>div>*,.app .group-summary .guide-people-simple>div>*>span{font-size:15px}
+
+/* One route card with a shared segmented switch and an uncluttered content area. */
+.app .map-section{padding:16px;background:#fff;border:1px solid #adc5e6;border-radius:20px}
+.app .map-section .journey-heading-row{gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.app .map-section .journey-heading-copy>.subtext{font-size:12px}
+.app .map-section .map-mode-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:4px;margin:0 0 14px;background:#edf3fb;border-radius:12px}
+.app .map-section .map-mode-switch button{min-width:0;min-height:40px;padding:8px 4px;border:1px solid transparent;border-radius:9px;background:transparent;font-size:14px}
+.app .map-section .map-mode-switch button[aria-selected=true]{background:#fff;border-color:#bed0ec;color:#175abd;font-weight:700;box-shadow:0 1px 3px #173b6210}
+.app .map-section .journey-overview{border:0;border-radius:0;background:transparent;overflow:visible}
+.app .map-section .journey-overview .journey-timeline{padding:0;background:transparent}
+.app .map-section .journey-information-row{margin-top:12px;padding-top:8px;border-top:1px solid #e1e9f4}
+.app .map-section .journey-information-row>.route-edit-actions{position:static;justify-content:flex-end;margin:0 0 4px}
+.app .map-section .journey-information-row>.journey-information>summary{padding-right:0}
+.app .map-section .public-map-canvas{border:1px solid #dce5f1;border-radius:12px}
+@media(max-width:430px){.app .map-section .journey-heading-copy{flex:1 1 150px}.app .map-section #guide-location-action .current-location-button{padding:5px 7px;font-size:11px}}
+/* Match the speech and confirmation rows, with content centered vertically. */
+.app .group-summary :is(.participant-mascot-guide,.group-confirm-inline){box-sizing:border-box;min-height:48px;margin-top:0;padding-top:4px;padding-bottom:4px;align-items:center}
+/* Compact route spacing with equal outer padding. */
+.app .map-section .journey-overview .journey-stop{padding-top:6px;padding-bottom:6px}
+.app .map-section .journey-information-row>.route-edit-actions{transform:translateY(5px)}
+.app .map-section .journey-information-row>.journey-information{margin-top:7px;margin-bottom:0}
+.app .map-section .journey-information-row>.journey-information>summary{min-height:34px;padding-top:7px;padding-bottom:7px}
+
+/* Use one consistent rhythm for expanded route guidance. */
+.app .map-section .journey-information>p.fine{margin:0;padding:0;font-size:12px;line-height:21px}
+.app .map-section .journey-information>summary+p.fine{margin-top:6px}
+
+/* A soft inset surface inside the route card. */
+.app .map-section .located-places>summary.place-search-entry{border:0;background:#f5f8ff;box-shadow:none;min-height:60px;padding:8px 16px}
+.app .map-section .located-places>summary.place-search-entry:hover{background:#edf4ff}
+
+.app .group-summary .guide-people-simple .participant-row-total{grid-template-columns:56px 48px}
+.app .group-summary .participant-mascot-guide{min-height:60px;padding-top:10px;padding-bottom:10px}
+
+.app .planned-arrival-card[data-audience="guide"]>.planned-arrival-header,.app .planned-arrival-card[data-audience="guide"]>form{position:relative;top:1px}
+
+/* Guide headcounts: shared table columns keep labels and totals aligned. */
+.app .group-summary .guide-people-table-wrap{grid-column:1/-1;width:100%;min-width:0;margin-top:4px}
+.app .group-summary .guide-people-table{width:100%;table-layout:fixed;border-collapse:collapse;color:#24496c;font-size:14px;font-variant-numeric:tabular-nums}
+.app .group-summary .guide-people-table caption{text-align:right;font-size:11px;line-height:16px;color:#7085a2;padding:0 0 4px}
+.app .group-summary .guide-people-table th,.app .group-summary .guide-people-table td{padding:8px 6px;line-height:20px;text-align:center;white-space:nowrap;border-bottom:1px solid #e1e9f3}
+.app .group-summary .guide-people-table thead th{background:#f3f6fa;font-size:12px;font-weight:500;padding-top:5px;padding-bottom:5px}
+.app .group-summary .guide-people-table th:first-child{text-align:left;padding-left:10px}
+.app .group-summary .guide-people-table tbody th{font-weight:400}
+.app .group-summary .guide-people-table tbody tr:first-child{background:#eff9f5}
+.app .group-summary .guide-people-table tbody td:last-child{font-weight:700;color:#285f9a}
+.app .group-summary .guide-people-table :is(td,thead th:not(:first-child)){text-align:right;padding-right:16px;letter-spacing:0}
+.app .group-summary .guide-people-table tbody tr:last-child td:last-child{font-weight:400}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{padding-right:64px}
+@media(max-width:430px){.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{padding-right:44px}}
+@media(min-width:350px) and (max-width:430px){.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{padding-right:50px}}
+/* Slightly larger guide identity and overall headcount. */
+.app .group-summary .group-identity h1{font-size:24px}
+.app .group-summary .group-count-line p{font-size:18px}
+
+/* Keep the identity and total slightly lower without shifting the table. */
+.app .group-summary .group-identity h1,.app .group-summary .group-count-line p{position:relative;top:5px}
+/* Keep the arrival hint on one line across the full card. */
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{grid-column:1/-1;min-width:0;padding:0;text-align:right;white-space:nowrap}
+.app .center-weather .weather-summary{position:relative;top:2px}
+.app .group-summary .group-identity h1{top:4px}
+.app .group-summary .group-count-line p{top:1px}
+.app .map-section .journey-heading-copy>h2{display:flex;align-items:center;gap:7px}.app .map-section .journey-to-space-icon{display:block;width:34px;height:30px;flex:0 0 34px}
+.app .group-summary .group-identity h1{color:#285f9a}
+
+/* Shared guide section title size. */
+.app .center-messages .center-message-heading h2,
+.app .map-section .journey-heading-copy>h2,
+.app .center-weather .weather-title-line h2,
+.app .road-traffic .section-heading h2{font-size:18px;line-height:28px;font-weight:700}
+.app .group-summary .group-confirm-inline>p{position:relative;top:1px}
+
+.app .group-summary .guide-people-table tbody tr:first-child th{font-weight:700;color:#285f9a}
+
+
+.app .center-messages .center-message-counts>.center-message-status,
+.app .center-messages .center-message-history>summary>.center-message-status{background:#fceef3;color:#a6496a}
+.app .group-summary .participant-speech,
+.app .group-summary .participant-speech::before{background:#fffdf8}
+/* Match the center message disclosure for weather and road information. */
+.app :is(.center-weather,.road-traffic) .section-heading h2{padding-left:0}
+.app :is(.center-weather,.road-traffic) .info-section-toggle{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:inherit;font:inherit;padding:0;min-height:40px;cursor:pointer;box-shadow:none}
+.app :is(.center-weather,.road-traffic) .info-section-toggle>svg{display:block;position:static;width:28px;height:28px;flex:0 0 28px}
+.app .info-section-toggle>span{font-size:16px;color:#657e97;font-weight:500}
+.app .info-section-toggle:focus-visible{outline:2px solid #368e91;outline-offset:4px;border-radius:4px}
+.app :is(.center-weather,.road-traffic) [hidden]{display:none!important}
+/* Keep the forecast location centered beside its disclosure on all screens. */
+.app .center-weather .weather-title-line{align-items:center;flex-wrap:nowrap;gap:8px;min-width:max-content}
+.app .center-weather .weather-title-line h2{flex-shrink:0}
+.app .center-weather .weather-location-label{align-self:center;flex:0 0 auto;padding-left:0;white-space:nowrap}
+
+/* A shared collapsed card and a single disclosure sign at the right edge. */
+.app :is(.center-messages,.center-weather,.road-traffic){padding:14px 16px;border-radius:18px;width:100%;margin:14px 0}
+.app :is(.center-weather,.road-traffic)>.section-heading{margin:0;flex-wrap:wrap;gap:8px}
+.app :is(.center-weather,.road-traffic)>.section-heading h2,.app .center-message-heading h2{width:100%;margin:0;display:flex;line-height:28px}
+.app .center-weather .weather-title-line{width:100%;flex:1 0 100%;min-width:0}
+.app :is(.center-weather,.road-traffic) .info-section-toggle,.app .center-message-heading .center-message-history-toggle{width:100%;display:flex;min-height:40px;text-align:left}
+.app .info-section-toggle>.info-toggle-sign,.app .center-message-history-toggle>span{margin-left:auto;flex-shrink:0;font-size:16px;color:#657e97;font-weight:500}
+.app .center-weather .info-section-toggle>.weather-location-label{font-size:11px;font-weight:400;color:#667e99;line-height:18px;letter-spacing:normal}
+.app :is(.center-weather,.road-traffic)>.section-heading>.text-button{margin-left:auto}
+.app .center-message-compose-row{display:flex;justify-content:flex-end;margin-top:8px}
+.app .center-messages [hidden]{display:none!important}
+.app :is(.center-weather,.road-traffic)>.section-heading+div:not([hidden]){margin-top:8px}
+
+.app .map-section>.journey-toggle-heading{display:flex;align-items:center;gap:8px;margin:0;min-height:40px}
+.app .journey-toggle-heading h2{margin:0;flex:1;min-width:0}
+.app .journey-title-toggle{display:flex;align-items:center;gap:8px;background:transparent;padding:0;color:inherit;font:inherit;white-space:nowrap;min-height:40px}
+.app .journey-title-toggle>svg{width:28px;height:28px;flex:0 0 28px}
+.app .journey-toggle-heading #guide-location-action{flex:0 0 auto;margin-left:auto}
+.app .journey-disclosure-toggle{flex:0 0 24px;min-height:40px;padding:0;background:transparent;color:#657e97;font-size:16px;font-weight:500}
+.app .map-section #journey-content[hidden]{display:none!important}
+.app .map-section:has(#journey-content[hidden]){padding:14px 16px}
+.app #journey-content>.subtext{margin-top:8px}
+/* Equal collapsed heights; expanded content retains its natural height. */
+.app :is(.center-messages,.center-weather,.road-traffic):has(>div:first-child button[aria-expanded="false"]),.app .map-section:has(>#journey-content[hidden]){height:70px;min-height:70px;padding:14px 16px;box-sizing:border-box}
+.app :is(.center-messages,.center-weather,.road-traffic)>div:first-child{height:40px;min-height:40px}
+.app :is(.center-weather,.road-traffic):has(.info-section-toggle[aria-expanded="true"])>.section-heading{height:auto}
+.app .planned-arrival-card[data-audience="guide"]{padding-top:12px;padding-bottom:12px}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-header{grid-column:1;grid-row:1;align-self:center;align-items:center;justify-content:center;text-align:center}
+.app .planned-arrival-card[data-audience="guide"] form{grid-column:2;grid-row:1}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{grid-column:2;grid-row:2}
+.app .journey-disclosure-toggle{text-align:right}
+
+.app .planned-arrival-card[data-audience="guide"]>.planned-arrival-header,.app .planned-arrival-card[data-audience="guide"]>form{top:0;transform:none}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{margin:0;line-height:16px}
+
+/* Match the 70px disclosure cards while preserving the aligned input row. */
+.app .planned-arrival-card[data-audience="guide"]{min-height:70px;padding-top:5px;padding-bottom:5px;row-gap:2px;align-content:center}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-message{margin:0}
+/* Center the compact editing row independently of the supporting hint. */
+.app .planned-arrival-card[data-audience="guide"]{position:relative;min-height:70px;padding-top:17px;padding-bottom:17px;row-gap:0;align-content:center}
+.app .planned-arrival-card[data-audience="guide"] h3{font-size:16px;line-height:24px}
+.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs,.planned-clock-digits,form .secondary){height:34px;min-height:34px}
+.app .planned-arrival-card[data-audience="guide"] :is(.planned-period-tabs button,.planned-clock-digits :is(input,select)){height:32px;min-height:32px;padding-top:0;padding-bottom:0}
+.app .planned-arrival-card[data-audience="guide"] .planned-clock-digits input{font-size:15px}
+.app .planned-arrival-card[data-audience="guide"] form .secondary{padding-top:0;padding-bottom:0}
+.app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{position:absolute;right:16px;bottom:3px;margin:0;font-size:10px;line-height:12px}
+/* Compact weather and road detail dialogs. */
+dialog.notice-detail-dialog{padding:20px}
+.notice-detail-dialog .dialog-head h2{font-size:20px;margin:0}
+.notice-detail-dialog .notice-detail-heading{gap:10px;margin:12px 0}
+.notice-detail-dialog .notice-detail h3{font-size:16px;line-height:1.5;margin:5px 0 0}
+.notice-detail-dialog .notice-detail dl{padding:10px 12px;margin:12px 0}
+.notice-detail-dialog .notice-detail dl>div{font-size:13px;gap:10px;margin:5px 0}
+.notice-detail-dialog .notice-detail>p{font-size:14px;line-height:1.6;margin:12px 0}
+.notice-detail-dialog .notice-detail>p.fine{font-size:11px;line-height:1.5;margin:12px 0}
+.notice-detail-dialog .notice-detail>.secondary{min-height:38px;padding:8px 12px;margin-top:0}
+/* Keep the location action and disclosure on the same vertical center. */
+.app #guide-location-action .current-location-button{transform:none}
+.app .journey-toggle-heading{align-items:center}
+.app .journey-toggle-heading #guide-location-action{display:flex;align-items:center;align-self:center}
+.app .journey-disclosure-toggle{display:flex;align-items:center;justify-content:flex-end;line-height:1;margin:0;height:40px}
+/* Compact white navigation with an icon above each label. */
+.workspace-shell.guide .bottom-nav{width:min(480px,100%);bottom:0;padding:9px 20px max(10px,env(safe-area-inset-bottom));gap:16px;border:0;border-top:1px solid #eceef1;border-radius:18px 18px 0 0;background:#fff;box-shadow:0 -4px 20px #293d5606;backdrop-filter:none;z-index:40}
+.workspace-shell.guide .bottom-nav button{flex-direction:column;align-items:center;justify-content:center;min-height:49px;gap:4px;border-radius:10px;background:transparent;box-shadow:none;color:#71757f;font-size:11px;line-height:1.3}
+.workspace-shell.guide .bottom-nav button svg{color:#565d6a;fill:none;stroke-width:1.7}
+.workspace-shell.guide .bottom-nav button span{font-weight:500}
+.workspace-shell.guide .bottom-nav button.selected{background:transparent;color:#245fc7;box-shadow:none}
+.workspace-shell.guide .bottom-nav button.selected svg{color:#245fc7;fill:none;stroke-width:1.9}
+.workspace-shell.guide .bottom-nav button.selected span{font-weight:700}
+.workspace-shell.guide .bottom-nav button:focus-visible{outline:2px solid #2169ed;outline-offset:1px}
+.workspace-shell.guide .app{padding-bottom:calc(100px + env(safe-area-inset-bottom))}

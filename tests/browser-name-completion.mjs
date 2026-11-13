@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {WORKSPACE_KEY} from '../src/workspace.ts';
+const {chromium}=createRequire(import.meta.url)(process.env.ONWAY_PLAYWRIGHT_MODULE||'playwright');
+const browser=await chromium.launch({headless:true,channel:'chrome'});
+try{for(const width of [360,390,430,870]){
+ const page=await browser.newPage({viewport:{width,height:844},locale:'ko-KR',timezoneId:'Asia/Seoul'});page.setDefaultTimeout(10000);const searches=[];
+ await page.route('**/api/**',r=>{const u=new URL(r.request().url());if(u.pathname==='/api/demo-workspace')return r.fulfill({status:404,json:{}});if(u.pathname==='/api/maps/search'){const q=u.searchParams.get('q');searches.push(q);const name=q.includes('동평')?'동평초등학교':q.includes('청소년')?'청소년문화의집':'진도군청';return r.fulfill({json:{items:[{id:'qa-'+name,name,address:'테스트 주소',lat:35,lng:127,provider:'kakao'}]}})}return r.fulfill({status:503,json:{}})});
+ await page.goto('http://127.0.0.1:4185/');await page.getByRole('button',{name:'단체 등록',exact:true}).click();
+ let dialog=page.getByRole('dialog',{name:'단체 등록',exact:true});await dialog.waitFor();await dialog.evaluate(el=>{const parts=['.origin-settings','.group-name-kind','.participant-editor'].map(s=>el.querySelector(s).getBoundingClientRect());if(!(parts[0].top<parts[1].top&&parts[1].top<parts[2].top))throw Error('Expected origin, institution kind, participants order')});
+ await dialog.getByLabel('단체명',{exact:true}).fill('울산 동평초');
+ await dialog.getByRole('button',{name:/동평초등학교.*이 주소로 출발지 등록/}).click();
+ assert(searches.includes('울산 동평초'));assert.equal(await dialog.getByLabel('단체명',{exact:true}).inputValue(),'울산 동평초등학교');
+ await dialog.getByRole('region',{name:'등록할 출발지',exact:true}).waitFor();await dialog.getByRole('button',{name:'단체 등록하기',exact:true}).click();
+ await page.waitForFunction(k=>JSON.parse(localStorage.getItem(k)||'{}').groups?.some(g=>g.state.organization.name==='울산 동평초등학교'),WORKSPACE_KEY);
+ const active=()=>page.evaluate(k=>{const w=JSON.parse(localStorage.getItem(k));return w.groups.find(g=>g.id===w.activeGroupId)},WORKSPACE_KEY);
+ assert.equal((await active()).state.waypoints.find(p=>p.id==='start').place.name,'동평초등학교');
+ await page.evaluate(k=>{const w=JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify({...w,view:'admin'}))},WORKSPACE_KEY);await page.reload();
+ await page.getByRole('button',{name:'단체 정보 수정',exact:true}).click();dialog=page.getByRole('dialog',{name:'단체 정보 수정',exact:true});await dialog.waitFor();await dialog.evaluate(el=>{const parts=['.origin-settings','.group-name-kind','.participant-editor'].map(s=>el.querySelector(s).getBoundingClientRect());if(!(parts[0].top<parts[1].top&&parts[1].top<parts[2].top))throw Error('Expected origin, institution kind, participants order')});
+ await dialog.getByLabel('단체명',{exact:true}).fill('순천 청소년');
+ await dialog.getByRole('button',{name:/청소년문화의집.*이 주소로 출발지 변경/}).click();assert(searches.includes('순천 청소년'));assert.equal(await dialog.getByLabel('단체명',{exact:true}).inputValue(),'순천 청소년문화의집');
+ await dialog.getByLabel('단체명',{exact:true}).fill('진도군청 드림스타트');
+ await dialog.getByRole('button',{name:/진도군청.*이 주소로 출발지 변경/}).click();assert.equal(await dialog.getByLabel('단체명',{exact:true}).inputValue(),'진도군청 드림스타트');
+ await dialog.getByLabel('단체명',{exact:true}).fill('순천 청소년 문화의 집');await dialog.getByRole('button',{name:/청소년문화의집.*이 주소로 출발지 변경/}).click();
+ await dialog.getByRole('button',{name:'수정 저장',exact:true}).click();await page.waitForFunction(k=>JSON.parse(localStorage.getItem(k)).groups.some(g=>g.state.organization.name==='순천 청소년 문화의 집'),WORKSPACE_KEY);
+ const tab=page.getByRole('tab',{name:/순천 청소년 문화의 집/});await tab.waitFor();
+ const phrase=tab.locator('.group-name-word').filter({hasText:'문화의 집'});
+ assert.equal(await phrase.count(),1);const metrics=await phrase.evaluate(el=>{const range=document.createRange();range.selectNodeContents(el);const rects=[...range.getClientRects()];const r=el.getBoundingClientRect(),p=el.closest('button').getBoundingClientRect();return {lines:new Set(rects.map(r=>Math.round(r.y))).size,left:r.left,right:r.right,parentLeft:p.left,parentRight:p.right}});
+ assert.equal(metrics.lines,1);assert(metrics.left>=metrics.parentLeft&&metrics.right<=metrics.parentRight);
+ if(process.env.ONWAY_QA_OUTPUT)await tab.screenshot({path:`${process.env.ONWAY_QA_OUTPUT}/name-wrap-${width}.png`});
+ console.log(`PASS ${width}: name-triggered search in registration/edit, completion, custom name, culture-house wrapping`);await page.close();
+}}finally{await browser.close()}

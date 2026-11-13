@@ -1,4 +1,4 @@
-export function TelescopeCloudIcon(){return <svg width="48" height="48" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+export function TelescopeCloudIcon({className}:{className?:string}={}){return <svg className={className} width="48" height="48" viewBox="0 0 96 96" fill="none" aria-hidden="true">
  <path d="m66 57-13 29m13-29 15 29m-15-29v30" stroke="#91a4b4" strokeWidth="3.5" strokeLinecap="round"/>
  <circle cx="66" cy="57" r="5" fill="#c9d8e5" stroke="#8199ad" strokeWidth="2"/>
  <path d="m66 55-5-10" stroke="#8199ad" strokeWidth="4" strokeLinecap="round"/>
@@ -23,3 +23,4 @@ export function TelescopeCloudIcon(){return <svg width="48" height="48" viewBox=
  <ellipse cx="55" cy="51" rx="6" ry="4" transform="rotate(-30 55 51)" fill="#9bd7ff"/>
  <path d="m87 6 1.5 4.5L93 12l-4.5 1.5L87 18l-1.5-4.5L81 12l4.5-1.5Z" fill="#f3ca6d"/>
 </svg>}
+

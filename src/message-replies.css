@@ -1,0 +1,60 @@
+.message-replies{min-width:0;margin-top:10px}.message-reply{padding:12px 14px;margin:8px 0;border:1px solid #d5e3ee;border-radius:10px;background:#f3f8fc}.message-reply header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.message-reply header strong{font-size:14px;color:#234e72}.message-reply time{font-size:12px;color:#61758b}.message-reply p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px;line-height:1.6;color:#263f59}.message-reply-toggle{width:auto;min-height:28px;padding:3px 10px;border:1px solid #bfd0e3;border-radius:6px;background:#fff;color:#355b7c;font-size:12px;font-weight:600}.message-reply-form label{margin:10px 0 5px;font-size:13px}.message-reply-form textarea{width:100%;font:inherit;font-size:15px}.message-reply-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}.message-reply-actions small{font-size:12px;color:#61758b}.message-reply-actions button{min-height:34px;width:auto;padding:6px 12px;border-radius:8px;background:#2465cc;color:#fff;font-size:13px;font-weight:600}.tv-dashboard .tv-feed-list .message-reply p{font-size:15px;line-height:1.6;margin:6px 0 0}.tv-dashboard .tv-feed-list .message-reply header strong{font-size:14px;color:#234e72}.tv-dashboard .tv-feed-list .message-reply time{font-size:12px}
+.guide-center-replies{margin-top:16px}.guide-center-replies>h3{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:16px;color:#234e72}.guide-center-replies>h3>span{font-size:12px;font-weight:500}.guide-center-replies>.center-message{border:1px solid #cddfec;border-radius:12px;padding:12px;margin-top:10px;background:#fff}
+/* Indent the reply and connect it visually to the original message. */
+.message-replies .message-reply{position:relative;margin-left:24px}
+.message-reply-arrow{position:absolute;left:-25px;top:9px;width:20px;color:#64839f;font-size:24px;line-height:1;font-weight:500;pointer-events:none}
+@media(max-width:430px){.message-replies .message-reply{margin-left:20px}.message-reply-arrow{left:-21px;font-size:22px}}
+.admin-center-message-fold>summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;padding:8px 0;color:#234e72;min-height:44px;flex-wrap:wrap}
+.admin-center-message-fold>summary::-webkit-details-marker{display:none}
+.admin-center-message-fold>summary::after{content:'⌄';margin-left:auto;font-size:20px}
+.admin-center-message-fold[open]>summary::after{content:'⌃'}
+.admin-center-message-fold>summary>strong{font-size:18px}
+.admin-center-message-fold>summary>span{font-size:13px}
+.admin-center-message-fold>summary>svg,.admin-center-message-fold>summary>img{width:34px;height:34px;flex-shrink:0}
+.admin-center-message-fold[open]>summary{margin-bottom:10px}
+.message-replies-fold>summary{cursor:pointer;color:#234e72;font-size:14px;font-weight:600;padding:8px 0;min-height:36px}
+.message-replies-fold>summary>span{font-size:12px;font-weight:400;margin-left:5px;color:#61758b}
+/* A lightweight reply thread instead of another large nested card. */
+.message-replies-fold>summary{display:inline-flex;align-items:center;gap:7px;list-style:none;min-height:32px;padding:5px 10px;border:1px solid #d6e1ed;border-radius:8px;background:#fff;color:#375875;font-size:13px;font-weight:600;line-height:20px;cursor:pointer}
+.message-replies-fold>summary::-webkit-details-marker{display:none}
+.message-replies-fold>summary>span{margin:0;font-size:13px;color:inherit;font-weight:inherit}
+.message-replies-fold>summary>.reply-thread-icon{font-size:18px;color:#6e879e}
+.message-replies-fold>summary>.reply-thread-count{min-width:18px;text-align:center;border-radius:5px;background:#edf3f9;color:#365e86;font-size:12px}
+.message-replies-fold>summary>.reply-thread-chevron{margin-left:3px;font-size:16px;transition:transform .15s}
+.message-replies-fold[open]>summary>.reply-thread-chevron{transform:rotate(180deg)}
+.message-replies .message-reply{margin:12px 0 10px 18px;padding:2px 0 2px 14px;border:0;border-left:2px solid #d3e0ec;border-radius:0;background:transparent;box-shadow:none}
+.message-replies .message-reply-arrow{left:-20px;top:0;width:16px;font-size:18px;color:#7b91a6}
+.message-replies .message-reply header{gap:6px 12px;justify-content:flex-start}
+.message-replies .message-reply header strong{font-size:13px;font-weight:700;color:#365b7a}
+.message-replies .message-reply time{font-size:11px;color:#718297}
+.message-replies .message-reply p{margin:5px 0 0;font-size:15px;line-height:1.6;color:#263f59}
+.message-replies-fold+.message-reply-toggle{margin-top:8px;display:block}
+.tv-dashboard .tv-feed-list .message-reply header strong{font-size:13px}.tv-dashboard .tv-feed-list .message-reply time{font-size:11px}
+.message-replies .message-reply{margin-left:4px;padding-left:12px}
+
+/* Admin reply action sits below the receipt time. */
+.admin-center-messages .center-message > .message-replies{display:contents}
+.admin-center-messages .center-message > .message-replies > .message-replies-fold{grid-column:1;grid-row:3;margin-top:8px;min-width:0}
+.admin-center-messages .center-message > .message-replies > .message-reply-toggle{grid-column:2;grid-row:3;justify-self:end;align-self:start;margin:8px 0 0}
+.admin-center-messages .center-message > .message-replies > .message-reply-form{grid-column:1 / -1;grid-row:4}
+@media(max-width:600px){
+.admin-center-messages .center-message > .message-replies > .message-replies-fold{grid-row:4}
+.admin-center-messages .center-message > .message-replies > .message-reply-toggle{grid-row:4}
+.admin-center-messages .center-message > .message-replies > .message-reply-form{grid-row:5}
+}
+
+.center-message-history[hidden]{display:none}
+.center-message-heading h2 .center-message-history-toggle{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:inherit;font:inherit;padding:0;min-height:40px;cursor:pointer;box-shadow:none}
+.center-message-history-toggle>span{font-size:16px;color:#657e97;font-weight:500}
+
+/* Guide messages share their outer card and use separators. */
+.app .center-message-history>.center-message{border:0;border-radius:0;background:transparent;box-shadow:none;padding:16px 0;margin:0}
+.app .center-message-history>.center-message+.center-message{border-top:1px solid #dce5ef;margin-top:0}
+.app .center-message-history>.center-message:last-child{padding-bottom:0}
+
+.admin-center-messages .center-message>.message-replies{display:grid;grid-column:1 / -1;grid-row:3;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:8px;align-items:start}
+.admin-center-messages .center-message>.message-replies>.message-replies-fold{grid-column:1;grid-row:1;margin:0}
+.admin-center-messages .message-replies-fold>summary{display:flex;width:max-content;margin-left:auto;box-sizing:border-box;height:32px;min-height:32px;padding:5px 10px}
+.admin-center-messages .center-message>.message-replies>.message-reply-toggle{grid-column:2;grid-row:1;margin:0;height:32px;min-height:32px;box-sizing:border-box;padding:5px 10px;line-height:20px}
+.admin-center-messages .center-message>.message-replies>.message-reply-form{grid-column:1 / -1;grid-row:2}
+@media(max-width:600px){.admin-center-messages .center-message>.message-replies{grid-row:4}}

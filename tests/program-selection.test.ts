@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {selectedProgramRegistration} from '../src/programSelection.ts';
+import {mergeProgramPlan} from '../public-api/program-merge.mjs';
+import {serveProgramPlans} from '../public-api/program-plans.mjs';
+import {Readable} from 'node:stream';
+const a={name:'창원 사화초',aliases:'사화초',start:'2026-11-16',end:'2026-11-18',sessions:[{date:'2026-11-16',time:'15:30~17:40',activity:'에어로켓',place:'세미나실'}]};
+const b={...a,name:'후기청소년 관측실습',aliases:'',end:'2026-11-19'};
+const plan={week:'2026-11-16',source:'week.png',updatedAt:'',groups:[a,b]};
+test('university in the lower institution row identifies the course block',()=>{
+ const institution={...b,aliases:'충남대학교 천문우주과학과'};
+ for(const name of ['충남대학교','충남대','충남대학교 천문우주과학과','충남대 천문우주과학과'])assert.equal(selectedProgramRegistration([a,institution],name,'2026-11-16'),institution);
+ assert.throws(()=>selectedProgramRegistration([a,institution],'충북대학교','2026-11-16'),/찾지 못/);
+ assert.throws(()=>selectedProgramRegistration([a,institution],'충남대학교 물리학과','2026-11-16'),/찾지 못/);
+ assert.throws(()=>selectedProgramRegistration([institution,{...institution,aliases:'충남대학교 물리학과'}],'충남대학교','2026-11-16'),/여러 개/);
+ assert.throws(()=>selectedProgramRegistration([institution],'충남대학교','2026-11-13'),/입소일/);
+});
+test('select only requested registered group and arrival, without changing source',()=>{assert.equal(selectedProgramRegistration([a,b],'충남대학교 후기청소년','2026-11-16',['창원 사화초','충남대학교 후기청소년']),b);assert.throws(()=>selectedProgramRegistration([a,b],'충남대학교 후기청소년','2026-11-13',['충남대학교 후기청소년']),/입소일/);assert.throws(()=>selectedProgramRegistration([b,b],'충남대학교 후기청소년','2026-11-16',['충남대학교 후기청소년']),/여러 개/);assert.equal(b.name,'후기청소년 관측실습')});
+test('save one group preserves other groups and same school on other dates',()=>{const later={...a,start:'2026-11-23',end:'2026-11-25'};const next={...a,sessions:[{...a.sessions[0],activity:'변경 활동'}]};const merged=mergeProgramPlan({...plan,groups:[a,b,later]},{...plan,groups:[next]});assert.equal(merged.groups.length,3);assert.deepEqual(merged.groups[1],b);assert.deepEqual(merged.groups[2],later);assert.equal(merged.groups[0].sessions[0].activity,'변경 활동');assert.equal(plan.groups[0].sessions[0].activity,'에어로켓')});
+test('selected canonical name updates former OCR alias without duplication',()=>{const next={...b,name:'충남대학교 후기청소년',aliases:b.name};const merged=mergeProgramPlan(plan,{...plan,groups:[next]});assert.equal(merged.groups.length,2);assert.equal(merged.groups[1].name,next.name);assert.deepEqual(merged.groups[0],a)});
+test('server saves selected group while retaining the other school',async()=>{let stored={plans:[plan]};const store={read:async()=>stored,write:async(k,v)=>{stored=v}};const next={...b,name:'충남대학교 후기청소년',aliases:b.name};const req=Readable.from([Buffer.from(JSON.stringify({...plan,groups:[next]}))]);req.method='POST';let status;await serveProgramPlans(req,{writeHead:s=>status=s,end:()=>{}},{store,canEdit:true});assert.equal(status,200);assert.equal(stored.plans[0].groups.length,2);assert.deepEqual(stored.plans[0].groups[0],a);assert.equal(stored.plans[0].groups[1].name,next.name)});

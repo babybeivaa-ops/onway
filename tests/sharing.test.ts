@@ -86,3 +86,29 @@ test('guide can update gender breakdown for own group; invalid totals are reject
 test('guide count confirmation timestamp reaches admin and survives reload',async t=>{const {handler:h}=fixture(t,true);const group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;const read=(await request(h,'workspace',token)).body;const at=new Date().toISOString();Object.assign(read.workspace.groups[0].state,{confirmed:true,countsConfirmedAt:at});assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);assert.equal((await request(h,'workspace',admin)).body.workspace.groups[0].state.countsConfirmedAt,at)});
 
 test('planned arrival from guide reaches admin and allows admin correction',async t=>{const {handler:h}=fixture(t,true);const group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;let read=(await request(h,'workspace',token)).body;read.workspace.groups[0].state.plannedArrival={date:group.travelDate,time:'14:30',actor:'guide',updatedAt:new Date().toISOString()};assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);read=(await request(h,'workspace',admin)).body;assert.equal(read.workspace.groups[0].state.plannedArrival.time,'14:30');read.workspace.groups[0].state.plannedArrival.time='15:00';read.workspace.groups[0].state.plannedArrival.actor='admin';assert.equal((await request(h,'workspace',admin,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);assert.equal((await request(h,'workspace',token)).body.workspace.groups[0].state.plannedArrival.time,'15:00');});
+
+test('guide cannot forge separate administrator checkpoint acknowledgments',async t=>{
+ const {handler:h}=fixture(t,true);const group=makeGroup();
+ await request(h,'publish',admin,'POST',{group});
+ const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ const read=(await request(h,'workspace',token)).body;
+ read.workspace.groups[0].state.adminCheckpointChecks=[{waypointId:'start',confirmedAt:new Date().toISOString()}];
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,403);
+});
+
+test('admin replies reach guides and guides cannot forge, edit or remove replies',async t=>{
+ const {handler:h}=fixture(t,true);const group=makeGroup();group.state.centerMessages=[{id:'question',text:'문의',at:new Date().toISOString()}];
+ await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ const center=(await request(h,'workspace')).body;const reply={id:'reply',text:'센터 답변',at:new Date().toISOString(),actor:'admin'};
+ center.workspace.groups[0].state.centerMessages[0].replies=[reply];assert.equal((await request(h,'workspace',admin,'PUT',{workspace:center.workspace,revision:center.revision})).status,200);
+ const read=(await request(h,'workspace',token)).body;assert.deepEqual(read.workspace.groups[0].state.centerMessages[0].replies,[reply]);
+ for(const replies of [[],[{...reply,text:'조작'}],[reply,{...reply,id:'forged'}]]){const w=structuredClone(read.workspace);w.groups[0].state.centerMessages[0].replies=replies;assert.equal((await request(h,'workspace',token,'PUT',{workspace:w,revision:read.revision})).status,403)}
+ const w=structuredClone(read.workspace);w.groups[0].state.centerMessages.push({id:'new',text:'새 문의',at:reply.at,replies:[reply]});assert.equal((await request(h,'workspace',token,'PUT',{workspace:w,revision:read.revision})).status,403);
+});
+test('guides can read but cannot change the administrator meal selection',async t=>{
+ const {handler:h}=fixture(t,true);const group=makeGroup();group.state.organization.arrivalLunch=true;
+ await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ const read=(await request(h,'workspace',token)).body;assert.equal(read.workspace.groups[0].state.organization.arrivalLunch,true);
+ read.workspace.groups[0].state.organization.arrivalLunch=false;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,403);
+});
