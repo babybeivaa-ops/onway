@@ -9,3 +9,13 @@ test('sample seeds existing empty browsers and does not resurrect deleted or ove
 test('cleanup removes exactly two server-only groups with revision guard and keeps eleven snapshot groups',async()=>{let db={revision:3,workspace:{...workspace,groups:[...groups,{...groups[0],id:'extra1'},{...groups[0],id:'extra2'}]},links:{}};const store={load:async()=>structuredClone(db),save:async(n,r)=>{assert.equal(r,db.revision);db=n}};assert.deepEqual(await removeServerOnlyGroups(store,readDemoWorkspace(encoded)),{removed:2,total:11});assert.equal(db.removedServerGroups.groups.length,2);assert.deepEqual(await removeServerOnlyGroups(store,readDemoWorkspace(encoded)),{removed:0,total:11})});
 test('cleanup refuses unexpected server changes',async()=>{const store={load:async()=>({workspace:{...workspace,groups:[...groups,{...groups[0],id:'extra'}]}})};await assert.rejects(removeServerOnlyGroups(store,readDemoWorkspace(encoded)),/requires review/)});
 
+
+test('current staff snapshot includes timetable and meal tables but excludes credentials',()=>{
+ const content={storage:{'onway-program-plans-v1':'[{"week":"2026-11-16"}]','onway-weekly-menu-v1:2026-11-16':'{"weekStart":"2026-11-16"}','onway-admin-token':'never-publish'}};
+ const current=gzipSync(JSON.stringify({format:'onway-backup',workspace,referenceDate:'2026-11-17'})).toString('base64');
+ const sample=readDemoWorkspace(current,gzipSync(JSON.stringify(content)).toString('base64'));
+ assert.equal(sample.referenceDate,'2026-11-17');assert.equal(Object.keys(sample.storage).length,2);assert(!JSON.stringify(sample).includes('never-publish'));
+ const map=new Map();const storage={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v)};
+ seedDemoSamples(storage,sample);assert.equal(map.get('onway-program-plans-v1'),content.storage['onway-program-plans-v1']);
+ map.set('onway-program-plans-v1','edited');seedDemoSamples(storage,{...sample,version:'next'});assert.equal(map.get('onway-program-plans-v1'),'edited');
+});

@@ -35,7 +35,7 @@ if(process.env.RENDER&&(!supabaseUrl||!process.env.ONWAY_ADMIN_TOKEN?.trim()))th
 const store=supabaseUrl?createSupabaseStore({url:supabaseUrl,key:supabaseKey}):undefined;
 const importedBackup=await importBackup(store,process.env.ONWAY_IMPORT_BACKUP_GZIP_BASE64);
 if(importedBackup)console.log('ONWAY backup import verified',JSON.stringify(importedBackup));
-const demoWorkspace=readDemoWorkspace(process.env.ONWAY_DEMO_BACKUP_GZIP_BASE64);
+const demoWorkspace=readDemoWorkspace(process.env.ONWAY_DEMO_BACKUP_GZIP_BASE64,process.env.ONWAY_DEMO_DOCUMENTS_GZIP_BASE64);
 if(process.env.ONWAY_REMOVE_SERVER_ONLY_GROUPS==='1')console.log('ONWAY group cleanup verified',JSON.stringify(await removeServerOnlyGroups(store,demoWorkspace)));
 const dataDirectory=process.env.ONWAY_DATA_DIR||fileURLToPath(new URL('../../.onway-server-data/',import.meta.url));
 if(!store)fs.mkdirSync(dataDirectory,{recursive:true,mode:0o700});

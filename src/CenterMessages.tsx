@@ -35,10 +35,10 @@ export function CenterMessageForm({state,setState,shared}:{state:DemoState;setSt
  const formId=useId();
  const total=state.centerMessages?.length??0;
  const pending=(state.centerMessages??[]).filter(message=>!message.acknowledgedAt).length;
- return <section className="section center-messages" aria-label="센터 전달 사항">
-  <div className="center-message-heading"><h2><button type="button" className="center-message-history-toggle" aria-expanded={historyOpen} aria-controls={formId+'-content'} onClick={()=>setHistoryOpen(value=>!value)}><HeartMessageIcon/>센터 전달 사항<span aria-hidden="true">{historyOpen?'−':'+'}</span></button></h2></div><div id={formId+'-content'} hidden={!historyOpen}>
+ return <section className="section center-messages" aria-label="센터 톡톡">
+  <div className="center-message-heading"><h2><button type="button" className="center-message-history-toggle" aria-expanded={historyOpen} aria-controls={formId+'-content'} onClick={()=>setHistoryOpen(value=>!value)}><HeartMessageIcon/>센터 톡톡<span aria-hidden="true">{historyOpen?'−':'+'}</span></button></h2></div><div id={formId+'-content'} hidden={!historyOpen}>
   <form id={formId} onSubmit={event=>{event.preventDefault();setError('');setNotice('');try{setState(previous=>addCenterMessage(previous,text));setText('');setNotice(shared?'저장 요청을 보냈어요. 상단의 서버 저장 상태를 확인해주세요.':'전달사항을 저장했어요.')}catch(error){setError(error instanceof Error?error.message:'저장하지 못했어요. 다시 시도해주세요.')}}}>
-   <textarea aria-label="센터에 전달할 내용" rows={2} maxLength={2000} value={text} onChange={event=>{setText(event.target.value);setNotice('')}}/>
+   <p id={formId+'-hint'} className="center-message-hint">전달할 사항이나 문의 내용을 남겨주세요.</p><textarea aria-describedby={formId+'-hint'} aria-label="센터에 전달할 내용" rows={2} maxLength={2000} value={text} onChange={event=>{setText(event.target.value);setNotice('')}}/>
    <div className="center-message-actions"><span>{text.length}/2000자</span><button className="secondary" type="submit" disabled={!text.trim()}>전달사항 남기기</button></div>
    {error&&<p className="form-error" role="alert">{error}</p>}
   </form>

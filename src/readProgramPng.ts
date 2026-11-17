@@ -1,3 +1,5 @@
+import {matchProgramActivity,suggestProgramActivity} from './programActivityMatch';
+import {programActivities} from './programTimetable';
 import {displayProgramPlace} from './programPlaces';
 import {selectedProgramRegistration} from './programSelection';
 import {programRowAnchor,programTime} from './programRows';
@@ -45,7 +47,7 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
   const rows:Box[]=[];for(const t of titles.sort((a,b)=>a.y-b.y)){const duplicate=rows.find(r=>Math.abs(r.y-t.y)<unit*.65&&Math.abs(r.x-t.x)<unit);if(duplicate){duplicate.right=Math.max(duplicate.right,t.right);duplicate.bottom=Math.max(duplicate.bottom,t.bottom)}else rows.push({...t})}
   const activityRows=selected?rows.filter(row=>[...registrations].reverse().find(r=>r.box.y<row.y&&Math.max(row.x,labelRight+2)>=r.box.x-unit&&row.x<r.box.right)?.group===selected):rows;
   const sharedTimes=new Map<number,string>();
-  let done=0;
+  let done=0;const corrected:string[]=[],unmatched:string[]=[];
   for(const row of activityRows){const owner=[...registrations].reverse().find(r=>r.box.y<row.y&&Math.max(row.x,labelRight+2)>=r.box.x-unit&&row.x<r.box.right);if(!owner||(selected&&owner.group!==selected))continue;const date=dateFor(row.y);if(!date)continue;
    // Find the rule immediately above the colored activity cell.
    let top=Math.max(0,row.y-unit*.6),scoreBest=0;for(let y=Math.max(0,Math.floor(row.y-unit));y<=row.y;y++){let score=0;for(let x=Math.round(Math.max(row.x,labelRight));x<Math.min(owner.box.right,canvas.width);x++){const i=(y*canvas.width+x)*4;if((pixels.data[i]+pixels.data[i+1]+pixels.data[i+2])/3<205)score++}if(score>scoreBest){scoreBest=score;top=y+1}}
@@ -58,11 +60,11 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
    }
    const time=sharedTimes.get(anchor.y)!;
    const activity=await crop(textX,top,right-textX,unit),place=await crop(textX,top+unit*3,right-textX,unit);
-   if(activity&&!/^(담당|보조|장소|집합|식사)/.test(activity)){owner.group.sessions.push({date,time,activity,place:displayProgramPlace(place)});owner.group.end=date}
+   if(activity&&!/^(담당|보조|장소|집합|식사)/.test(activity)){const match=matchProgramActivity(activity,programActivities);if(match.changed)corrected.push(activity+' → '+match.activity);if(match.needsReview)unmatched.push(activity+(suggestProgramActivity(activity,programActivities)?' → 추천: '+suggestProgramActivity(activity,programActivities):''));owner.group.sessions.push({date,time,activity:match.activity,place:displayProgramPlace(place,match.activity)});owner.group.end=date}
    progress(`활동을 읽고 있어요… ${++done}/${activityRows.length}`);
   }
   const groups=registrations.map(r=>r.group).filter(g=>g.sessions.length);if(!groups.length)throw Error('활동을 읽지 못했어요. 선명한 원본 PNG가 필요합니다.');
-  return {week:monday(dayBands[0].date),source:file.name,updatedAt:new Date().toISOString(),groups,dateNote:resolved.yearInferred?`원본에 연도가 없어 ${currentYear}년으로 읽었어요. 날짜를 확인해주세요.`:undefined};
+  return {week:monday(dayBands[0].date),source:file.name,updatedAt:new Date().toISOString(),groups,dateNote:[resolved.yearInferred?`원본에 연도가 없어 ${currentYear}년으로 읽었어요. 날짜를 확인해주세요.`:null,corrected.length?`프로그램명 보정: ${[...new Set(corrected)].join(' / ')}`:null,unmatched.length?`프로그램명 확인 필요: ${[...new Set(unmatched)].join(', ')}`:null].filter(Boolean).join(' · ')||undefined};
  }finally{await worker.terminate();canvas.width=canvas.height=0}
 }
 

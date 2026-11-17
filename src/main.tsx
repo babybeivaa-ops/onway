@@ -188,3 +188,5 @@ import './admin.css';
 import './guide-typography.css';
 
 import './arrival-theme.css';
+import './guide-refresh.css';
+import './admin-refresh.css';

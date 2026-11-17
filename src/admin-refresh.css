@@ -1,0 +1,28 @@
+/* Administrator palette matches the guide; layout and type sizes stay intact. */
+.workspace-shell.admin{--blue:#168be3;font-family:'Pretendard Variable',sans-serif;color:#24364a;background:#f3f8fc}
+.workspace-shell.admin :is(button,input,select,textarea,dialog){font-family:'Pretendard Variable',sans-serif}
+.workspace-shell.admin :is(h1,h2,h3,h4){color:#24364a}
+.workspace-shell.admin .admin-page{background:#f3f8fc}
+.workspace-shell.admin .admin-heading{background:linear-gradient(115deg,#259cf2,#42b7ed);border-color:#cdeafa}
+.workspace-shell.admin .admin-heading :is(h1,p,.eyebrow){color:#fff}
+.workspace-shell.admin .primary,.workspace-shell.admin .view-switch button[aria-pressed=true]{background:#168be3;color:#fff;border-color:#168be3;box-shadow:0 4px 12px #168be31a}
+.workspace-shell.admin .admin-heading .primary{background:#fff;color:#087fc6;border-color:#fff;box-shadow:none}
+.workspace-shell.admin :is(.secondary,.admin-refresh,.admin-dashboard-open){background:#fff;color:#17699d;border-color:#cde2ef;box-shadow:none}
+.workspace-shell.admin :is(.secondary,.admin-refresh,.admin-dashboard-open):hover{background:#edf8ff;border-color:#91d3f5}
+.workspace-shell.admin :is(input,select,textarea){background:#fff;color:#24364a;border-color:#cfdfeb}
+.workspace-shell.admin :is(input,select,textarea):focus{outline-color:#42b7ed}
+.workspace-shell.admin :is(label,.fine,.muted,.admin-heading p,.admin-local-note){color:#576b7d}
+.workspace-shell.admin .admin-heading p{color:#fff}
+.workspace-shell.admin :is(.school-arrival-card,.school-sharing,.admin-detail,.arrival-document-card){background:#fff;border-color:#dce9f1}
+.workspace-shell.admin .school-arrival-card{border-top-color:#67bfdc}
+.workspace-shell.admin .school-sharing{border-top-color:#8ab6df}
+.workspace-shell.admin :is(.view-switch,.program-manager,.admin-facts,.baseline-times){background:#edf8ff;color:#294f69;border-color:#d6eaf5}
+.workspace-shell.admin :is(.admin-route-origin,.admin-route-checkpoints){border-color:#dce9f1}
+.workspace-shell.admin :is(.participant-table,.school-visit-facts,.admin-audit-table,.program-edit-table,.group-meal-table) th{background:#f0f8fc;color:#2c566f;border-color:#dce9f1}
+.workspace-shell.admin :is(.participant-table,.admin-audit-table,.program-edit-table,.group-meal-table) td{border-color:#e0edf4;color:#304b60}
+.workspace-shell.admin .program-trip-banner{background:#edf8ff;border-color:#d6edf9;color:#224661}
+.workspace-shell.admin :is(.arrival-meal-settings,.meal-demo-notice){background:#fff9e9;border-color:#f0dfb1;color:#70551d}
+.workspace-shell.admin .schedule-day h4{color:#25526e;border-color:#91d3f5}
+.workspace-shell.admin .schedule-agenda th{background:#f3f9fc;color:#526a7b}
+.workspace-shell.admin .schedule-agenda td{border-color:#e0edf4}
+.workspace-shell.admin .schedule-agenda .agenda-time{color:#087fc6}

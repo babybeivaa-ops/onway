@@ -1,11 +1,22 @@
+import {createHash} from 'node:crypto';
 import {gunzipSync} from 'node:zlib';
 import {validWorkspace} from './workspace-schema.mjs';
-export function readDemoWorkspace(encoded){
+export function readDemoWorkspace(encoded,documentsEncoded){
  if(!encoded)return null;
  const backup=JSON.parse(gunzipSync(Buffer.from(encoded,'base64'),{maxOutputLength:10000000}).toString('utf8'));
  if(backup.format!=='onway-backup'||!validWorkspace(backup.workspace))throw Error('Invalid demo snapshot');
  const workspace={version:2,view:'admin',activeGroupId:backup.workspace.activeGroupId,groups:backup.workspace.groups};
- return {version:'staff-samples-20261026',referenceDate:'2026-10-26',workspace};
+  const storage={};
+ if(documentsEncoded){
+  const bundle=JSON.parse(gunzipSync(Buffer.from(documentsEncoded,'base64'),{maxOutputLength:50000000}).toString('utf8'));
+  for(const [key,value] of Object.entries(bundle.storage??{})){
+   if(key==='onway-program-plans-v1'||/^onway-weekly-menu-v1:\d{4}-\d{2}-\d{2}$/.test(key)||(/^onway-meal-preview-v1:/.test(key)&&!key.endsWith(':backup'))){
+    if(typeof value!=='string')throw Error('Invalid demo document');JSON.parse(value);storage[key]=value;
+   }
+  }
+ }
+ const referenceDate=/^\d{4}-\d{2}-\d{2}$/.test(backup.referenceDate??'')?backup.referenceDate:'2026-10-26';
+ return {version:'staff-samples-'+createHash('sha256').update(encoded+(documentsEncoded||'')).digest('hex').slice(0,16),referenceDate,workspace,storage};
 }
 export async function removeServerOnlyGroups(store,sample){
  if(!store||!sample)throw Error('Group cleanup requires cloud storage and the approved snapshot');
