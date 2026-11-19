@@ -1058,3 +1058,17 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .school-sharing .share-link-layout>.share-qr{margin:0;gap:8px}
 .school-sharing .share-link-details>.fine{margin:8px 0 0;line-height:1.6}
 @media(max-width:600px){.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr);gap:16px}.school-sharing .share-link-layout>.share-qr{justify-self:start;width:200px;max-width:100%}}
+
+#group-detail .baseline-times>summary{font-size:15px;font-weight:700;line-height:1.4;cursor:pointer}
+#group-detail .baseline-times[open]>summary{margin-bottom:8px}
+
+.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr) 144px;gap:24px;padding:10px 0}
+.school-sharing .share-link-copy-row{display:flex;align-items:stretch;gap:8px}
+.school-sharing .share-link-copy-row>input{min-width:0;flex:1}
+.school-sharing .share-link-copy-row>button{flex:0 0 auto;width:auto;margin:0;white-space:nowrap;padding:8px 12px}
+.school-sharing .share-link-qr-panel{width:144px;max-width:100%}
+.school-sharing .share-link-qr-panel>.share-qr{margin:0;gap:8px}
+.school-sharing .share-link-qr-panel .share-qr img{width:144px}
+.school-sharing .share-link-qr-panel .qr-download{box-sizing:border-box;width:100%;text-align:center}
+.school-sharing .share-link-details>.fine:first-of-type{margin-top:12px}
+@media(max-width:600px){.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr);gap:16px}.school-sharing .share-link-qr-panel{justify-self:start}}
