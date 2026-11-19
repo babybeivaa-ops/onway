@@ -1072,3 +1072,8 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .school-sharing .share-link-qr-panel .qr-download{box-sizing:border-box;width:100%;text-align:center}
 .school-sharing .share-link-details>.fine:first-of-type{margin-top:12px}
 @media(max-width:600px){.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr);gap:16px}.school-sharing .share-link-qr-panel{justify-self:start}}
+
+#group-detail details.baseline-times{padding:0;margin-top:12px;border-radius:10px}
+#group-detail .baseline-times>summary{box-sizing:border-box;min-height:40px;margin:0;padding:10px 12px;font-size:13px;line-height:20px}
+#group-detail .baseline-times[open]{padding:0 12px 12px}
+#group-detail .baseline-times[open]>summary{margin:0 -12px 4px}
