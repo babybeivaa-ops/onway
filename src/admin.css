@@ -1050,3 +1050,11 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .notification-target-highlight{outline:3px solid #2970de!important;outline-offset:5px;box-shadow:0 0 0 8px #2970de12!important;border-radius:12px}
 
 .archive-navigation{display:flex;justify-content:flex-start;margin:14px 0}.archive-navigation .archive-return{display:inline-flex;align-items:center;gap:6px}
+
+.school-sharing .share-link-layout{display:grid;grid-template-columns:minmax(0,1fr) 200px;align-items:start;gap:24px;padding:12px 0}
+.school-sharing .share-link-details{min-width:0}
+.school-sharing .share-link-label{margin:0 0 8px;font-size:13px;font-weight:700}
+.school-sharing .share-link-details>button{display:inline-flex;align-items:center;width:auto;min-height:40px;margin:8px 0 12px}
+.school-sharing .share-link-layout>.share-qr{margin:0;gap:8px}
+.school-sharing .share-link-details>.fine{margin:8px 0 0;line-height:1.6}
+@media(max-width:600px){.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr);gap:16px}.school-sharing .share-link-layout>.share-qr{justify-self:start;width:200px;max-width:100%}}
