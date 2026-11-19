@@ -1051,7 +1051,7 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 
 .archive-navigation{display:flex;justify-content:flex-start;margin:14px 0}.archive-navigation .archive-return{display:inline-flex;align-items:center;gap:6px}
 
-.school-sharing .share-link-layout{display:grid;grid-template-columns:minmax(0,1fr) 200px;align-items:start;gap:24px;padding:12px 0}
+.school-sharing .share-link-layout{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:18px;padding:10px 0}
 .school-sharing .share-link-details{min-width:0}
 .school-sharing .share-link-label{margin:0 0 8px;font-size:13px;font-weight:700}
 .school-sharing .share-link-details>button{display:inline-flex;align-items:center;width:auto;min-height:40px;margin:8px 0 12px}
@@ -1062,11 +1062,10 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 #group-detail .baseline-times>summary{font-size:15px;font-weight:700;line-height:1.4;cursor:pointer}
 #group-detail .baseline-times[open]>summary{margin-bottom:8px}
 
-.school-sharing .share-link-layout{grid-template-columns:minmax(0,1fr) 144px;gap:24px;padding:10px 0}
 .school-sharing .share-link-copy-row{display:flex;align-items:stretch;gap:8px}
 .school-sharing .share-link-copy-row>input{min-width:0;flex:1}
 .school-sharing .share-link-copy-row>button{flex:0 0 auto;width:auto;margin:0;white-space:nowrap;padding:8px 12px}
-.school-sharing .share-link-qr-panel{width:144px;max-width:100%}
+.school-sharing .share-link-qr-panel{width:144px;max-width:100%;justify-self:start}
 .school-sharing .share-link-qr-panel>.share-qr{margin:0;gap:8px}
 .school-sharing .share-link-qr-panel .share-qr img{width:144px}
 .school-sharing .share-link-qr-panel .qr-download{box-sizing:border-box;width:100%;text-align:center}
