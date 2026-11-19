@@ -22,3 +22,23 @@
 .usage-guide .usage-location-guide p{font-size:11px;line-height:1.45;margin:0;color:inherit;word-break:keep-all}
 .app .demo-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.app .usage-guide-open{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:4px 7px;border:1px solid #c4d6ec;border-radius:8px;background:white;color:#285f9a;font-size:11px;white-space:nowrap}
 @media(max-width:374px){.usage-guide{padding:18px}.usage-guide-steps>li{gap:9px;padding:12px 10px}.usage-guide-steps h3{font-size:15px}.usage-guide-cloud{gap:10px}.usage-guide-cloud>svg{width:62px;height:56px;flex-basis:62px}.usage-guide-cloud>p{padding:9px 10px;font-size:15px}}
+
+.usage-guide{box-sizing:border-box;overscroll-behavior:contain}
+.usage-guide>h2:focus{outline:none}
+@media(max-width:600px),(max-height:760px){
+ .usage-guide{width:calc(100% - 24px);padding:14px 16px;max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));border-radius:18px}
+ .usage-guide>h2{font-size:19px;line-height:25px;margin-bottom:10px}
+ .usage-guide-cloud{gap:8px;margin-bottom:10px}
+ .usage-guide-cloud>svg{width:54px;height:50px;flex-basis:54px}
+ .usage-guide-cloud>p{padding:7px 9px;font-size:14px;line-height:1.4;border-radius:12px}
+ .usage-guide-steps{gap:7px}
+ .usage-guide-steps>li{gap:9px;padding:9px 10px;border-radius:12px}
+ .usage-guide .usage-step-number{width:25px;height:25px;flex-basis:25px;font-size:18px;border-radius:8px}
+ .usage-guide-steps h3{font-size:14px;line-height:20px;margin:0 0 3px}
+ .usage-guide-steps p{font-size:12px;line-height:1.45}
+ .usage-step-warning{margin-top:4px;font-size:12px;line-height:18px}
+ .usage-location-guide{margin-top:9px;padding:3px 2px 0}
+ .usage-guide .usage-guide-demo{margin-top:6px;font-size:10px;line-height:14px}
+ .usage-guide .primary{margin-top:9px;min-height:44px;padding:9px 12px}
+ .usage-guide .usage-guide-again{font-size:10px;line-height:14px;margin-top:4px}
+}

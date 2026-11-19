@@ -132,5 +132,5 @@
 
 /* Kakao overlay images must not inherit responsive SVG widths. */
 .current-position-pin{width:76px;min-width:76px;max-width:76px;box-sizing:border-box}
-.current-position-pin>svg{display:block;width:48px!important;min-width:48px;max-width:48px!important;height:57px!important;min-height:57px;max-height:57px;flex:none}
+.current-position-pin>svg{display:block;width:24px!important;min-width:24px;max-width:24px!important;height:28.5px!important;min-height:28.5px;max-height:28.5px;flex:none}
 .current-position-pin>span{white-space:nowrap;font-size:12px;line-height:1.4}
