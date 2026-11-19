@@ -15,7 +15,7 @@ export function CenterAccess({code,onCodeChange,shared=false,onAuthenticated}:{c
 }
 export function GroupSharing({group,code,onCodeChange,shared=false}:{group:DemoGroup;code:string;onCodeChange:(code:string)=>void;shared?:boolean}){
  async function prepare(token:string){if(shared)return;try{await sharedRequest(token,'publish','POST',{group})}catch(e){if((e as {status?:number}).status!==409)throw e}sessionStorage.setItem('onway-admin-access',token)}
- return <section className="data-tools school-sharing"><h3><span className="admin-section-icon"><CloudMascot size={48}/></span>이 학교·단체 인솔교사 링크</h3><p>{group.state.organization.name} · {group.travelDate}</p><p className="fine">전용 링크를 복사하거나 QR을 저장해서 인솔교사에게 바로 전달해주세요.</p><ShareLink key={group.id} groupId={group.id} role="guide" code={code} prepare={prepare} onCodeChange={onCodeChange} shared={shared}/></section>;
+ return <section className="data-tools school-sharing"><h3><span className="admin-section-icon"><CloudMascot size={48}/></span>이 학교·단체 인솔교사 링크</h3><p>{group.state.organization.name} · {group.travelDate}</p><p className="fine share-validity-note">전용 링크를 복사하거나 QR을 저장해서 인솔교사에게 바로 전달해주세요. <span>발급일로부터 30일간 유효</span></p><ShareLink key={group.id} groupId={group.id} role="guide" code={code} prepare={prepare} onCodeChange={onCodeChange} shared={shared}/></section>;
 }
 export function DataTools({workspace,onRestore}:{workspace:Workspace;onRestore:(w:Workspace)=>void}){
  const [candidate,setCandidate]=useState<Workspace|null>(null),[message,setMessage]=useState('');

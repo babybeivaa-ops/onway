@@ -1076,3 +1076,5 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 #group-detail .baseline-times>summary{box-sizing:border-box;min-height:40px;margin:0;padding:10px 12px;font-size:13px;line-height:20px}
 #group-detail .baseline-times[open]{padding:0 12px 12px}
 #group-detail .baseline-times[open]>summary{margin:0 -12px 4px}
+
+.school-sharing .share-validity-note>span{display:inline-block;margin-left:8px;font-weight:600;white-space:nowrap}
