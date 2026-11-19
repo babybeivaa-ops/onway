@@ -17,5 +17,8 @@
 .usage-guide .usage-guide-demo{font-size:11px;line-height:16px;color:#876231;margin:12px 0 0;text-align:center}
 .usage-guide .primary{width:100%;margin-top:14px;min-height:44px}
 .usage-guide .usage-guide-again{text-align:center;font-size:11px;line-height:16px;color:#667e99;margin:8px 0 0}
+.usage-location-guide{margin-top:14px;padding:10px 8px 0;background:transparent;border:0;border-radius:0;color:#667e99}
+.usage-guide .usage-location-guide h3{font-size:12px;line-height:18px;margin:0 0 2px;font-weight:700;color:inherit}
+.usage-guide .usage-location-guide p{font-size:11px;line-height:1.45;margin:0;color:inherit;word-break:keep-all}
 .app .demo-strip{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.app .usage-guide-open{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:4px 7px;border:1px solid #c4d6ec;border-radius:8px;background:white;color:#285f9a;font-size:11px;white-space:nowrap}
 @media(max-width:374px){.usage-guide{padding:18px}.usage-guide-steps>li{gap:9px;padding:12px 10px}.usage-guide-steps h3{font-size:15px}.usage-guide-cloud{gap:10px}.usage-guide-cloud>svg{width:62px;height:56px;flex-basis:62px}.usage-guide-cloud>p{padding:9px 10px;font-size:15px}}

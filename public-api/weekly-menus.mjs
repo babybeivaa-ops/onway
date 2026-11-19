@@ -21,7 +21,7 @@ export async function serveWeeklyMenus(req,res,url,{store,canEdit,group}){
   }
   if(req.method!=='GET')throw fail('허용되지 않은 요청이에요.',405);
   const start=url.searchParams.get('start'),end=url.searchParams.get('end');if(!validDate(start)||!validDate(end)||end<start||end>addDays(start,31))throw fail('조회할 식단 날짜를 확인해주세요.');
-  if(!canEdit){const duration=group?.state.organization.visitDuration;const last=group?addDays(group.travelDate,duration==='2박 3일'?2:duration==='1박 2일'?1:0):'';if(!group||start<group.travelDate||end>last)throw fail('해당 단체의 입소 기간만 조회할 수 있어요.',403)}
+  if(!canEdit){const duration=group?.state.organization.visitDuration;const last=group?addDays(group.travelDate,duration==='3박 4일'?3:duration==='2박 3일'?2:duration==='1박 2일'?1:0):'';if(!group||start<group.travelDate||end>last)throw fail('해당 단체의 입소 기간만 조회할 수 있어요.',403)}
   const menus=[];for(let date=monday(start);date<=end;date=addDays(date,7)){const menu=await store.read(documentKey('center-weekly-menu',date,'menu'));if(menu)menus.push(canEdit?menu:{...menu,sourceName:'센터 주간식단표',days:menu.days.filter(day=>day.date>=start&&day.date<=end)})}
   const previewGroup=canEdit?url.searchParams.get('groupId'):group?.id;
   if(previewGroup){const preview=await store.read(documentKey(previewGroup,'2000-01-01','meal-preview'));if((preview?.previewKind||preview?.previewSourceWeek)&&!menus.some(m=>m.weekStart===preview.weekStart)&&preview.days.some(d=>d.date>=start&&d.date<=end))menus.push({...preview,days:preview.days.filter(d=>d.date>=start&&d.date<=end)})}

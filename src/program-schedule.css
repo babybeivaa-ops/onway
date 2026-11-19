@@ -21,3 +21,17 @@
 .program-upload-label{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.program-upload-label>small{font-size:10px;font-weight:400;line-height:1.5;color:#62758e}
 .program-trip-banner>div{min-width:0}.arrival-documents .program-trip-banner>.program-banner-edit{width:auto;flex:0 0 auto;align-self:flex-start;margin:0 0 0 auto;min-height:30px;padding:4px 10px;font-size:12px;line-height:20px;white-space:nowrap}
 .program-review-actions{grid-template-columns:minmax(0,1fr)}
+.program-class-filter{display:flex;align-items:center;gap:12px;margin:12px 0;font-size:13px;font-weight:700}.program-class-filter select{width:auto;min-width:120px;margin-left:auto}.schedule-agenda .agenda-class{display:block;width:fit-content;margin-bottom:5px;padding:2px 7px;border-radius:6px;background:#e7f4ff;color:#17619a;font-size:11px;font-weight:700}.program-edit-table td>input[aria-label$="반 구분"]{margin-bottom:6px}
+.program-date-mismatch{margin:12px 0;padding:12px;border:1px solid #e6bd75;border-radius:10px;background:#fff9ea;color:#795621;font-size:13px}.program-date-mismatch p{margin:5px 0}
+
+/* Keep each class group's colour stable across dates and class filters. */
+.schedule-agenda .agenda-class-labels{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:5px}
+.schedule-agenda .agenda-class-labels .agenda-class{margin:0}
+.schedule-agenda .agenda-class[data-tone="0"]{background:#e5f2ff;color:#185b91}
+.schedule-agenda .agenda-class[data-tone="1"]{background:#dff5f4;color:#176a67}
+.schedule-agenda .agenda-class[data-tone="2"]{background:#eee7fc;color:#694299}
+.schedule-agenda .agenda-class[data-tone="3"]{background:#fce7ee;color:#9a365a}
+.schedule-agenda .agenda-class[data-tone="4"]{background:#e5f4e8;color:#286b40}
+.schedule-agenda .agenda-class[data-tone="5"]{background:#e9ecff;color:#4652a0}
+.schedule-agenda .agenda-class[data-tone="6"]{background:#fff0d9;color:#8b5513}
+.schedule-agenda .agenda-class[data-tone="neutral"]{background:#eef1f5;color:#526174}

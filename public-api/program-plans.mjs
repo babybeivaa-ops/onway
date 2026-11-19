@@ -9,7 +9,7 @@ const normalize=s=>s.replace(/초등학교/g,'초').replace(/중학교/g,'중').
 export function validateProgramPlan(p){
  if(!p||!validDate(p.week)||!text(p.source,200)||!Array.isArray(p.groups)||!p.groups.length||p.groups.length>30)throw fail('편성표 형식을 확인해주세요.');
  const groups=p.groups.map(g=>{if(!g||!text(g.name,200)||!g.name.trim()||!text(g.aliases,1000)||!validDate(g.start)||!validDate(g.end)||g.end<g.start||!Array.isArray(g.sessions)||!g.sessions.length||g.sessions.length>200)throw fail('단체명과 기간을 확인해주세요.');
- const sessions=g.sessions.map(s=>{if(!s||!validDate(s.date)||s.date<g.start||s.date>g.end||!text(s.time,30)||!/^([01]\d|2[0-3]):[0-5]\d\s*[~–-]\s*([01]\d|2[0-3]):[0-5]\d$/.test(s.time)||!text(s.activity,500)||!s.activity.trim()||!text(s.place,200))throw fail('활동 날짜·시간·내용을 확인해주세요.');return {date:s.date,time:s.time,activity:s.activity.trim(),place:s.place.trim()}});
+ const sessions=g.sessions.map(s=>{if(!s||!validDate(s.date)||s.date<g.start||s.date>g.end||!text(s.time,30)||!/^([01]\d|2[0-3]):[0-5]\d\s*[~–-]\s*([01]\d|2[0-3]):[0-5]\d$/.test(s.time)||!text(s.activity,500)||!s.activity.trim()||!text(s.place,200)||(s.classes!==undefined&&!text(s.classes,100)))throw fail('활동 날짜·시간·내용을 확인해주세요.');return {date:s.date,time:s.time,activity:s.activity.trim(),place:s.place.trim(),...(s.classes?.trim()?{classes:s.classes.trim()}:{})}});
  return {name:g.name.trim(),aliases:g.aliases,start:g.start,end:g.end,sessions}});
  return {week:p.week,source:p.source,updatedAt:new Date().toISOString(),groups};
 }

@@ -1048,3 +1048,5 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page>.admin-heading h1{margin-block:4px 6px}
 .admin-page>.admin-heading p{margin-block:6px 0}
 .notification-target-highlight{outline:3px solid #2970de!important;outline-offset:5px;box-shadow:0 0 0 8px #2970de12!important;border-radius:12px}
+
+.archive-navigation{display:flex;justify-content:flex-start;margin:14px 0}.archive-navigation .archive-return{display:inline-flex;align-items:center;gap:6px}

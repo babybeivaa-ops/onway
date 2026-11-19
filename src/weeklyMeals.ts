@@ -8,7 +8,7 @@ export function addDays(date:string,n:number){const d=new Date(date+'T00:00:00Z'
 export function monday(date:string){const d=new Date(date+'T00:00:00Z');return addDays(date,-((d.getUTCDay()+6)%7))}
 export function mealDates(date:string,duration?:string,arrivalLunch=false){
  if(!duration)return [];
- const nights=duration==='2박 3일'?2:duration==='1박 2일'?1:0;
+ const nights=duration==='3박 4일'?3:duration==='2박 3일'?2:duration==='1박 2일'?1:0;
  const result:{date:string;meal:Meal}[]=[];
  if(!nights)return arrivalLunch?[{date,meal:'lunch' as Meal}]:[];
  for(let day=0;day<=nights;day++)for(const meal of mealKeys){if(day===0&&(meal==='breakfast'||(meal==='lunch'&&!arrivalLunch)))continue;if(day===nights&&meal==='dinner')continue;result.push({date:addDays(date,day),meal})}

@@ -1,7 +1,7 @@
 import {useLayoutEffect,useId,useRef} from 'react';
 import {AnnouncingCloudIcon} from './AnnouncingCloudIcon';
 import './usage-guide.css';
-const key='onway-usage-guide-v1';
+const key='onway-usage-guide-v2';
 let confirmedThisSession=false;
 export function needsUsageGuide(){try{return !confirmedThisSession&&localStorage.getItem(key)!=='confirmed'}catch{return !confirmedThisSession}}
 export function confirmUsageGuide(){confirmedThisSession=true;try{localStorage.setItem(key,'confirmed')}catch{/* Keep this session usable when storage is blocked. */}}
@@ -16,6 +16,12 @@ export function UsageGuide({onClose,shared}:{onClose:()=>void;shared:boolean}){
    <li className="usage-step-important"><span className="usage-step-number" aria-hidden="true">2</span><div><h3>확인 지점에서 직접 눌러요!</h3><p>출발하거나 지점을 지나면<br/>해당 지점의 확인 버튼을 눌러 주세요.</p><strong className="usage-step-warning">자동으로 기록되지 않아요.</strong></div></li>
    <li><span className="usage-step-number" aria-hidden="true">3</span><div><h3>센터에 전달할 내용 남기기</h3><p>‘센터 톡톡’에 작성하고<br/>센터의 답변을 확인해요.</p></div></li>
   </ol>
+  <section className="usage-location-guide" aria-label="위치정보 이용 안내">
+   <h3>위치정보 안내</h3>
+   <p>실시간으로 위치를 추적하지 않아요.</p>
+   <p>‘내 위치 보기’에서 권한을 허용하면 위치를 확인해요.</p>
+   <p>‘센터에 위치 전송’을 누르면 센터에 위치를 공유해요.</p>
+  </section>
   {!shared&&<p className="usage-guide-demo">시연 모드 · 실제 센터 전송 없음</p>}
   <button autoFocus type="button" className="primary" onClick={onClose}>확인했어요 · 시작하기</button><p className="usage-guide-again">상단의 ‘사용 안내’에서 다시 볼 수 있어요.</p>
  </dialog>;

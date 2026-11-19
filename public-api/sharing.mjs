@@ -1,4 +1,5 @@
 import {serveWeeklyMenus} from './weekly-menus.mjs';
+import {encodeCenterCode,checkCenterCode} from './center-code.mjs';
 import {serveProgramPlans} from './program-plans.mjs';
 import {serveDocuments,createFileDocumentStore} from './documents.mjs';
 import fs from 'node:fs';
@@ -21,7 +22,8 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
   fs.renameSync(tmp,file);db=next;
  };
  const json=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
- const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin',owner:true};const key=hash(token);const entry=db.links[key];if(entry?.role==='admin'&&entry.expires>now())return {role:'admin',owner:false};return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
+ const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin',owner:true};const key=hash(token);const entry=db.links[key];if(entry?.role==='admin-setup'&&entry.expires>now())return {role:'admin-setup',owner:true};if(entry?.role==='admin'&&entry.expires>now()){if(entry.centerVersion&&entry.centerVersion!==db.centerCode?.version)return null;return {role:'admin',owner:!!entry.centerVersion};}return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
+ const loginAttempts=new Map();
  const snapshot=actor=>({role:actor.role,revision:db.revision,workspace:actor.role==='admin'?db.workspace:{version:2,view:'guide',activeGroupId:actor.groupId,groups:db.workspace.groups.filter(g=>g.id===actor.groupId)}});
  async function body(req){let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>10000000)throw Object.assign(Error('요청이 너무 커요.'),{status:413});}try{return JSON.parse(raw)}catch{throw Object.assign(Error('잘못된 요청이에요.'),{status:400})}}
  const denied=()=>Object.assign(Error('이 작업의 권한이 없어요.'),{status:403});
@@ -30,7 +32,28 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
   try{
    const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)throw denied();
    if(store){db=await store.load();if(!validWorkspace(db.workspace)||!Number.isSafeInteger(db.revision)||!db.links)throw Error('invalid stored state');}
+   if(url.pathname==='/api/shared/admin-login'&&req.method==='POST'){
+    const ip=req.socket?.remoteAddress||'unknown';for(const [key,v] of loginAttempts)if(v.until<=now())loginAttempts.delete(key);
+    const attempt=loginAttempts.get(ip)||{count:0,until:now()+15*60_000};
+    if(attempt.count>=5||loginAttempts.size>1000){json(res,429,{error:'접속 시도가 많아요. 15분 후 다시 시도해주세요.'});return true;}
+    const {code}=await body(req);attempt.count++;loginAttempts.set(ip,attempt);
+    if(!checkCenterCode(code,db.centerCode)){json(res,401,{error:'센터 코드를 확인해주세요. 처음 사용하는 경우 관리자 코드 설정을 먼저 완료해주세요.'});return true;}
+    loginAttempts.delete(ip);const token=randomBytes(32).toString('base64url'),expires=now()+12*3600000;
+    const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.expires>now()));links[hash(token)]={role:'admin',centerVersion:db.centerCode.version,expires};
+    await persist({...db,revision:db.revision+1,links});json(res,200,{token,expires,role:'admin'});return true;
+   }
    const actor=auth(req);if(!actor){json(res,401,{error:'접속 코드가 잘못되었거나 만료된 링크예요.'});return true;}
+   if(url.pathname==='/api/shared/admin-code'&&req.method==='POST'){
+    if(!actor.owner)throw denied();const {code}=await body(req);const centerCode=encodeCenterCode(code);
+    const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role!=='admin-setup'&&!v.centerVersion));
+    await persist({...db,revision:db.revision+1,centerCode,links});json(res,200,{saved:true});return true;
+   }
+   if(actor.role==='admin-setup')throw denied();
+   if(url.pathname==='/api/shared/admin-setup-link'&&req.method==='POST'){
+    if(!actor.owner)throw denied();const token=randomBytes(32).toString('base64url'),expires=now()+10*60_000;
+    const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role!=='admin-setup'));links[hash(token)]={role:'admin-setup',expires};
+    await persist({...db,revision:db.revision+1,links});json(res,200,{token,expires});return true;
+   }
    if(url.pathname==='/api/shared/program-plans'){await serveProgramPlans(req,res,{store:pdfStore,registeredNames:db.workspace.groups.map(g=>g.state.organization.name),canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
    if(url.pathname==='/api/shared/weekly-menus'){await serveWeeklyMenus(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
    if(url.pathname==='/api/shared/documents'){

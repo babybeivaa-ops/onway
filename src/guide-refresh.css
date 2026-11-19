@@ -12,7 +12,7 @@
 .workspace-shell.guide .usage-guide-open{background:white;color:#376e95;border:1px solid #e0eaf2;border-radius:9px}
 .workspace-shell.guide .app main>.group-summary{background:#f5faff;border:0;border-radius:22px;padding:22px 18px;margin:22px 0 12px;box-shadow:none}
 .workspace-shell.guide .group-summary .eyebrow{color:#587185;font-size:12px}
-.workspace-shell.guide .group-summary h1{color:#23364a;font-weight:750;font-size:24px}
+.workspace-shell.guide .group-summary h1{color:#176b75;font-weight:750;font-size:24px}
 .workspace-shell.guide .status{background:#e0f3ff;color:#096fae;border:0}
 .workspace-shell.guide .status.arrived{background:#e4f6ed;color:#227655}
 .workspace-shell.guide .group-summary .guide-people-simple>div{background:#fff;border-color:#e1edf5}
@@ -114,3 +114,39 @@
 .workspace-shell.guide .app :is(.journey-title-toggle,.center-message-history-toggle,.info-section-toggle)>svg{display:block;position:static;width:34px;height:34px;min-width:34px;flex:0 0 34px;margin:0;align-self:center}
 .workspace-shell.guide .app :is(.journey-toggle-heading,.center-message-heading,.center-weather>.section-heading,.road-traffic>.section-heading) h2{margin:0;padding:0}
 .workspace-shell.guide .app .center-message-hint{font-size:12px;font-weight:400;line-height:1.5;color:#576b7d;margin:2px 0 10px}
+.workspace-shell.guide .app .planned-arrival-card[data-audience="guide"]{padding-left:18px;padding-right:18px}.workspace-shell.guide .app .planned-arrival-card[data-audience="guide"] .planned-arrival-header{justify-content:flex-start}.workspace-shell.guide .app .planned-arrival-card[data-audience="guide"] form{justify-self:end}.workspace-shell.guide .app .planned-arrival-card[data-audience="guide"] .planned-arrival-hint{text-align:right;padding-left:0}
+
+/* Arrival documents: lavender schedule and warm cream meals. */
+.workspace-shell.guide .app .arrival-document-card.program-schedule{border-color:#e3dcef;background:#fff}
+.workspace-shell.guide .app .program-schedule>summary>strong,
+.workspace-shell.guide .app .program-schedule>summary::after{color:#624583}
+.workspace-shell.guide .app .program-schedule>summary>span{color:#7d6b92}
+.workspace-shell.guide .app .program-schedule>summary>svg{background:#f1ebf9;border-radius:12px}
+.workspace-shell.guide .app .program-trip-banner{background:#f5f0fb;border-color:#e4d9f1}
+.workspace-shell.guide .app .program-trip-banner h3{color:#594077}
+.workspace-shell.guide .app .program-trip-banner :is(p,.program-end-date){color:#70568d}
+.workspace-shell.guide .app .program-trip-banner p small{color:#7c6c8c}
+.workspace-shell.guide .app .schedule-day h4{border-bottom-color:#cbb5e1;color:#604779}
+.workspace-shell.guide .app .schedule-agenda thead th{background:#f5f0fa;color:#6d587e;border-color:#e9e2ef}
+.workspace-shell.guide .app .schedule-agenda tbody th.agenda-time{background:#faf7fd;color:#715093;border-color:#e9e2ef}
+.workspace-shell.guide .app .schedule-agenda td{background:#fff;border-color:#e9e2ef}
+.workspace-shell.guide .app .program-class-filter{color:#6d587e}
+.workspace-shell.guide .app .program-class-filter select{border-color:#d9cbe7;color:#594077;background:#fff}
+.workspace-shell.guide .app .arrival-document-card.group-meal-menu{border-color:#ecdfc9;background:#fff}
+.workspace-shell.guide .app .group-meal-menu>summary>strong,
+.workspace-shell.guide .app .group-meal-menu>summary::after{color:#79562d}
+.workspace-shell.guide .app .group-meal-menu>summary>svg{background:#fff3da;border-radius:12px}
+.workspace-shell.guide .app .group-meal-menu :is(.arrival-meal-settings,.meal-demo-notice){background:#fff8e9;border-color:#ecdbb9;color:#795b30}
+.workspace-shell.guide .app .group-meal-table thead th{background:#fff2d8;color:#79562d;border-color:#ebdfc9}
+.workspace-shell.guide .app .group-meal-table tbody th{background:#fffbf2;color:#806039;border-color:#ebdfc9}
+.workspace-shell.guide .app .group-meal-table td{background:#fff;border-color:#ebdfc9;color:#4f463d}
+.workspace-shell.guide .app .group-meal-table td.meal-not-included{background:#f4f5f7;color:#737c88}
+
+.workspace-shell.guide .app .group-meal-table tr[data-meal="breakfast"]>th[scope="row"]{background:#ffeadb;color:#8b502d}
+.workspace-shell.guide .app .group-meal-table tr[data-meal="lunch"]>th[scope="row"]{background:#e4f4ed;color:#2d6c55}
+.workspace-shell.guide .app .group-meal-table tr[data-meal="dinner"]>th[scope="row"]{background:#eee7f9;color:#684b8b}
+
+.workspace-shell.guide .app>main>footer{padding:16px 0 0;margin-top:0;line-height:1.5}
+.workspace-shell.guide .app>main>footer b{display:inline-block;margin-top:4px;line-height:1.4}
+.workspace-shell.guide .app>main>footer .demo-settings-button{margin:6px auto 0;min-height:32px;padding:4px 8px}
+.workspace-shell.guide .app{padding-bottom:calc(82px + env(safe-area-inset-bottom))}

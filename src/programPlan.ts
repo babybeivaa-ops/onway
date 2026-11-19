@@ -1,5 +1,5 @@
 import {mergeProgramPlan} from '../public-api/program-merge.mjs';
-export type ProgramSession={date:string;time:string;activity:string;place:string};
+export type ProgramSession={date:string;time:string;activity:string;place:string;classes?:string};
 export type ProgramGroup={name:string;aliases:string;start:string;end:string;sessions:ProgramSession[]};
 export type ProgramPlan={week:string;source:string;updatedAt:string;groups:ProgramGroup[];dateNote?:string};
 export function normalizedSchool(value:string){return value.replace(/초등학교/g,'초').replace(/중학교/g,'중').replace(/고등학교/g,'고').replace(/군복무/g,'').replace(/관측실습/g,'').replace(/[^가-힣a-z0-9]/gi,'').toLowerCase()}

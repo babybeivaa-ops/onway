@@ -257,7 +257,8 @@
 .app .center-weather .weather-title-line{width:100%;flex:1 0 100%;min-width:0}
 .app :is(.center-weather,.road-traffic) .info-section-toggle,.app .center-message-heading .center-message-history-toggle{width:100%;display:flex;min-height:40px;text-align:left}
 .app .info-section-toggle>.info-toggle-sign,.app .center-message-history-toggle>span{margin-left:auto;flex-shrink:0;font-size:16px;color:#657e97;font-weight:500}
-.app .center-weather .info-section-toggle>.weather-location-label{font-size:11px;font-weight:400;color:#667e99;line-height:18px;letter-spacing:normal}
+.app .center-weather .info-section-toggle>.weather-location-label{margin-left:auto;font-size:11px;font-weight:400;color:#667e99;line-height:18px;letter-spacing:normal}
+.app .center-weather .info-section-toggle>.info-toggle-sign{margin-left:0}
 .app :is(.center-weather,.road-traffic)>.section-heading>.text-button{margin-left:auto}
 .app .center-message-compose-row{display:flex;justify-content:flex-end;margin-top:8px}
 .app .center-messages [hidden]{display:none!important}

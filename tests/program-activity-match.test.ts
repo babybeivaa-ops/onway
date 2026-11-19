@@ -2,6 +2,25 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {matchProgramActivity,suggestProgramActivity,normalizeProgramGroup,confirmedProgramActivity} from '../src/programActivityMatch.ts';
 import {programActivities} from '../src/programTimetable.ts';
+test('all eight activities normalize spacing, punctuation and representative OCR mistakes',()=>{
+ const samples:Record<string,string[]>={
+  '천체투영관에서 본 하늘':['선체투통관에서 본 하늘','천체투영관에서 보는 하늘','천체 투영관에서 본 하늘'],
+  'GPS 오리엔티어링':['GPS 오리엔테어링','GPS 오리엔티어림','ＧＰＳ 오리엔티어링'],
+  '회전하는 물체 그리고 공전':['회전하는 물체와 공전','회전하는 물채 그리고 공전'],
+  '대기비행의 원리와 종이비행기':['대기비행 원리와 종이비행기','대기비행의 원리와 종이비행가','종이비행기'],
+  '자기주도 활동':['자기 주도 활동','자기주도 활둥','자기주도'],
+  '대기비행의 안정성과 폼로켓':['대기비행 안정성과 폼로켓','대기비행의 안정성과 폼로캣','폼로켓'],
+  '우주인훈련장비체험 & S.O.S.':['으츠이후려자비체천6: (0)','우주인훈련장비체험','우주인 훈련장비체험 & S.0.S.'],
+  '에어로켓 원하는 곳에 보내기':['에머로켓 원하는 곳에 보내기','에어로켓을 원하는 곳에 보내기','에어로켓'],
+ };
+ for(const [expected,inputs] of Object.entries(samples))for(const input of inputs){const actual=matchProgramActivity(input,programActivities);assert.equal(actual.activity,expected,input);assert.equal(actual.needsReview,false,input)}
+});
+test('similar flight programs and future custom activities remain distinct',()=>{
+ for(const input of ['대기비행','대기비행의 원리','대기비행의 안정성','원격관측 실습','자기주도 활동 및 GPS 오리엔티어링'])assert.equal(matchProgramActivity(input,programActivities).activity,input);
+ const custom='회전하는 물체와 공전';
+ assert.equal(matchProgramActivity(custom,[...programActivities,custom]).activity,custom);
+ assert.equal(matchProgramActivity('폼로켓',programActivities.filter(n=>!n.includes('폼로켓'))).activity,'폼로켓');
+});
 test('exact copied user error is corrected for imports, display and editor drafts',()=>{
  const raw='으츠이후려자비체천6: (0)',expected='우주인훈련장비체험 & S.O.S.';
  assert.equal(confirmedProgramActivity(raw),expected);
