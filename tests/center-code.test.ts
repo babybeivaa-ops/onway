@@ -31,3 +31,21 @@ test('failed login is limited and setup links expire',async()=>{
  assert.equal((await request(h,'admin-login','',{code})).status,200);
  assert.equal((await request(h,'admin-code',setup,{code})).status,401);
 });
+
+import {initializeCenterCode,encodeCenterCode,checkCenterCode} from '../public-api/center-code.mjs';
+test('server bootstrap keeps workspace and links, accepts local code, preserves later code changes',async()=>{
+ const local=encodeCenterCode(code);const group={id:'existing'};
+ let db:any={revision:4,workspace:{groups:[group]},links:{guide:{role:'guide',expires:123}}};
+ const store={async load(){return structuredClone(db)},async save(next:any,revision:number){assert.equal(revision,db.revision);db=structuredClone(next)}};
+ const encoded=Buffer.from(JSON.stringify(local)).toString('base64');
+ assert.deepEqual(await initializeCenterCode(store,encoded),{status:'initialized'});
+ assert.ok(checkCenterCode(code,db.centerCode));assert.deepEqual(db.workspace.groups,[group]);assert.equal(db.links.guide.role,'guide');assert.equal(db.revision,5);
+ assert.deepEqual(await initializeCenterCode(store,encoded),{status:'already-configured'});assert.equal(db.revision,5);
+ db.centerCode=encodeCenterCode('Changed-Code-2026');await initializeCenterCode(store,encoded);
+ assert.ok(checkCenterCode('Changed-Code-2026',db.centerCode));assert.equal(checkCenterCode(code,db.centerCode),false);
+});
+test('bootstrap rejects malformed records and requires protected storage',async()=>{
+ assert.equal(await initializeCenterCode(null,''),null);
+ await assert.rejects(initializeCenterCode(null,'data'),/protected storage/);
+ await assert.rejects(initializeCenterCode({},Buffer.from('{}').toString('base64')),/Invalid center code/);
+});

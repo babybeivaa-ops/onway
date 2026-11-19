@@ -1,3 +1,4 @@
+import {initializeCenterCode} from './center-code.mjs';
 import {createFileDocumentStore,createCloudDocumentStore,createLocalDocumentHandler} from './documents.mjs';
 import {importBackup} from './import-backup.mjs';
 import {importFullData} from './import-full-data.mjs';
@@ -48,6 +49,8 @@ const documentStore=store?createCloudDocumentStore({url:supabaseUrl,key:supabase
 const fullData=process.env.ONWAY_IMPORT_FULL_DATA_GZIP_BASE64||[1,2,3,4,5,6,7,8].map(n=>process.env['ONWAY_IMPORT_FULL_DATA_PART_'+n]||'').join('');
 const fullImport=await importFullData(store,documentStore,fullData);
 if(fullImport)console.log('ONWAY full data import verified',JSON.stringify(fullImport));
+const centerCodeInit=await initializeCenterCode(store,process.env.ONWAY_INITIAL_CENTER_CODE_BASE64);
+if(centerCodeInit)console.log('ONWAY center code initialization',centerCodeInit.status);
 const sharingHandler=createSharingHandler({directory:dataDirectory,adminToken,store,documentStore});
 const localDocuments=!store&&!process.env.RENDER?createLocalDocumentHandler(createFileDocumentStore(path.join(dataDirectory,'local-documents'))):null;
 const root=fileURLToPath(new URL('../dist/',import.meta.url));
