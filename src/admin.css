@@ -955,9 +955,9 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 /* Shared one-line checkpoint columns and participant categories. */
 .school-visit-summary .school-visit-heading>.school-journey-steps,
 .school-visit-summary .admin-checkpoint-buttons{display:grid;gap:0;overflow-x:auto;max-width:100%;justify-content:start;flex-wrap:nowrap}
-.participant-editor-stepped .participant-level-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px}
+.participant-editor-stepped .participant-level-tabs{display:flex;flex-wrap:wrap;overflow-x:visible;min-width:0;max-width:100%;gap:6px}
 .participant-editor-stepped .participant-level-tabs button{flex:1 0 76px;white-space:nowrap}
-.participant-editor-stepped .participant-level-tabs.compact-level-tabs{flex-wrap:nowrap}
+.participant-editor-stepped .participant-level-tabs.compact-level-tabs{flex-wrap:wrap}
 .participant-editor-stepped .participant-level-tabs.compact-level-tabs button{flex:0 0 82px}
 .participant-editor [data-level="lateYouth"]{--level-ink:#486c75;--level-tint:#eff7f8;--level-border:#b5d3d9}
 .group-quick-tabs .group-name-word{display:inline;white-space:nowrap}
