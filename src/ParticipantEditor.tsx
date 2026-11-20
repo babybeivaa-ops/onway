@@ -37,7 +37,7 @@ export function ParticipantEditor({name,value,onChange,compactLevels=true}:{name
  {compact&&addingLevel&&availableLevels.length>0&&<div className="participant-add-level">{addingLevel&&<div className="participant-level-tabs compact-level-tabs" role="group" aria-label="추가할 참가자 구분">{availableLevels.map(l=><button type="button" key={l} data-level={l} onClick={()=>{touched.current=true;selectLevel(l);setAddingLevel(false)}}>{levelLabels[l]}</button>)}</div>}</div>}
  {!compact&&<p className="participant-help">구분을 선택하면 입력 행이 추가됩니다.</p>}
  <div className="participant-count-columns"><div className="youth-count-editor">
- <p className="count-entry-unit">단위: 명 · 합계 자동 계산</p><p className="participant-help participant-help-compact">학년·반별로 남녀 인원을 입력해주세요. + 버튼으로 같은 학년의 반을 추가할 수 있어요.</p>
+ <div className="count-entry-help-row"><p className="participant-help participant-help-compact">학년·반별로 남녀 인원을 입력해주세요. + 버튼으로 같은 학년의 반을 추가할 수 있어요.</p><p className="count-entry-unit">단위: 명 · 합계 자동 계산</p></div>
  <div className="count-entry-scroll"><table className="count-entry-table mixed-count-table" aria-label="전체 구분·학년·반별 인원 입력">
  <colgroup><col className="mixed-level-column"/><col className="mixed-grade-column"/><col className="mixed-class-column"/><col className="mixed-number-column"/><col className="mixed-number-column"/><col className="mixed-total-column"/><col className="mixed-actions-column"/></colgroup>
  <thead><tr><th scope="col">구분</th><th scope="col">{gradeAgeHeading}</th><th scope="col">반</th><th scope="col">남</th><th scope="col">여</th><th scope="col">합계</th><th scope="col">편집</th></tr></thead>
