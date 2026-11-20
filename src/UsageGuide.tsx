@@ -1,10 +1,9 @@
 import {useLayoutEffect,useId,useRef} from 'react';
 import {AnnouncingCloudIcon} from './AnnouncingCloudIcon';
 import './usage-guide.css';
-const key='onway-usage-guide-v2';
 let confirmedThisSession=false;
-export function needsUsageGuide(){try{return !confirmedThisSession&&localStorage.getItem(key)!=='confirmed'}catch{return !confirmedThisSession}}
-export function confirmUsageGuide(){confirmedThisSession=true;try{localStorage.setItem(key,'confirmed')}catch{/* Keep this session usable when storage is blocked. */}}
+export function needsUsageGuide(){return !confirmedThisSession}
+export function confirmUsageGuide(){confirmedThisSession=true}
 export function UsageGuide({onClose,shared}:{onClose:()=>void;shared:boolean}){
  const ref=useRef<HTMLDialogElement>(null),title=useId();
  useLayoutEffect(()=>{const dialog=ref.current;if(!dialog)return;dialog.showModal();dialog.querySelector<HTMLElement>('h2')?.focus({preventScroll:true});dialog.scrollTop=0;const frame=requestAnimationFrame(()=>{dialog.scrollTop=0});return()=>{cancelAnimationFrame(frame);dialog.close()}},[]);

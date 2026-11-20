@@ -43,7 +43,7 @@
 @media(max-width:600px){.admin-notification-toasts:has(.notification-movement-text){min-width:min(320px,calc(100vw - 32px));max-width:calc(100vw - 32px)}}
 .admin-notification-toast .notification-movement-text{white-space:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-line-clamp:unset}
 .admin-notification-toast .notification-movement-text strong{display:inline}
-.timed-notification-toast{animation:notification-appear .2s ease-out,notification-dismiss .8s ease-in 8s forwards}
+.timed-notification-toast{animation:notification-appear .2s ease-out,notification-dismiss .8s ease-in 299.2s forwards}
 @keyframes notification-appear{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes notification-dismiss{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(12px)}}
 @media(prefers-reduced-motion:reduce){.timed-notification-toast{animation:none}}

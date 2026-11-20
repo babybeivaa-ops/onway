@@ -29,7 +29,7 @@ export function AdminNotifications({groups,active,onOpen,dashboard=false}:{group
   if(fresh.length)setToasts(old=>[...fresh,...old].slice(0,3));
  },[events]);
  useEffect(()=>{const listener=(event:StorageEvent)=>{if(event.key===key)setRead(readIds())};window.addEventListener('storage',listener);return()=>window.removeEventListener('storage',listener)},[]);
- useEffect(()=>{if(!active||!toasts.length)return;const timer=setTimeout(()=>setToasts([]),9000);return()=>clearTimeout(timer)},[active,toasts,dashboard]);
+ useEffect(()=>{if(!active||!toasts.length)return;const timer=setTimeout(()=>setToasts([]),300000);return()=>clearTimeout(timer)},[active,toasts,dashboard]);
  const mark=(ids:string[])=>{const next=[...new Set([...readIds(),...read,...ids])];setRead(next);try{localStorage.setItem(key,JSON.stringify(next))}catch{/* Keep this session usable when storage is unavailable. */}};
  const confirm=(e:AdminNotice)=>{mark([e.id]);setToasts(old=>old.filter(x=>x.id!==e.id));};
  const visit=(e:AdminNotice)=>{confirm(e);setOpen(false);onOpen(e)};
