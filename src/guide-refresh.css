@@ -78,7 +78,7 @@
  .workspace-shell.guide .app .arrival-document-body{padding-left:12px;padding-right:12px}
 }
 
-@media(max-width:400px){.workspace-shell.guide .header-center-contact .calling-cloud{display:none}.workspace-shell.guide .header-center-contact .center-call-button{font-size:10px;padding:7px;min-height:32px}.workspace-shell.guide .app>.app-header{grid-template-columns:minmax(0,1fr) auto}}
+@media(max-width:400px){.workspace-shell.guide .header-center-contact .calling-cloud{display:flex}.workspace-shell.guide .header-center-contact .calling-cloud .cloud{width:22px;height:auto}.workspace-shell.guide .header-center-contact .center-call-button{font-size:10px;padding:7px;min-height:32px}.workspace-shell.guide .app>.app-header{grid-template-columns:minmax(0,1fr) auto}}
 
 
 /* Clear type hierarchy inspired by Sangsangdan, scaled for ON:WAY's mobile UI. */
