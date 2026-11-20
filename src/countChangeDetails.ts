@@ -1,3 +1,4 @@
+import {classSuffix} from './participantRows.ts';
 import {participantCountLabel} from './participantCountLabel.ts';
 import type {ParticipantChange,ParticipantCount} from './types';
 import {levelLabels,gradeLabel} from './participantCounts.ts';
@@ -12,12 +13,12 @@ export function countChangeDetails(before:ParticipantCount,after:ParticipantCoun
  const add=(label:string,a:number,b:number)=>{if(a!==b)result.push({label,before:a,after:b})};
  add(participantCountLabel(before,after)+' 합계',before.youth,after.youth);
  add('인솔교사 합계',before.leaders,after.leaders);
- const key=(row:NonNullable<ParticipantCount['youthDetails']>['rows'][number])=>row.level+':'+row.grade+':'+(row.age??'');
+ const key=(row:NonNullable<ParticipantCount['youthDetails']>['rows'][number])=>row.level+':'+row.grade+':'+(row.age??'')+':'+(row.classNumber??'');
  const previous=new Map(before.youthDetails?.rows.map(r=>[key(r),r]));
  const next=new Map(after.youthDetails?.rows.map(r=>[key(r),r]));
  for(const id of new Set([...previous.keys(),...next.keys()])){
   const a=previous.get(id),b=next.get(id),row=b??a!;
-  const label=levelLabels[row.level]+(row.level==='adult'||row.level==='preschool'?(row.age===undefined?'':' '+row.age+'세'):' '+(row.level==='lateYouth'?'':gradeLabel(row.grade)));
+  const label=levelLabels[row.level]+(row.level==='adult'||row.level==='preschool'?(row.age===undefined?'':' '+row.age+'세'):' '+(row.level==='lateYouth'?'':gradeLabel(row.grade)))+classSuffix(row);
   add(label+' 남',a?.male??0,b?.male??0);
   add(label+' 여',a?.female??0,b?.female??0);
  }

@@ -63,13 +63,14 @@ export function addCheckpoint(w:Workspace,groupId:string,name:string,beforeId:st
  });
 }
 
-export function saveRoute(w:Workspace,id:string,points:{id:string;name:string}[]):Workspace {
+export function saveRoute(w:Workspace,id:string,points:{id:string;name:string;place?:PublicPlace}[]):Workspace {
  const g=w.groups.find(g=>g.id===id);if(!g)throw Error('단체를 찾을 수 없어요.');
  if(new Set(points.map(p=>p.id)).size!==points.length||points.some(p=>!p.name.trim()||p.name.length>100||p.id==='arrival'||(!g.state.waypoints.some(a=>a.id===p.id)&&!p.id.startsWith('custom-'))))throw Error('확인 지점을 다시 확인해주세요.');
  points=fixedRouteOrder(points);
  const old=g.state.waypoints;const selected=points.map((p,order)=>{const existing=old.find(a=>a.id===p.id);return existing?{...existing,included:true,order}:{id:p.id,name:p.name.trim(),kind:'checkpoint' as const,included:true,order,...(p.id===NARO_BRIDGE_ID?{place:NARO_BRIDGE_PLACE}:{}),action:p.name.trim()+' 통과했어요'}});
  const waypoints=[...selected,...old.filter(p=>!points.some(a=>a.id===p.id)).map((p,i)=>({...p,included:p.kind==='destination',order:points.length+i}))];
- const next=updateGroup(w,id,s=>deriveStatus({...s,waypoints,trip:{...s.trip,meal:{...s.trip.meal,enabled:points.some(p=>p.id==='meal')},mealStartedAt:points.some(p=>p.id==='meal')?s.trip.mealStartedAt:null}}));
+ let next=updateGroup(w,id,s=>deriveStatus({...s,waypoints,trip:{...s.trip,meal:{...s.trip.meal,enabled:points.some(p=>p.id==='meal')},mealStartedAt:points.some(p=>p.id==='meal')?s.trip.mealStartedAt:null}}));
+ for(const point of points){if(point.place)next=updateGroup(next,id,s=>setWaypointPlace(s,point.id,point.place!));}
  return {...next,groups:next.groups.map(g=>g.id===id?{...g,configuredRoute:true,checkpoints:{ic:points.some(p=>p.id==='ic'),bridge:points.some(p=>p.id==='bridge')}}:g)};
 }
 

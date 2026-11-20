@@ -11,3 +11,5 @@ test('observatory and team meeting room names and abbreviations',()=>{
 });
 
 test('confirmed planetarium OCR and program venue use the correct room',()=>{assert.equal(displayProgramPlace('선체투통관'),'천체투영관');for(const place of ['','선체투통관','세미나실'])assert.equal(displayProgramPlace(place,'천체투영관에서 본 하늘'),'천체투영관');assert.equal(displayProgramPlace('세미나실','자기주도 활동'),'세미나실')});
+
+test('small seminar shorthand in staff timetable is shown as the visitor room name',()=>{assert.equal(displayProgramPlace('(소세) MAT MW 4D / S.O.S.'),'소세미나실')});

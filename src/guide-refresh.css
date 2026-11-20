@@ -10,7 +10,7 @@
 .workspace-shell.guide .header-actions .center-call-button{background:#fff;color:#17699d;border:0;border-radius:12px;box-shadow:none}
 .workspace-shell.guide .app>.demo-strip{background:#f3f7fa;color:var(--guide-muted);border-radius:12px;padding:8px 10px;font-size:11px}
 .workspace-shell.guide .usage-guide-open{background:white;color:#376e95;border:1px solid #e0eaf2;border-radius:9px}
-.workspace-shell.guide .app main>.group-summary{background:#f5faff;border:0;border-radius:22px;padding:22px 18px;margin:22px 0 12px;box-shadow:none}
+.workspace-shell.guide .app main>.group-summary{background:#f5faff;border:1px solid #d3e6f5;border-radius:22px;padding:22px 18px;margin:22px 0 12px;box-shadow:none}
 .workspace-shell.guide .group-summary .eyebrow{color:#587185;font-size:12px}
 .workspace-shell.guide .group-summary h1{color:#176b75;font-weight:750;font-size:24px}
 .workspace-shell.guide .status{background:#e0f3ff;color:#096fae;border:0}

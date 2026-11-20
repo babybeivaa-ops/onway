@@ -1,5 +1,6 @@
 export function displayProgramPlace(value:string,activity=''){
  if(activity.replace(/\s/g,'')==='천체투영관에서본하늘')return '천체투영관';
+ if(/^[（(\[]\s*소세\s*[）)\]]/.test(value))return '소세미나실';
  const compact=value.replace(/\s/g,'');
  if(['영상관','세미나실','팀미팅룸','소세미나실','덕흥천문대','천체투영관'].includes(compact))return compact;
  if(/^[（(\[]?\s*[영명염]\s*[）)\]]/.test(value)){const tail=value.replace(/^[（(\[]?\s*[영명염]\s*[）)\]]\s*\/?\s*/,'');return '영상관'+(tail?' / '+tail:'');}

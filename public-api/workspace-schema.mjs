@@ -6,10 +6,10 @@ export function validCounts(x){
  if(x.leaderDetails!==undefined){const d=x.leaderDetails;if(!d||!integer(d.male)||!integer(d.female)||!integer(d.unclassified)||d.male+d.female+d.unclassified!==x.leaders)return false;}
  if(x.youthDetails===undefined)return true;
  const d=x.youthDetails,grades={elementary:['','1','2','3','4','5','6','other'],middle:['','1','2','3'],high:['','1','2','3'],university:['','1','2','3','4'],lateYouth:[''],adult:[''],preschool:['']};
- if(!d||!Array.isArray(d.rows)||d.rows.length>20||!integer(d.unclassified))return false;
+ if(!d||!Array.isArray(d.rows)||d.rows.length>200||!integer(d.unclassified))return false;
  const ids=new Set(),slots=new Set();let total=d.unclassified;
- const slot=r=>r.level+':'+r.grade+((r.level==='adult'||r.level==='preschool')?':'+(r.age??''): '');
- for(const r of d.rows){if(!r||!text(r.id,100)||!r.id||!Object.hasOwn(grades,r.level)||!grades[r.level].includes(r.grade)||(r.age!==undefined&&(!['adult','preschool'].includes(r.level)||!integer(r.age)||r.age>120))||!integer(r.male)||!integer(r.female)||ids.has(r.id)||slots.has(slot(r)))return false;ids.add(r.id);slots.add(slot(r));total+=r.male+r.female;}
+ const slot=r=>r.level+':'+r.grade+':'+(r.classNumber??'')+((r.level==='adult'||r.level==='preschool')?':'+(r.age??''): '');
+ for(const r of d.rows){if(!r||!text(r.id,100)||!r.id||!Object.hasOwn(grades,r.level)||!grades[r.level].includes(r.grade)||(r.classNumber!==undefined&&(!['elementary','middle','high'].includes(r.level)||!integer(r.classNumber)||r.classNumber<1||r.classNumber>999))||(r.age!==undefined&&(!['adult','preschool'].includes(r.level)||!integer(r.age)||r.age>120))||!integer(r.male)||!integer(r.female)||ids.has(r.id)||slots.has(slot(r)))return false;ids.add(r.id);slots.add(slot(r));total+=r.male+r.female;}
  return integer(total)&&total===x.youth;
 }
 const counts=validCounts;

@@ -387,3 +387,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .app main :is(.group-summary,.planned-arrival-card[data-audience="guide"],.action-card,.center-messages,.journey-overview,.center-weather,.road-traffic){border-color:#b4c6dd}
 
 .planned-clock-digits select{appearance:none;cursor:pointer;text-align-last:center}
+
+.missed-points summary{gap:6px;flex-wrap:wrap}.missed-points summary>span{white-space:nowrap}.missed-points .missed-points-hint{margin-left:auto;font-size:11px;font-weight:400;line-height:1.5;color:#71849b;text-align:right}
+
+.arrival-card .arrival-program-guide{margin:8px 0 14px;font-size:12px;line-height:1.6;font-weight:400;color:#60758b;word-break:keep-all;overflow-wrap:anywhere}

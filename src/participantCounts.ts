@@ -1,11 +1,12 @@
 import type {ParticipantCount,YouthDetails,YouthLevel} from './types';
-import {participantRows} from './participantRows.ts';
+import {participantRows,supportsClasses} from './participantRows.ts';
 import {validCounts} from '../public-api/workspace-schema.mjs';
 export const youthLevels:YouthLevel[]=['elementary','middle','high','university','lateYouth','adult','preschool'];
 export const levelLabels:Record<YouthLevel,string>={elementary:'초등',middle:'중등',high:'고등',university:'대학생',lateYouth:'후기청소년',adult:'성인',preschool:'미취학'};
 export const gradeOptions:Record<YouthLevel,string[]>={elementary:['','6','5','4','3','2','1','other'],middle:['','1','2','3'],high:['','1','2','3'],university:['','1','2','3','4'],lateYouth:[''],adult:[''],preschool:['']};
 export const gradeLabel=(g:string)=>g==='other'?'기타 학년':g?g+'학년':'학년 구분 없음';
 export function insertYouthRow(details:YouthDetails,level:YouthLevel,afterId?:string):YouthDetails|null {
+ if(details.rows.length>=200)return null;
  const used=new Set(details.rows.filter(row=>row.level===level&&(!['adult','preschool'].includes(level)||row.age===undefined)).map(row=>row.grade));
  const candidates=level==='elementary'?['6','5','4','3','2','1','other','']:[...gradeOptions[level].filter(Boolean),''];
  const grade=candidates.find(grade=>!used.has(grade));
@@ -13,6 +14,15 @@ export function insertYouthRow(details:YouthDetails,level:YouthLevel,afterId?:st
  const row={id:crypto.randomUUID(),level,grade,male:0,female:0};
  const after=afterId?details.rows.findIndex(row=>row.id===afterId&&row.level===level):-1;
  const index=after<0?details.rows.length:after+1;
+ return {...details,rows:[...details.rows.slice(0,index),row,...details.rows.slice(index)]};
+}
+export function insertClassRow(details:YouthDetails,afterId:string):YouthDetails|null {
+ const source=details.rows.find(r=>r.id===afterId);
+ if(!source||!supportsClasses(source.level)||details.rows.length>=200)return null;
+ const used=new Set(details.rows.filter(r=>r.level===source.level&&r.grade===source.grade).map(r=>r.classNumber));
+ let classNumber=1;while(used.has(classNumber))classNumber++;
+ const row={id:crypto.randomUUID(),level:source.level,grade:source.grade,classNumber,male:0,female:0};
+ const index=details.rows.indexOf(source)+1;
  return {...details,rows:[...details.rows.slice(0,index),row,...details.rows.slice(index)]};
 }
 export function inferYouthLevel(name:string):YouthLevel|undefined {const n=name.replace(/\s/g,'');if(/후기청소년/.test(n))return 'lateYouth';if(/대학교|대학|대$/.test(n))return 'university';if(/초/.test(n))return 'elementary';if(/중학교|중등|중$/.test(n))return 'middle';if(/고등학교|고등|고$/.test(n))return 'high';}
@@ -23,7 +33,7 @@ export function normalizeCounts(value:ParticipantCount,previous?:ParticipantCoun
  if(details!==undefined)next.youthDetails=structuredClone(details);
  const leaders=value.leaderDetails??(previous?.leaders===value.leaders?previous.leaderDetails:undefined);
  if(leaders!==undefined)next.leaderDetails=structuredClone(leaders);
- if(!validCounts(next))throw Error('남·여 인원, 학년과 합계를 확인해주세요. 같은 구분·학년은 한 행에 입력해주세요.');
+ if(!validCounts(next))throw Error('남·여 인원과 합계를 확인해주세요. 같은 교급·학년·반은 중복할 수 없고, 반은 1~999로 입력해주세요.');
  if(next.youthDetails)next.youthDetails.rows=participantRows(next);
  return next;
 }

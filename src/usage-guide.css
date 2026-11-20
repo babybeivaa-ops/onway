@@ -42,3 +42,19 @@
  .usage-guide .primary{margin-top:9px;min-height:44px;padding:9px 12px}
  .usage-guide .usage-guide-again{font-size:10px;line-height:14px;margin-top:4px}
 }
+
+.usage-step-note{display:grid;gap:1px;margin-top:5px;font-size:11px;line-height:1.4;font-weight:400;color:#526b84}
+@media(max-width:600px),(max-height:760px){
+ .usage-guide{padding:12px 14px}
+ .usage-guide>h2{margin-bottom:8px;font-size:18px;line-height:23px}
+ .usage-guide-cloud{margin-bottom:8px}
+ .usage-guide-cloud>p{padding:6px 8px;font-size:13px;line-height:1.35}
+ .usage-guide-cloud>svg{width:46px;height:44px;flex-basis:46px}
+ .usage-guide-steps{gap:6px}
+ .usage-guide-steps>li{padding:7px 9px;gap:8px}
+ .usage-guide-steps h3{margin-bottom:2px}
+ .usage-guide-steps p{line-height:1.4}
+ .usage-step-note{margin-top:3px;line-height:1.35}
+ .usage-location-guide{margin-top:7px;padding-top:0}
+ .usage-guide .usage-guide-again{margin-top:3px}
+}

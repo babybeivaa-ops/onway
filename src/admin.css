@@ -1078,3 +1078,25 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 #group-detail .baseline-times[open]>summary{margin:0 -12px 4px}
 
 .school-sharing .share-validity-note>span{display:inline-block;margin-left:8px;font-weight:600;white-space:nowrap}
+
+/* Separate grade and class columns in both editors. */
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table){table-layout:fixed;min-width:440px}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-level-column{width:15%}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-grade-column{width:20%}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-class-column{width:12%}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-number-column{width:14%}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-total-column{width:11%}
+.participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table) .mixed-actions-column{width:14%}
+.participant-editor-stepped .class-number-field{display:block;margin:0}
+.participant-editor-stepped .mixed-count-table .class-number-field input{width:100%;padding:6px 3px;text-align:center}
+.participant-editor-stepped .count-entry-scroll{overflow-x:auto}
+@media(max-width:600px){
+ .participant-editor-stepped :is(.mixed-count-table,.leader-aligned-table){min-width:360px}
+ .participant-editor-stepped .mixed-count-table .class-number-field input{font-size:13px}
+}
+.class-unknown-label{display:block;font-size:11px;font-weight:400;color:#71849b}
+.guide-people-table .guide-youth-total>*{border-top:1px solid #cbd8e4;font-weight:600}
+
+.group-summary .group-count-line p{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 6px}.group-count-breakdown{font-size:12px;font-weight:400;color:#57718a}
+
+.admin-recent-changes .recent-change-overview{display:block;font-weight:600}.admin-recent-changes .recent-count-breakdown{margin:5px auto 0;max-width:320px;text-align:left}.admin-recent-changes .recent-count-breakdown summary{font-size:12px;color:#607b96;cursor:pointer;min-height:28px;display:flex;align-items:center;justify-content:center}.admin-recent-changes .recent-count-breakdown ul{list-style:none;padding:7px 10px;margin:3px 0 0;background:#f6f9fc;border-radius:8px}.admin-recent-changes .recent-count-breakdown li{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:12px}.admin-recent-changes .recent-count-breakdown li>span:last-child{white-space:nowrap}.admin-recent-changes .recent-count-reason{margin-top:6px;font-size:12px;color:#60758b;overflow-wrap:anywhere}

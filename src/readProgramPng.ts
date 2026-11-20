@@ -17,7 +17,13 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
  const bitmap=await createImageBitmap(file);if(bitmap.width>6000||bitmap.height>12000){bitmap.close();throw Error('이미지 크기를 줄여 다시 등록해주세요.')}const canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;const ctx=canvas.getContext('2d')!;ctx.drawImage(bitmap,0,0);bitmap.close();
  if(canvas.width>6000||canvas.height>12000)throw Error('이미지 크기를 줄여 다시 등록해주세요.');
  const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
- const dates=boxes(pixels,(r,g,b)=>b-r>12&&r-g>12&&r<140&&r>50).filter(b=>b.right-b.x>canvas.width*.5);
+ const dateFragments=boxes(pixels,(r,g,b)=>b-r>12&&r-g>12&&r<140&&r>50).filter(b=>b.right-b.x>canvas.width*.5);
+ const dates:Box[]=[];
+ // Text in a colored header can split its background into several strips.
+ for(const fragment of dateFragments.sort((a,b)=>a.y-b.y)){
+  const previous=dates.at(-1);
+  if(previous&&fragment.y-previous.bottom<=Math.max(3,canvas.height*.003)&&Math.abs(fragment.x-previous.x)<canvas.width*.02&&Math.abs(fragment.right-previous.right)<canvas.width*.02){previous.bottom=fragment.bottom;previous.x=Math.min(previous.x,fragment.x);previous.right=Math.max(previous.right,fragment.right)}else dates.push({...fragment});
+ }
  const blue=boxes(pixels,(r,g,b)=>b-r>40&&g-r>18&&r>90&&r<180);
  const green=boxes(pixels,(r,g,b)=>g-r>25&&g-b>40&&r>65&&g>140);
  const pink=boxes(pixels,(r,g,b)=>r-g>35&&r-b>30&&g>100&&g<190&&Math.abs(g-b)<20);
