@@ -58,3 +58,5 @@
  .usage-location-guide{margin-top:7px;padding-top:0}
  .usage-guide .usage-guide-again{margin-top:3px}
 }
+
+.app .usage-guide-toolbar{display:flex;align-items:center;justify-content:flex-end;margin-top:12px;padding:0 2px}
