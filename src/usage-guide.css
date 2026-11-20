@@ -43,7 +43,7 @@
  .usage-guide .usage-guide-again{font-size:10px;line-height:14px;margin-top:4px}
 }
 
-.usage-step-note{display:grid;gap:1px;margin-top:5px;font-size:11px;line-height:1.4;font-weight:400;color:#526b84}
+.usage-step-note{display:grid;gap:1px;margin-top:5px;font-size:10px;line-height:1.4;font-weight:400;color:#526b84}
 @media(max-width:600px),(max-height:760px){
  .usage-guide{padding:12px 14px}
  .usage-guide>h2{margin-bottom:8px;font-size:18px;line-height:23px}
