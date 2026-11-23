@@ -2,6 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {matchProgramActivity,suggestProgramActivity,normalizeProgramGroup,confirmedProgramActivity} from '../src/programActivityMatch.ts';
 import {programActivities} from '../src/programTimetable.ts';
+
+test('confirmed GPS OCR error is corrected in display and saved draft normalization',()=>{
+ const raw='605 오리멘티머링';
+ assert.equal(confirmedProgramActivity(raw),'GPS 오리엔티어링');
+ assert.equal(matchProgramActivity(raw,programActivities).activity,'GPS 오리엔티어링');
+ assert.equal(normalizeProgramGroup({sessions:[{activity:raw}]},programActivities).sessions[0].activity,'GPS 오리엔티어링');
+});
 test('all eight activities normalize spacing, punctuation and representative OCR mistakes',()=>{
  const samples:Record<string,string[]>={
   '천체투영관에서 본 하늘':['선체투통관에서 본 하늘','천체투영관에서 보는 하늘','천체 투영관에서 본 하늘'],

@@ -21,6 +21,7 @@ const confirmedTrainingErrors=new Set([
  '으초이후련자비체천6: (이)','우주인후련자비체천6: (0)',
 ].map(key));
 export function confirmedProgramActivity(value:string){
+ if(key(value)===key('605 오리멘티머링'))return 'GPS 오리엔티어링';
  return confirmedTrainingErrors.has(key(value))?'우주인훈련장비체험 & S.O.S.':value;
 }
 function similarity(a:string,b:string){
