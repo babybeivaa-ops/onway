@@ -23,5 +23,6 @@ export function UsageGuide({onClose,shared}:{onClose:()=>void;shared:boolean}){
   </section>
   {!shared&&<p className="usage-guide-demo">시연 모드 · 실제 센터 전송 없음</p>}
   <button type="button" className="primary" onClick={onClose}>확인했어요 · 시작하기</button><p className="usage-guide-again">상단의 ‘사용 안내’에서 다시 볼 수 있어요.</p>
+  <aside className="usage-push-guide" aria-label="인솔교사 휴대폰 알림 안내"><strong>휴대폰 알림 안내</strong><p>갤럭시·아이폰 모두 화면을 열어두고 센터 메시지를 확인해주세요.</p><p>현재 인솔교사 화면을 닫으면 휴대폰 상단 푸시 알림은 지원되지 않아요.</p></aside>
  </dialog>;
 }

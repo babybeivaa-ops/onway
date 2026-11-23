@@ -1138,3 +1138,176 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-heading>.admin-header-actions>.admin-chat-inbox-toggle,.admin-heading>.admin-header-actions>.admin-add{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 140px;width:140px;min-width:140px;min-height:50px;height:50px;padding:10px;white-space:nowrap;font-size:14px}
 .admin-heading>.admin-header-actions>.admin-refresh{box-sizing:border-box;flex:0 0 50px;width:50px;min-width:50px;min-height:50px;height:50px;padding:10px}
 @media(max-width:759px){.admin-heading>.admin-header-actions{width:100%;gap:8px}.admin-heading>.admin-header-actions>.admin-chat-inbox-toggle,.admin-heading>.admin-header-actions>.admin-add{flex:1 1 0;width:auto;min-width:0;padding:8px;font-size:13px}}
+
+#group-detail .admin-route-origin .origin-settings-details{display:flex;flex-direction:column}
+#group-detail .admin-route-origin .origin-settings-details>label{order:0;margin:0;font-size:15px;line-height:1.5;color:#365573}
+#group-detail .admin-route-origin .origin-settings-details>label>input{height:42px;min-height:42px;box-sizing:border-box;padding:8px 12px;font-size:15px}
+#group-detail .admin-route-origin .origin-settings-details>.fine{order:1;margin:8px 0;font-size:12px}
+#group-detail .admin-route-origin .origin-settings-details>.school-origin-search,#group-detail .admin-route-origin .origin-settings-details>.text-button{order:2}
+
+.admin-detail-heading .route-section-toggle{display:flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer}.route-section-toggle>span{margin-left:12px;font-size:20px}#route-settings-body[hidden]{display:none}
+
+/* Consistent administrator accordion titles. */
+.admin-page .admin-detail-heading h2,.admin-page .school-sharing>summary.school-sharing-toggle,.admin-page .arrival-documents .arrival-document-card>summary>strong{font-size:17px;font-weight:700;line-height:1.5;color:#193b5c}
+.admin-page .route-section-toggle>.route-section-marker{margin:0;flex:0 0 16px;width:16px;text-align:center;font-size:16px;font-weight:400;color:#657e97}
+
+.admin-page #group-detail .admin-detail-heading h2{font-size:20px;line-height:1.5}
+
+#group-detail .admin-detail-heading{position:relative;padding-right:38px}
+#group-detail .route-section-edge-toggle{position:absolute;right:-8px;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:36px;height:40px;min-width:0;padding:0;border:0;background:transparent;color:#657e97;font-size:20px;cursor:pointer}
+@media(max-width:759px){#group-detail .route-section-edge-toggle{top:4px;transform:none}}
+
+.admin-page .school-arrival-card{padding:16px 20px}
+.school-arrival-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.school-arrival-heading h2{margin:0}
+.school-arrival-heading .school-arrival-save-button{width:auto;min-height:36px;padding:6px 14px;margin:0;font-size:13px;flex-shrink:0}
+.admin-page .school-arrival-title p{margin:4px 0 10px;font-size:12px}
+.school-arrival-save-status{margin:8px 0 0;font-size:12px;color:#25754b}
+.school-arrival-save-status:empty{display:none}
+@media(max-width:600px){.admin-page .school-arrival-card{padding:14px 16px}.admin-page .school-arrival-fields label{margin-top:8px}}
+
+#group-detail .admin-route-origin .origin-current-label{color:#0878bb;font-weight:700}
+
+.admin-page .arrival-documents>h2{position:relative;top:-10px}
+
+.admin-page .school-accordion-content>.admin-recent-changes,.admin-page .school-accordion-content>.section.arrival-documents{box-sizing:border-box;min-width:0;margin:0;padding:16px 20px;border:1px solid #dce9f1;border-top:4px solid #67bfdc;border-radius:18px;background:#fff;box-shadow:0 3px 12px #20395004}
+.admin-page .school-accordion-content>.section.arrival-documents{margin-top:-10px}
+.admin-page .school-accordion-content>.arrival-documents>h2{position:static;display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:20px;line-height:1.5;color:#193b5c}
+.admin-page .school-accordion-content>.admin-recent-changes>h3{margin-top:0;font-size:18px;line-height:1.5;color:#193b5c}
+@media(max-width:600px){.admin-page .school-accordion-content>.admin-recent-changes,.admin-page .school-accordion-content>.section.arrival-documents{padding:14px 16px}}
+
+.admin-page .school-accordion-content>.admin-recent-changes{border-color:#f0e1d2;border-top-color:#e7bc91}
+.admin-page .school-accordion-content>.section.arrival-documents{border-color:#e2dbef;border-top-color:#b3a0d2}
+
+.workspace-shell.admin .admin-page .school-accordion-content>.admin-recent-changes>h3,.workspace-shell.admin .admin-page .school-arrival-title h2{font-size:18px;font-weight:700;line-height:1.5}
+@media(max-width:600px){.workspace-shell.admin .admin-page .school-accordion-content>.admin-recent-changes>h3,.workspace-shell.admin .admin-page .school-arrival-title h2{font-size:16px}}
+
+.arrival-registration-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex:0 0 48px;color:#168dd0}
+
+.workspace-shell.admin .admin-page #group-detail .route-section-toggle,.workspace-shell.admin .admin-page .school-accordion-content>.arrival-documents>h2{font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:700;line-height:30px;letter-spacing:normal;color:#193b5c}
+
+.admin-page .school-sharing>summary.school-sharing-toggle::before{display:none;content:none}
+
+.workspace-shell.admin .admin-page .admin-recent-changes>h3>svg{width:30px;height:30px;flex:0 0 30px}
+
+.school-visit-facts>.visit-count-cell.visit-count-integrated{display:grid;grid-template-columns:max-content minmax(0,1fr);align-content:start;align-items:center;column-gap:16px}
+.visit-count-integrated>.visit-count-header-summary{min-width:0;margin:0}
+.visit-count-header-summary>.visit-count-top-summary{margin:0;padding:0;border:0;align-items:center;gap:6px 12px}
+.visit-count-integrated>.visit-count-table-body{grid-column:1/-1;min-width:0;margin:12px 0 0;padding-top:10px;border-top:1px solid #e1e8ef}
+@media(max-width:600px){.school-visit-facts>.visit-count-cell.visit-count-integrated{grid-template-columns:minmax(0,1fr);gap:8px}.visit-count-integrated>.visit-count-table-body{margin-top:4px}}
+
+.school-visit-facts>.visit-count-cell.visit-count-integrated{column-gap:26px;align-items:center}
+.school-visit-facts>.visit-count-integrated>dt{margin:0;align-items:center;line-height:24px}
+.visit-count-header-summary>.visit-count-top-summary{align-items:center;line-height:24px}
+.visit-count-header-summary>.visit-count-top-summary>strong{font-size:18px;line-height:24px}
+.visit-count-header-summary>.visit-count-top-summary>span{line-height:24px}
+
+/* Shared dimensions for the administrator's detail cards. */
+.workspace-shell.admin .admin-page .school-accordion-content>:is(.admin-detail,.section.arrival-documents,.school-arrival-card,.admin-recent-changes,.school-sharing){width:100%;box-sizing:border-box;margin:0;padding:18px 20px;border-radius:18px;border-top-width:4px}
+.workspace-shell.admin .admin-page .admin-detail-heading,.workspace-shell.admin .admin-page .school-arrival-heading,.workspace-shell.admin .admin-page .school-accordion-content>.arrival-documents>h2,.workspace-shell.admin .admin-page .school-accordion-content>.admin-recent-changes>h3,.workspace-shell.admin .admin-page .school-sharing-toggle{min-height:48px;box-sizing:border-box}
+.workspace-shell.admin .admin-page .admin-detail-heading h2{margin:0}
+.workspace-shell.admin .admin-page .route-section-toggle{min-height:48px}
+.workspace-shell.admin .admin-page .route-section-toggle>.korea-map-cloud-icon,.workspace-shell.admin .admin-page .arrival-registration-icon,.workspace-shell.admin .admin-page .school-arrival-heading .admin-section-icon{width:48px;height:48px;flex:0 0 48px}
+@media(max-width:600px){.workspace-shell.admin .admin-page .school-accordion-content>:is(.admin-detail,.section.arrival-documents,.school-arrival-card,.admin-recent-changes,.school-sharing){padding:14px 16px}}
+
+.workspace-shell.admin .admin-page .school-accordion-content>.arrival-documents>h2.arrival-documents-heading{margin:0;min-height:48px}
+.admin-page .arrival-documents-toggle{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:0;border:0;background:transparent;text-align:left;font:inherit;letter-spacing:inherit;color:inherit}
+.admin-page .arrival-documents-toggle>.arrival-documents-marker{margin-left:auto;display:flex;align-items:center;justify-content:center;width:36px;flex:0 0 36px;font-size:20px;font-weight:400;color:#657e97}
+.arrival-documents>div[hidden]{display:none}
+
+.admin-page .arrival-documents>.arrival-documents-heading+div:not([hidden]){padding-top:10px}
+
+.workspace-shell.admin .admin-page .school-accordion-content>.school-arrival-card{padding-top:12px;padding-bottom:12px}
+.workspace-shell.admin .admin-page .school-arrival-fields label{margin-top:8px;gap:6px}
+
+.workspace-shell.admin .admin-page>.admin-heading{padding-top:12px;padding-bottom:12px;row-gap:10px}
+
+@media(min-width:760px){
+.workspace-shell.admin .admin-page .school-accordion-content>.school-arrival-card{display:grid;grid-template-columns:180px minmax(0,1fr);align-items:center;gap:16px;padding:18px 20px;position:relative}
+.workspace-shell.admin .admin-page .school-arrival-card .school-arrival-heading{min-height:48px}
+.workspace-shell.admin .admin-page .school-arrival-card form{min-width:0;padding-right:66px}
+.workspace-shell.admin .admin-page .school-arrival-fields{grid-template-columns:minmax(80px,1fr) minmax(130px,1.4fr) minmax(90px,1fr);gap:12px}
+.workspace-shell.admin .admin-page .school-arrival-fields label{position:relative;margin:0;gap:0}
+.workspace-shell.admin .admin-page .school-arrival-fields .arrival-field-label{position:absolute;top:-16px;left:0;font-size:10px;line-height:14px}
+.workspace-shell.admin .admin-page .school-arrival-fields .arrival-field-label svg{width:11px;height:11px}
+.workspace-shell.admin .admin-page .school-arrival-fields input{height:36px;min-height:36px;padding:6px 9px;font-size:14px}
+.workspace-shell.admin .admin-page .school-arrival-heading .school-arrival-save-button{position:absolute;right:20px;top:50%;transform:translateY(-50%)}
+}
+
+.visit-count-header-summary>.visit-count-top-summary>.visit-count-edit{position:relative;top:-3px}
+
+.visit-count-footer{display:flex;justify-content:flex-end;margin-top:12px}.visit-count-footer:empty{display:none}.visit-count-footer>.visit-count-edit{position:static;width:auto;min-height:32px;margin:0;padding:6px 12px;font-size:12px;white-space:nowrap}
+
+@media(min-width:760px){
+.workspace-shell.admin .admin-page .school-arrival-fields{grid-template-columns:repeat(3,minmax(0,1fr))}
+.workspace-shell.admin .admin-page .school-arrival-card form{padding-top:8px}
+.workspace-shell.admin .admin-page .school-arrival-heading .school-arrival-save-button{top:calc(50% + 4px)}
+}
+
+.workspace-shell.admin .admin-page .school-accordion-content>.admin-recent-changes>h3,.workspace-shell.admin .admin-page .school-arrival-title h2{font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:700;line-height:30px;letter-spacing:normal;color:#193b5c}
+
+.workspace-shell.admin .admin-page .school-sharing>summary.school-sharing-toggle,.workspace-shell.admin .admin-page .school-sharing>summary.school-sharing-toggle>strong{font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:700;line-height:30px;letter-spacing:normal;color:#193b5c}
+
+.visit-count-header-summary>.visit-count-top-summary>.visit-summary-youth{margin-left:10px}
+
+.workspace-shell.admin .admin-page .school-accordion-content>.school-arrival-card{border-color:#e0e6d8;border-top-color:#bdcbae}
+
+.visit-count-header-summary>.visit-count-top-summary>strong{color:#38566e}
+
+.workspace-shell.admin .admin-page .admin-recent-changes>h3.recent-changes-heading{margin:0;min-height:48px}
+.admin-page .recent-changes-toggle{display:flex;align-items:center;gap:8px;width:100%;min-height:48px;margin:0;padding:0;border:0;background:transparent;font:inherit;color:inherit;letter-spacing:inherit;text-align:left}
+.admin-page .recent-changes-toggle>svg{width:30px;height:30px;flex:0 0 30px}
+.admin-page .recent-changes-toggle>.recent-changes-marker{margin-left:auto;display:flex;align-items:center;justify-content:center;width:36px;flex:0 0 36px;font-size:20px;font-weight:400;color:#657e97}
+.admin-recent-changes>div[hidden]{display:none}
+
+.workspace-shell.admin .admin-page :is(.route-section-toggle,.arrival-documents-toggle,.school-arrival-heading h2,.recent-changes-toggle){gap:10px;font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:700;line-height:30px;letter-spacing:normal}
+.workspace-shell.admin .admin-page .recent-changes-toggle>.recent-changes-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex:0 0 48px}
+.workspace-shell.admin .admin-page .recent-changes-icon>svg{width:30px;height:30px}
+.workspace-shell.admin .admin-page .school-arrival-heading .cloud-mascot-icon,.workspace-shell.admin .admin-page .school-arrival-heading .cloud-mascot-icon>svg{width:34px;height:34px}
+.workspace-shell.admin .admin-page .school-arrival-heading .admin-section-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex:0 0 48px}
+
+.workspace-shell.admin .admin-page .school-sharing>summary.school-sharing-toggle{gap:10px;font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:700;line-height:30px;letter-spacing:normal}
+.workspace-shell.admin .admin-page .school-sharing-toggle>.admin-section-icon{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;flex:0 0 48px;background:transparent}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-hint{margin-left:auto;font-size:12px;font-weight:400;line-height:18px;color:#738497}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-marker{margin-left:0}
+@media(max-width:600px){.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-hint{font-size:10px;line-height:15px;max-width:125px}}
+
+/* Align all card disclosure symbols to the same right-hand column. */
+.workspace-shell.admin .admin-page #group-detail .route-section-edge-toggle{right:0}
+.workspace-shell.admin .admin-page #group-detail .route-section-edge-toggle,
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-marker,
+.workspace-shell.admin .admin-page .recent-changes-toggle>.recent-changes-marker,
+.workspace-shell.admin .admin-page .school-sharing>summary.school-sharing-toggle::after{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:36px;min-width:36px;height:40px;flex:0 0 36px;padding:0;font-family:'Pretendard Variable',sans-serif;font-size:20px;font-weight:400;line-height:1;letter-spacing:0;color:#657e97;text-align:center}
+.workspace-shell.admin .admin-page #group-detail .route-section-edge-toggle>span{font:inherit;line-height:inherit}
+
+/* Mobile detail cards: allow content to shrink and wrap inside the viewport. */
+@media(max-width:759px){
+.workspace-shell.admin .admin-page{width:100%;min-width:0;padding-left:12px;padding-right:12px}
+.workspace-shell.admin .admin-page :is(.school-accordion-content,.school-accordion-content>*,.school-visit-facts,.school-visit-facts>*,.admin-detail-heading,.admin-detail-heading>div){min-width:0;max-width:100%}
+.workspace-shell.admin .admin-page #group-detail .admin-detail-heading{padding-right:0;gap:12px}
+.workspace-shell.admin .admin-page #group-detail .admin-detail-heading>div:first-child{padding-right:40px}
+.workspace-shell.admin .admin-page #group-detail .admin-header-actions{display:grid;grid-template-columns:minmax(0,1fr);width:100%;min-width:0}
+.workspace-shell.admin .admin-page #group-detail .admin-header-actions>button{min-width:0;width:100%;white-space:normal}
+.workspace-shell.admin .admin-page :is(.arrival-documents-toggle,.recent-changes-toggle,.school-sharing-toggle){display:grid;grid-template-columns:36px minmax(0,1fr) 36px;gap:8px;width:100%;min-width:0}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-registration-icon,.workspace-shell.admin .admin-page .recent-changes-toggle>.recent-changes-icon,.workspace-shell.admin .admin-page .school-sharing-toggle>.admin-section-icon{width:36px;min-width:0;flex-basis:36px}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>span:nth-child(2),.workspace-shell.admin .admin-page .school-sharing-toggle>strong{min-width:0;overflow-wrap:anywhere}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-marker{grid-column:3;grid-row:1}
+.workspace-shell.admin .admin-page .arrival-documents-toggle>.arrival-documents-hint{grid-column:2/4;grid-row:2;margin:0;max-width:none;text-align:left;font-size:11px}
+.workspace-shell.admin .admin-page .recent-changes-toggle{display:flex;flex-wrap:wrap}
+.workspace-shell.admin .admin-page .recent-changes-toggle>.recent-changes-marker{margin-left:auto}
+.workspace-shell.admin .admin-page .school-arrival-card{display:block}
+.workspace-shell.admin .admin-page .school-arrival-card form{min-width:0;padding:0}
+.workspace-shell.admin .admin-page .school-arrival-fields{grid-template-columns:minmax(0,1fr);gap:8px}
+.workspace-shell.admin .admin-page .school-arrival-fields input{font-size:16px;max-width:100%}
+.workspace-shell.admin .admin-page .school-visit-facts{grid-template-columns:minmax(0,1fr)}
+.workspace-shell.admin .admin-page .school-visit-facts>:is(.visit-date-program,.visit-count-integrated){grid-column:1;grid-row:auto;width:100%;min-width:0}
+.workspace-shell.admin .admin-page .visit-count-integrated{grid-template-columns:minmax(0,1fr)}
+.workspace-shell.admin .admin-page .recent-changes-table-scroll{max-width:100%;overflow-x:auto}
+}
+
+/* Header description and notification settings share the bottom row. */
+.workspace-shell.admin .admin-heading-footer{flex:0 0 100%;width:100%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap}
+.workspace-shell.admin .admin-heading .admin-heading-footer>p{margin:0}
+.workspace-shell.admin .admin-heading-footer>.admin-push-settings{flex:0 1 auto;min-width:0;max-width:100%;margin-left:auto;justify-content:flex-end;text-align:right}
+.workspace-shell.admin .admin-heading-footer .admin-push-settings small{flex-basis:100%;overflow-wrap:anywhere}
+@media(max-width:759px){.workspace-shell.admin .admin-heading-footer{flex-basis:auto}}

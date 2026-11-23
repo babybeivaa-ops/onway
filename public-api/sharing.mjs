@@ -1,3 +1,4 @@
+import {guideVisitExpires,guideVisitActive} from './visit-access.mjs';
 import {makePushKeys,validPushSubscription,guidePushNotice,sendAdminPush} from './push.mjs';
 import {setTimeout as delay} from 'node:timers/promises';
 import {serveWeeklyMenus} from './weekly-menus.mjs';
@@ -24,7 +25,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
   for(let attempt=0;;attempt++){try{fs.renameSync(tmp,file);break}catch(error){if(!['EBUSY','EPERM','EACCES'].includes(error.code)||attempt>=5)throw error;await delay(25*(attempt+1));}}db=next;
  };
  const json=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
- const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin',owner:true};const key=hash(token);const entry=db.links[key];if(entry?.role==='admin-setup'&&entry.expires>now())return {role:'admin-setup',owner:true};if(entry?.role==='admin'&&entry.expires>now()){if(entry.centerVersion&&entry.centerVersion!==db.centerCode?.version)return null;return {role:'admin',owner:!!entry.centerVersion};}return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId)?{role:'guide',groupId:entry.groupId}:null;};
+ const auth=req=>{const token=(req.headers.authorization||'').replace(/^Bearer /,'');if(!token)return null;if(eq(hash(token),hash(adminToken)))return {role:'admin',owner:true};const key=hash(token);const entry=db.links[key];if(entry?.role==='admin-setup'&&entry.expires>now())return {role:'admin-setup',owner:true};if(entry?.role==='admin'&&entry.expires>now()){if(entry.centerVersion&&entry.centerVersion!==db.centerCode?.version)return null;return {role:'admin',owner:!!entry.centerVersion};}return entry&&entry.role!=='viewer'&&entry.expires>now()&&db.workspace.groups.some(g=>g.id===entry.groupId&&guideVisitActive(g,now()))?{role:'guide',groupId:entry.groupId}:null;};
  const loginAttempts=new Map();
  const snapshot=actor=>({role:actor.role,revision:db.revision,workspace:actor.role==='admin'?db.workspace:{version:2,view:'guide',activeGroupId:actor.groupId,groups:db.workspace.groups.filter(g=>g.id===actor.groupId)}});
  async function body(req){let raw='';for await(const chunk of req){raw+=chunk;if(Buffer.byteLength(raw)>10000000)throw Object.assign(Error('요청이 너무 커요.'),{status:413});}try{return JSON.parse(raw)}catch{throw Object.assign(Error('잘못된 요청이에요.'),{status:400})}}
@@ -82,7 +83,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     let workspace=input.workspace;
     if(actor.role==='guide'){
      const g=workspace.groups[0],old=db.workspace.groups.find(g=>g.id===actor.groupId);
-     if(workspace.groups.length!==1||g.id!==actor.groupId||g.travelDate<new Date(now()+9*3600000).toISOString().slice(0,10))throw denied();
+     if(workspace.groups.length!==1||g.id!==actor.groupId||!guideVisitActive(g,now()))throw denied();
      // Guides can edit their own journey; identity, dates and destination stay protected.
      const protectedGroup=x=>{const y=structuredClone(x);for(const k of ['plannedArrival','arrivalChanges','centerMessages','sharedPosition','counts','changes','reports','confirmed','countsConfirmedAt','waypoints','distanceNeedsReview','totalRoadDistanceKm'])delete y.state[k];delete y.configuredRoute;delete y.checkpoints;delete y.state.trip.status;delete y.state.trip.mealStartedAt;delete y.state.trip.meal;delete y.state.trip.origin;return JSON.stringify(y)};
      if(protectedGroup(g)!==protectedGroup(old))throw denied();
@@ -121,7 +122,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
    if(url.pathname==='/api/shared/link'&&req.method==='POST'){
     const {groupId,revoke=false,role='guide'}=await body(req);if(role!=='guide')throw Object.assign(Error('지원하지 않는 링크 유형이에요.'),{status:400});if(!db.workspace.groups.some(g=>g.id===groupId))throw Object.assign(Error('단체를 찾지 못했어요.'),{status:404});
     const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.groupId!==groupId||(v.role||'guide')!==role));
-    const token=randomBytes(32).toString('base64url'),expires=now()+30*86400000;
+    const token=randomBytes(32).toString('base64url'),expires=guideVisitExpires(db.workspace.groups.find(g=>g.id===groupId));
     if(!revoke)links[hash(token)]={groupId,expires,role};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;
    }
    json(res,404,{error:'지원하지 않는 공유 요청이에요.'});

@@ -52,12 +52,12 @@ test('cloud PDFs use a private bucket and do not expose service credentials to c
 
 test('weekly menus are shared across groups but only admins write and guides read their visit dates',async t=>{
  fs.mkdirSync('work',{recursive:true});const directory=fs.mkdtempSync(path.join(os.tmpdir(),'onway-weekly-test-'));t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
- let h=createSharingHandler({directory,adminToken:admin});const group=createGroup({name:'Meal test',travelDate:'2026-11-13',visitDuration:'1박 2일',origin:'학교',youth:10,leaders:1,ic:true,bridge:true});
+ let h=createSharingHandler({directory,adminToken:admin,now:()=>Date.parse('2026-11-13T09:00:00+09:00')});const group=createGroup({name:'Meal test',travelDate:'2026-11-13',visitDuration:'1박 2일',origin:'학교',youth:10,leaders:1,ic:true,bridge:true});
  await request(h,'/api/shared/publish',admin,'POST',{group});const token=(await request(h,'/api/shared/link',admin,'POST',{groupId:group.id})).body.token;
  const menu={weekStart:'2026-11-09',sourceName:'menu.pdf',days:Array.from({length:7},(_,i)=>({date:'2026-11-'+String(9+i).padStart(2,'0'),breakfast:['밥'],lunch:['국'],dinner:[]}))};
  assert.equal((await request(h,'/api/shared/weekly-menus',token,'POST',menu)).status,403);
  assert.equal((await request(h,'/api/shared/weekly-menus',admin,'POST',menu)).status,200);
- h=createSharingHandler({directory,adminToken:admin});const read=await request(h,'/api/shared/weekly-menus?start=2026-11-13&end=2026-11-14',token);assert.equal(read.status,200);assert.deepEqual(read.body.menus[0].days.map(d=>d.date),['2026-11-13','2026-11-14']);
+ h=createSharingHandler({directory,adminToken:admin,now:()=>Date.parse('2026-11-13T09:00:00+09:00')});const read=await request(h,'/api/shared/weekly-menus?start=2026-11-13&end=2026-11-14',token);assert.equal(read.status,200);assert.deepEqual(read.body.menus[0].days.map(d=>d.date),['2026-11-13','2026-11-14']);
  assert.equal((await request(h,'/api/shared/weekly-menus?start=2026-11-09&end=2026-11-15',token)).status,403);
  assert.equal((await request(h,'/api/shared/weekly-menus',admin,'POST',{...menu,days:menu.days.slice(1)})).status,400);
  const replaced=structuredClone(menu);replaced.days[4].lunch=['수정 메뉴'];await request(h,'/api/shared/weekly-menus',admin,'POST',replaced);assert.deepEqual((await request(h,'/api/shared/weekly-menus?start=2026-11-13&end=2026-11-14',token)).body.menus[0].days[0].lunch,['수정 메뉴']);

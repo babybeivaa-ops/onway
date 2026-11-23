@@ -4,7 +4,7 @@ import {Readable} from 'node:stream';
 import {createSharingHandler} from '../public-api/sharing.mjs';
 import {createGroup} from '../src/workspace.ts';
 const master='test-master-token-01234567890123456789',code='Test-Center-Code-2026';
-function fixture(){let clock=Date.now();let db:any={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};const h=createSharingHandler({adminToken:master,now:()=>clock,store:{async load(){return structuredClone(db)},async save(next:any,revision:number){assert.equal(revision,db.revision);db=structuredClone(next)}}});return {h,data:()=>db,advance:()=>clock+=16*60_000};}
+function fixture(){let clock=Date.parse('2026-11-19T09:00:00+09:00');let db:any={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};const h=createSharingHandler({adminToken:master,now:()=>clock,store:{async load(){return structuredClone(db)},async save(next:any,revision:number){assert.equal(revision,db.revision);db=structuredClone(next)}}});return {h,data:()=>db,advance:()=>clock+=16*60_000};}
 async function request(h:any,endpoint:string,token='',value:any={}){let status=0,body:any;const req:any=Readable.from([JSON.stringify(value)]);req.method='POST';req.headers={authorization:'Bearer '+token,host:'localhost'};await h(req,{writeHead(s:number){status=s},end(b:string){body=JSON.parse(b)}},new URL('/api/shared/'+endpoint,'http://localhost'));return {status,body};}
 test('owner setup, hashed code login, group link issuance and rotation',async()=>{
  const {h,data}=fixture();assert.equal((await request(h,'admin-code','',{code})).status,401);

@@ -156,3 +156,7 @@
 .workspace-shell.guide .app>main>footer .footer-tagline{margin:5px 0 0;font-size:11px;line-height:1.5}
 
 .footer-center-brand .footer-cloud{display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px;width:28px}.footer-center-brand .footer-cloud .cloud{display:block;width:28px;height:21px;flex:0 0 28px;filter:none}
+
+.next-leg-estimate{display:grid;gap:4px;margin:12px 0;padding:12px 14px;border:1px solid #cfe9f6;border-radius:14px;background:#ffffffd9;color:#285575}.next-leg-estimate>span{font-size:12px}.next-leg-estimate>strong{font-size:19px;color:#167cb2}.next-leg-estimate>small{font-size:10px;color:#6c8799}
+
+.workspace-shell.guide .action-card .speech{text-align:center}

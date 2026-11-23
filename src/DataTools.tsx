@@ -15,7 +15,7 @@ export function CenterAccess({code,onCodeChange,shared=false,onAuthenticated}:{c
 }
 export function GroupSharing({group,code,onCodeChange,shared=false}:{group:DemoGroup;code:string;onCodeChange:(code:string)=>void;shared?:boolean}){
  async function prepare(token:string){if(shared)return;try{await sharedRequest(token,'publish','POST',{group})}catch(e){if((e as {status?:number}).status!==409)throw e}sessionStorage.setItem('onway-admin-access',token)}
- return <details key={group.id} className="data-tools school-sharing"><summary className="school-sharing-toggle"><span className="admin-section-icon"><CloudMascot size={48}/></span><strong>이 학교·단체 인솔교사 링크</strong></summary><p>{group.state.organization.name} · {group.travelDate}</p><ShareLink key={group.id} groupId={group.id} role="guide" code={code} prepare={prepare} onCodeChange={onCodeChange} shared={shared}/></details>;
+ return <details key={group.id} className="data-tools school-sharing"><summary className="school-sharing-toggle"><span className="admin-section-icon"><CloudMascot size={34}/></span><strong>인솔교사 QR · 링크</strong></summary><p>{group.state.organization.name} · {group.travelDate}</p><ShareLink key={group.id} groupId={group.id} role="guide" code={code} prepare={prepare} onCodeChange={onCodeChange} shared={shared}/></details>;
 }
 export function DataTools({workspace,onRestore}:{workspace:Workspace;onRestore:(w:Workspace)=>void}){
  const [candidate,setCandidate]=useState<Workspace|null>(null),[message,setMessage]=useState('');
