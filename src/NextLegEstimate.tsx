@@ -12,5 +12,5 @@ export function ArrivalTimeSpeech({state,children,enabled=false}:{state:DemoStat
  const [result,setResult]=useState<{key:string;seconds:number}|null>(null);
  useEffect(()=>{if(!key)return;let alive=true;requestRoadRoute(key).then(r=>{if(alive)setResult({key,seconds:r.durationSeconds})},()=>{if(alive)setResult(null)});return()=>{alive=false}},[key]);
  const minutes=key&&result?.key===key?Math.max(1,Math.round(result.seconds/60)):null;
- return <FittedSpeech>{minutes?'다음 지점인 나로1대교까지\n약 '+minutes+'분 걸립니다!':children}</FittedSpeech>;
+ return <FittedSpeech>{minutes?'고흥IC에서 나로1대교까지\n약 '+minutes+'분 걸려요!':children}</FittedSpeech>;
 }
