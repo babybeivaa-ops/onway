@@ -54,7 +54,7 @@ if(centerCodeInit)console.log('ONWAY center code initialization',centerCodeInit.
 const sharingHandler=createSharingHandler({directory:dataDirectory,adminToken,store,documentStore});
 const localDocuments=!store&&!process.env.RENDER?createLocalDocumentHandler(createFileDocumentStore(path.join(dataDirectory,'local-documents'))):null;
 const root=fileURLToPath(new URL('../dist/',import.meta.url));
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8'};
+const mime={'.webmanifest':'application/manifest+json','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8'};
 let windowStart=Date.now(),requests=0;
 const server=http.createServer(async(req,res)=>{
  try{

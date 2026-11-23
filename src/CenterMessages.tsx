@@ -1,6 +1,8 @@
+import {ChatTimeline} from './ChatTimeline';
+import './center-chat.css';
 import {MessageReplies} from './MessageReplies';
-import {useId,useState} from 'react';
-import {Check} from 'lucide-react';
+import {useEffect,useRef,useId,useState} from 'react';
+import {Check,X,Send} from 'lucide-react';
 import {HeartMessageIcon} from './HeartMessageIcon';
 import type {CenterMessage,DemoState} from './types';
 import type {Dispatch,SetStateAction} from 'react';
@@ -27,27 +29,23 @@ export function CenterMessages({messages=[],onAcknowledge,onReply,onSend}:{onSen
  return <section className="center-messages admin-center-messages" aria-label="센터 전달사항">
   <h3><HeartMessageIcon/><strong>센터 전달사항</strong><span>{messages.length}건</span>{pending>0&&<span className="center-message-pending-count">미확인 {pending}건</span>}</h3>
   {messages.length?<MessageList messages={messages} onAcknowledge={onAcknowledge} onReply={onReply} admin showAll collapseReplies/>:<p className="center-messages-empty">아직 주고받은 메시지가 없어요.</p>}
-  {onSend&&<form className="center-message-compose" onSubmit={event=>{event.preventDefault();setSendError('');setSent(false);try{onSend(text);setText('');setSent(true)}catch(e){setSendError((e as Error).message)}}}><label>인솔교사에게 먼저 메시지 보내기<textarea rows={3} maxLength={2000} value={text} onChange={e=>{setText(e.target.value);setSent(false)}} placeholder="이 단체 인솔교사에게 안내할 내용을 입력해주세요."/></label><div className="center-message-actions"><span>{text.length}/2000자</span><button type="submit" className="secondary" disabled={!text.trim()}>메시지 보내기</button></div>{sendError&&<p role="alert">{sendError}</p>}{sent&&<p className="fine" role="status">저장 요청을 보냈어요. 상단의 서버 저장 상태를 확인해주세요.</p>}</form>}
+  {onSend&&<form className="center-message-compose" onSubmit={event=>{event.preventDefault();setSendError('');setSent(false);try{onSend(text);setText('');setSent(true)}catch(e){setSendError((e as Error).message)}}}><label>인솔교사에게 먼저 메시지 보내기<textarea rows={3} value={text} onChange={e=>{setText(e.target.value);setSent(false)}} placeholder="이 단체 인솔교사에게 안내할 내용을 입력해주세요."/></label><div className="center-message-actions"><button type="submit" className="secondary" disabled={!text.trim()}>메시지 보내기</button></div>{sendError&&<p role="alert">{sendError}</p>}{sent&&<p className="fine" role="status">저장 요청을 보냈어요. 상단의 서버 저장 상태를 확인해주세요.</p>}</form>}
  </section>;
 }
 
-export function CenterMessageForm({state,setState,shared}:{state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean}){
+export function CenterMessageForm({state,setState,shared,open,onClose,saving=false,saveFailed=false}:{state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
  const [text,setText]=useState(''),[error,setError]=useState(''),[notice,setNotice]=useState('');
- const [historyOpen,setHistoryOpen]=useState(false);
- const formId=useId();
- const total=state.centerMessages?.length??0;
- const pending=(state.centerMessages??[]).filter(message=>message.sender!=='admin'&&!message.acknowledgedAt).length;
- return <section className="section center-messages" aria-label="센터 톡톡">
-  <div className="center-message-heading"><h2><button type="button" className="center-message-history-toggle" aria-expanded={historyOpen} aria-controls={formId+'-content'} onClick={()=>setHistoryOpen(value=>!value)}><HeartMessageIcon/>센터 톡톡{state.centerMessages?.some(m=>m.sender==='admin')&&<small>센터 메시지 {state.centerMessages.filter(m=>m.sender==='admin').length}건</small>}<span aria-hidden="true">{historyOpen?'−':'+'}</span></button></h2></div><div id={formId+'-content'} hidden={!historyOpen}>
-  <form id={formId} onSubmit={event=>{event.preventDefault();setError('');setNotice('');try{setState(previous=>addCenterMessage(previous,text));setText('');setNotice(shared?'저장 요청을 보냈어요. 상단의 서버 저장 상태를 확인해주세요.':'전달사항을 저장했어요.')}catch(error){setError(error instanceof Error?error.message:'저장하지 못했어요. 다시 시도해주세요.')}}}>
-   <p id={formId+'-hint'} className="center-message-hint">전달할 사항이나 문의 내용을 남겨주세요.</p><textarea aria-describedby={formId+'-hint'} aria-label="센터에 전달할 내용" rows={2} maxLength={2000} value={text} onChange={event=>{setText(event.target.value);setNotice('')}}/>
-   <div className="center-message-actions"><span>{text.length}/2000자</span><button className="secondary" type="submit" disabled={!text.trim()}>전달사항 남기기</button></div>
-   {error&&<p className="form-error" role="alert">{error}</p>}
-  </form>
-  {notice&&<p className={shared?'fine':'visually-hidden'} role="status">{notice}</p>}
-  <section id={formId+'-history'} className="center-message-history" aria-label="남긴 전달사항" hidden={!historyOpen}>
-   <div className="center-message-counts"><span>대화 {total}건</span><span className={'center-message-status'+(pending?'':' is-confirmed')}>확인 대기 {pending}건</span></div>
-   <MessageList messages={state.centerMessages??[]} showAll collapseReplies/>
-  </section>
- </div></section>;
+ const dialog=useRef<HTMLDialogElement>(null),formId=useId();
+ useEffect(()=>{const element=dialog.current;if(!element)return;if(open&&!element.open)element.showModal();if(!open&&element.open)element.close();},[open]);
+ return <dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
+  <div className="onway-chat-shell"><header className="onway-chat-header"><HeartMessageIcon/><div><span>ON:WAY</span><h2 id={formId+'-title'}>{state.organization.name}</h2></div><button type="button" className="onway-chat-close" aria-label="채팅 닫기" onClick={onClose} autoFocus><X size={22}/></button></header>
+  <div className="onway-chat-history" aria-label="센터와 주고받은 메시지" tabIndex={0}>
+   {(state.centerMessages?.length??0)>0?<ChatTimeline messages={state.centerMessages??[]} open={open} organizationName={state.organization.name}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
+  </div>
+  <form className="onway-chat-compose" onSubmit={event=>{event.preventDefault();if(saving||saveFailed)return;setError('');setNotice('');try{setState(previous=>addCenterMessage(previous,text));setText('');setNotice(shared?'저장 요청을 보냈어요.':'메시지를 저장했어요.')}catch(error){setError(error instanceof Error?error.message:'저장하지 못했어요. 다시 시도해주세요.')}}}>
+   <div className="onway-chat-input-row"><textarea aria-label="센터에 보낼 메시지" id={formId+'-text'} rows={1} value={text} placeholder="메시지를 입력해주세요." onChange={event=>{setText(event.target.value);setNotice('')}}/>
+   <button className="onway-chat-send-icon" type="submit" aria-label={saving?'저장 중':'메시지 보내기'} title="보내기" disabled={saving||saveFailed||!text.trim()}><Send size={19} aria-hidden="true"/></button></div>
+   {(error||saveFailed)&&<p className="form-error" role="alert">{error||'저장하지 못했어요. 화면 상단의 서버 저장 상태를 확인해주세요.'}</p>}{notice&&!error&&!saveFailed&&<p className="onway-chat-notice" role="status">{saving?'서버에 저장 중이에요.':notice}</p>}
+  </form></div>
+ </dialog>;
 }

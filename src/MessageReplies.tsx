@@ -8,8 +8,8 @@ export function MessageReplies({message,onReply,disabled=false,onCompose,collaps
   {collapsed&&replies.length>0?<details className="message-replies-fold"><summary><span>센터 답변</span><span className="reply-thread-count">{replies.length}</span></summary>{replies}</details>:replies}
   {onReply&&<><button className="message-reply-toggle" type="button" disabled={disabled} aria-expanded={open} aria-controls={id} onClick={()=>{setOpen(v=>!v);if(!open)onCompose?.()}}>{open?'답장 접기':'답장'}</button>
    {open&&<form id={id} className="message-reply-form" onSubmit={event=>{event.preventDefault();setError('');try{onReply(text);setText('');setOpen(false)}catch(e){setError(e instanceof Error?e.message:'답변을 저장하지 못했어요.')}}}>
-    <label htmlFor={id+'-text'}>답변 내용</label><textarea id={id+'-text'} rows={3} maxLength={2000} required value={text} onChange={e=>setText(e.target.value)} disabled={disabled}/>
-    <div className="message-reply-actions"><small>{text.length}/2000자</small><button type="submit" disabled={disabled||!text.trim()}>답변 보내기</button></div>{error&&<p role="alert">{error}</p>}
+    <label htmlFor={id+'-text'}>답변 내용</label><textarea id={id+'-text'} rows={3} required value={text} onChange={e=>setText(e.target.value)} disabled={disabled}/>
+    <div className="message-reply-actions"><button type="submit" disabled={disabled||!text.trim()}>답변 보내기</button></div>{error&&<p role="alert">{error}</p>}
    </form>}
   </>}
  </div>;

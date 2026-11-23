@@ -1006,7 +1006,7 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .school-sharing .qr-download{padding:8px 14px;border:1px solid #cbdcf3;border-radius:10px;color:#2364bc;background:#f5f9ff;text-decoration:none;font-size:13px}
 
 /* Slightly denser admin route editor without changing the guide dialog. */
-#group-detail .admin-route-origin{margin:16px 0 20px;padding:18px;border:1px solid #b9cde8;border-radius:12px;background:#f0f6ff}
+#group-detail .admin-route-origin{margin:16px 0 20px;padding:18px;border:1px solid #dce9f1;border-radius:12px;background:#fbfdff}
 #group-detail .admin-route-origin .origin-settings-school-compact{grid-template-columns:minmax(0,1fr) auto;justify-content:stretch;align-items:end;gap:12px}
 #group-detail .admin-route-origin>h3{margin:0 0 10px;font-size:20px;line-height:1.5;color:#244665}
 #group-detail .admin-route-origin>.fine{margin:0 0 20px;font-size:15px;line-height:1.7;color:#48617a}
@@ -1125,3 +1125,16 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .group-quick-tabs button[data-upcoming=true] .journey-badge svg{opacity:.8}
 .group-quick-tabs button[data-upcoming=true][aria-selected=true]{background:#e5f5fd;border-color:#76b8da;outline:2px solid #76b8da;outline-offset:2px}
 .group-quick-tabs .upcoming-visit-label{display:block;color:#52748b;font-size:12px;line-height:1.5;margin:4px 0 0}
+
+.origin-settings-details{display:contents}
+#group-detail .admin-route-origin .origin-settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:24px;max-width:none}
+#group-detail .admin-route-origin .origin-settings>label{margin:0;min-width:0}
+#group-detail .admin-route-origin .origin-settings-details{display:block;min-width:0;border-left:1px solid #d4e2ee;padding-left:24px}
+#group-detail .admin-route-origin .origin-settings-details .school-origin-search{margin-top:0}
+#group-detail .admin-route-origin .origin-settings-details .school-origin-search>p:first-child{margin-top:0}
+#group-detail .admin-route-origin .origin-settings-details strong{overflow-wrap:anywhere}
+@media(max-width:600px){#group-detail .admin-route-origin .origin-settings{grid-template-columns:minmax(0,1fr);gap:16px}#group-detail .admin-route-origin .origin-settings-details{padding:16px 0 0;border-left:0;border-top:1px solid #d4e2ee}}
+.admin-heading>.admin-header-actions{display:flex;flex-flow:row nowrap;width:auto;gap:10px;flex:0 0 auto}
+.admin-heading>.admin-header-actions>.admin-chat-inbox-toggle,.admin-heading>.admin-header-actions>.admin-add{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;flex:0 0 140px;width:140px;min-width:140px;min-height:50px;height:50px;padding:10px;white-space:nowrap;font-size:14px}
+.admin-heading>.admin-header-actions>.admin-refresh{box-sizing:border-box;flex:0 0 50px;width:50px;min-width:50px;min-height:50px;height:50px;padding:10px}
+@media(max-width:759px){.admin-heading>.admin-header-actions{width:100%;gap:8px}.admin-heading>.admin-header-actions>.admin-chat-inbox-toggle,.admin-heading>.admin-header-actions>.admin-add{flex:1 1 0;width:auto;min-width:0;padding:8px;font-size:13px}}

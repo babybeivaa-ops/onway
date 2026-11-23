@@ -1,3 +1,4 @@
+import {makePushKeys,validPushSubscription,guidePushNotice,sendAdminPush} from './push.mjs';
 import {setTimeout as delay} from 'node:timers/promises';
 import {serveWeeklyMenus} from './weekly-menus.mjs';
 import {encodeCenterCode,checkCenterCode} from './center-code.mjs';
@@ -55,6 +56,19 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role!=='admin-setup'));links[hash(token)]={role:'admin-setup',expires};
     await persist({...db,revision:db.revision+1,links});json(res,200,{token,expires});return true;
    }
+   if(url.pathname==='/api/shared/push-key'&&req.method==='GET'){
+    if(actor.role!=='admin')throw denied();
+    if(!db.push?.keys)await persist({...db,revision:db.revision+1,push:{keys:makePushKeys(),subscriptions:[]}});
+    json(res,200,{publicKey:db.push.keys.publicKey});return true;
+   }
+   if(url.pathname==='/api/shared/push-subscription'&&['POST','DELETE'].includes(req.method)){
+    if(actor.role!=='admin')throw denied();const input=await body(req);const subscription=input.subscription;
+    if(!validPushSubscription(subscription))throw Object.assign(Error('알림 구독 정보가 올바르지 않아요.'),{status:400});
+    const token=(req.headers.authorization||'').replace(/^Bearer /,''),authKey=eq(hash(token),hash(adminToken))?undefined:hash(token);
+    let subscriptions=(db.push?.subscriptions??[]).filter(s=>s.expires>now()&&s.subscription.endpoint!==subscription.endpoint);
+    if(req.method==='POST'){if(subscriptions.length>=100)throw Object.assign(Error('알림 기기 등록 한도에 도달했어요.'),{status:400});subscriptions.push({subscription,authKey,expires:authKey?db.links[authKey].expires:now()+30*86400000});}
+    await persist({...db,revision:db.revision+1,push:{keys:db.push?.keys??makePushKeys(),subscriptions}});json(res,200,{saved:true});return true;
+   }
    if(url.pathname==='/api/shared/program-plans'){await serveProgramPlans(req,res,{store:pdfStore,registeredNames:db.workspace.groups.map(g=>g.state.organization.name),canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
    if(url.pathname==='/api/shared/weekly-menus'){await serveWeeklyMenus(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',group:db.workspace.groups.find(g=>g.id===actor.groupId)});return true;}
    if(url.pathname==='/api/shared/documents'){
@@ -88,7 +102,8 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     }
     const next={...db,revision:db.revision+1,workspace};
     next.links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role==='admin'||workspace.groups.some(g=>g.id===v.groupId)));
-    await persist(next);json(res,200,snapshot(actor));return true;
+    const notice=actor.role==='guide'?guidePushNotice(db.workspace.groups.find(g=>g.id===actor.groupId),workspace.groups.find(g=>g.id===actor.groupId)):null;
+    await persist(next);json(res,200,snapshot(actor));if(notice)void sendAdminPush(next.push,notice,next.links).catch(()=>{});return true;
    }
    if(actor.role!=='admin')throw denied();
    if(url.pathname==='/api/shared/admin-invite'){

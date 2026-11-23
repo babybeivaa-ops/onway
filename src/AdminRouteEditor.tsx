@@ -17,7 +17,7 @@ export function AdminRouteEditor({group,onSaveOrigin,onLocate,onChange,onRename}
   <form className="admin-route-origin" onSubmit={e=>{e.preventDefault();try{if(!place)throw Error('검색 결과에서 출발 장소를 선택해주세요.');onSaveOrigin({name:group.state.organization.name,...group.state.counts,originMode:mode,originPlace:place});setError('');setPlace(undefined)}catch(e){setError((e as Error).message)}}}>
    <h3>1. 출발지 선택</h3>
    <p className="fine">학교·단체에서 출발하는지, 다른 장소에서 출발하는지 먼저 확인해주세요.</p>
-   <OriginSettings hideSchoolCurrent name={group.state.organization.name} mode={mode} onMode={setMode} onSelect={setPlace} editing currentPlace={current?.place} currentName={current?.name||group.state.trip.origin}/>
+   <OriginSettings name={group.state.organization.name} mode={mode} onMode={setMode} onSelect={setPlace} editing currentPlace={current?.place} currentName={current?.name||group.state.trip.origin}/>
    {mode==='school'&&initialMode==='other'&&<p className="fine">저장하면 학교·단체 → 고흥IC → 나로1대교 → 국립청소년우주센터로 변경돼요. 기존 중간 지점은 경로에서 제외돼요.</p>}
    {pending&&<button className="secondary" type="submit" disabled={!place}>출발지 저장 후 지점 편집</button>}
    {error&&<p className="form-error" role="alert">{error}</p>}

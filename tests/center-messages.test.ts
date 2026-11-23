@@ -20,7 +20,7 @@ test('messages persist, stay within the selected group, roundtrip in backup and 
  const copied=copyJourney(saved,a.id,{name:input.name,youth:20,leaders:2,travelDate:'2099-02-01'});
  assert.equal(copied.groups.at(-1)!.state.centerMessages,undefined);
  assert.throws(()=>addCenterMessage(a.state,' \n '));
- assert.throws(()=>addCenterMessage(a.state,'가'.repeat(2001)));
+ assert.equal(addCenterMessage(a.state,'가'.repeat(10000)).centerMessages![0].text.length,10000);
  const invalid=structuredClone(saved);invalid.groups[0].state.centerMessages![0].text='';
  assert.throws(()=>parseBackup(backupText(invalid)));
 });
@@ -51,7 +51,7 @@ test('admin replies append without replacing messages, persist in backups and re
  assert.equal(next.centerMessages![0].acknowledgedAt,first.centerMessages![0].acknowledgedAt);
  const w={version:2 as const,view:'admin' as const,activeGroupId:group.id,groups:[{...group,state:next}]};
  assert.deepEqual(parseBackup(backupText(w)),w);assert(recordsCsv(w).includes('정문으로 와주세요.'));
- assert.throws(()=>replyToCenterMessage(next,id,' '));assert.throws(()=>replyToCenterMessage(next,id,'가'.repeat(2001)));assert.throws(()=>replyToCenterMessage(next,'missing','답변'));
+ assert.throws(()=>replyToCenterMessage(next,id,' '));assert.equal(replyToCenterMessage(next,id,'가'.repeat(10000)).centerMessages![0].replies!.at(-1)!.text.length,10000);assert.throws(()=>replyToCenterMessage(next,'missing','답변'));
  const invalid=structuredClone(w);invalid.groups[0].state.centerMessages![0].replies![0].at='bad';assert.throws(()=>parseBackup(backupText(invalid)));
 });
 

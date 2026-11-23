@@ -119,7 +119,7 @@ test('admin initiates a message; guide receives it and cannot forge or alter sen
  await request(h,'publish',admin,'POST',{group});
  const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
  let read=(await request(h,'workspace',admin)).body;
- const message={id:'admin-first',text:'체험관 앞에서 안내하겠습니다.',at:new Date().toISOString(),sender:'admin'};
+ const message={id:'admin-first',text:'체험관 앞에서 안내하겠습니다.'.repeat(300),at:new Date().toISOString(),sender:'admin'};
  read.workspace.groups[0].state.centerMessages=[message];
  assert.equal((await request(h,'workspace',admin,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);
  read=(await request(h,'workspace',token)).body;
@@ -128,7 +128,7 @@ test('admin initiates a message; guide receives it and cannot forge or alter sen
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:changed,revision:read.revision})).status,403);
  const forged=structuredClone(read.workspace);forged.groups[0].state.centerMessages.push({...message,id:'forged'});
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:forged,revision:read.revision})).status,403);
- read.workspace.groups[0].state.centerMessages.push({id:'guide-response',text:'확인했습니다.',at:new Date().toISOString()});
+ read.workspace.groups[0].state.centerMessages.push({id:'guide-response',text:'확인했습니다.'.repeat(400),at:new Date().toISOString()});
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);
  const saved=(await request(h,'workspace',admin)).body.workspace.groups[0].state.centerMessages;
  assert.equal(saved.length,2);assert.equal(saved[0].sender,'admin');

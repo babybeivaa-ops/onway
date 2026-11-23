@@ -1,0 +1,2 @@
+.workspace-shell.guide .app main>section.center-weather[data-precipitation=true]{background:#eaf7ff;border-color:#cde8f8}
+.app .center-weather[data-precipitation=true] .info-section-toggle>.weather-location-label{flex:1;min-width:0;white-space:normal;word-break:keep-all;text-align:right;color:#337a9e}
