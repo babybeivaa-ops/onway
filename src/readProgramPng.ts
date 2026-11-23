@@ -75,20 +75,37 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
    // A wide merged school header has large colored margins. OCR can turn
    // its border into a line of invented characters. Retry the centered title
    // without those margins, but accept only a complete institution name.
-   if(!/(?:초등학교|중학교|고등학교|대학교)/.test(programRegistrationIdentity(lines).name)&&box.right-x>unit*18){
+   const matchesSelection=(title:string)=>{
+    if(!selection)return false;
+    const identity=programRegistrationIdentity([title]);
+    try{return !!selectedProgramRegistration([{...identity,start:date,end:date,sessions:[]}],selection.name,selection.date,selection.registeredNames,true)}catch{return false}
+   };
+   if((selection?!lines.some(matchesSelection):!/(?:초등학교|중학교|고등학교|대학교)/.test(programRegistrationIdentity(lines).name))&&box.right-x>unit*18){
     const width=box.right-x;
-    for(const fraction of [1/3,1/2,2/3]){
-     const title=await crop(x+width*(1-fraction)/2,box.y,width*fraction,box.bottom-box.y+1);
-     if(/^[가-힣\s]+(?:초등학교|중학교|고등학교|대학교)$/.test(title)){
-      lines.unshift(title);break;
+    let found=false;
+    for(const fraction of [1/3,.4,.5,2/3]){
+     for(const inset of [0,1,-1]){
+      const title=await crop(Math.round(x+width*(1-fraction)/2),box.y+inset,Math.round(width*fraction),box.bottom-box.y+1);
+      const identity=programRegistrationIdentity([title]);
+      if(selection?matchesSelection(title):/^[가-힣\s]+(?:초등학교|중학교|고등학교|대학교)$/.test(identity.name)){
+       lines.unshift(identity.name);found=true;break;
+      }
      }
+     if(found)break;
     }
    }
    const identity=programRegistrationIdentity(lines);
    if(!/[가-힣]{2}/.test(identity.name))continue;
    registrations.push({box:{...box,x},group:{...identity,start:date,end:date,sessions:[]}});
   }
-  const selected=selection?selectedProgramRegistration(registrations.map(r=>r.group),selection.name,selection.date,selection.registeredNames,true):undefined;
+  let selected:ProgramGroup|undefined;
+  if(selection){
+   try{selected=selectedProgramRegistration(registrations.map(r=>r.group),selection.name,selection.date,selection.registeredNames,true)}
+   catch(error){
+    const names=registrations.map(r=>r.group.name).filter(Boolean).join(' / ');
+    throw Error((error as Error).message+(names?` 인식된 단체명: ${names}`:''));
+   }
+  }
   if(selected&&selection){selected.aliases=[selected.aliases,selected.name].filter(Boolean).join(',');selected.name=selection.name;}
   progress(selection?`${selection.name}의 활동만 읽고 있어요…`:'단체별 활동 시간과 장소를 읽고 있어요…');
   const classColumns:{box:Box;label:string}[]=[];

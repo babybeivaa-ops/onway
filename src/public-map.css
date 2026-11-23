@@ -150,3 +150,6 @@
 @media(max-width:600px){.received-position-layout{grid-template-columns:minmax(0,1fr);gap:12px}.received-position-address{font-size:14px}}
 .received-position:has(+.received-position-external){margin-bottom:4px}
 .received-position-external{display:block;width:max-content;max-width:100%;margin:0 0 16px auto;padding:4px 0;color:#60758b;font-size:11px;line-height:1.5;text-decoration:underline;text-underline-offset:3px}
+
+.received-position-copy>.received-position-external{margin:4px 0 0;justify-self:start}
+

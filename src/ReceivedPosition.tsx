@@ -38,6 +38,7 @@ function PositionMap({position}:{position:Position}){
    <span>최근 전송 <time dateTime={position.sentAt}>{new Date(position.sentAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})}</time></span>
    <span className="received-position-detail">위치 측정 {new Date(position.measuredAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} · 오차 약 {Math.round(position.accuracy)}m</span>
    <small>마지막으로 전송한 위치입니다. 실시간 이동 위치가 아니에요.</small>
+   <a className="received-position-external" href={`https://map.kakao.com/link/map/${encodeURIComponent('인솔교사 전송 위치')},${position.lat},${position.lng}`} target="_blank" rel="noreferrer">카카오맵에서 보기</a>
   </div>
   <div className="received-position-map-area">
    <div ref={host} className="received-position-map-canvas" role="region" aria-label="인솔교사가 마지막으로 전송한 위치 지도"/>
@@ -47,8 +48,8 @@ function PositionMap({position}:{position:Position}){
 }
 
 export function ReceivedPosition({position,archived=false}:{position:DemoGroup['state']['sharedPosition'];archived?:boolean}){
- return <><section className="received-position" aria-label="인솔교사 전송 위치">
+ return <section className="received-position" aria-label="인솔교사 전송 위치">
   <div className="received-position-heading"><strong>인솔교사 전송 위치</strong><span className="received-position-status">{position?'수신됨':'수신 대기'}</span></div>
   {position?<PositionMap key={`${position.lat},${position.lng}`} position={position}/>:<p className="received-position-empty">{archived?'이 방문에서 전송받은 위치가 없어요.':'인솔교사가 ‘센터에 위치 전송’을 누르면 여기에 표시돼요.'}</p>}
- </section>{position&&<a className="received-position-external" href={`https://map.kakao.com/link/map/${encodeURIComponent('인솔교사 전송 위치')},${position.lat},${position.lng}`} target="_blank" rel="noreferrer">카카오맵에서 보기</a>}</>;
+ </section>;
 }
