@@ -81,8 +81,8 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
      if(old.state.reports.some(r=>!g.state.reports.some(n=>n.id===r.id)))throw denied();
      if(g.state.reports.some(r=>!g.state.waypoints.some(p=>p.id===r.waypointId&&p.kind!=='destination')))throw denied();
      if(old.state.changes.some(c=>!g.state.changes.some(n=>JSON.stringify(c)===JSON.stringify(n))))throw denied();
-     if((old.state.centerMessages??[]).some(m=>!(g.state.centerMessages??[]).some(n=>n.id===m.id&&n.text===m.text&&n.at===m.at&&n.acknowledgedAt===m.acknowledgedAt&&JSON.stringify(n.replies??[])===JSON.stringify(m.replies??[]))))throw denied();
-     if((g.state.centerMessages??[]).some(m=>(m.acknowledgedAt!==undefined||(m.replies?.length??0)>0)&&!(old.state.centerMessages??[]).some(n=>n.id===m.id)))throw denied();
+     if((old.state.centerMessages??[]).some(m=>!(g.state.centerMessages??[]).some(n=>n.id===m.id&&n.sender===m.sender&&n.text===m.text&&n.at===m.at&&n.acknowledgedAt===m.acknowledgedAt&&JSON.stringify(n.replies??[])===JSON.stringify(m.replies??[]))))throw denied();
+     if((g.state.centerMessages??[]).some(m=>(m.sender==='admin'||m.acknowledgedAt!==undefined||(m.replies?.length??0)>0)&&!(old.state.centerMessages??[]).some(n=>n.id===m.id)))throw denied();
      for(const c of g.state.changes)if(!old.state.changes.some(n=>n.id===c.id))c.actor='guide';
      workspace={...db.workspace,groups:db.workspace.groups.map(x=>x.id===g.id?g:x)};
     }

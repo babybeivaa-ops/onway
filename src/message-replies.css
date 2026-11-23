@@ -58,3 +58,8 @@
 .admin-center-messages .center-message>.message-replies>.message-reply-toggle{grid-column:2;grid-row:1;margin:0;height:32px;min-height:32px;box-sizing:border-box;padding:5px 10px;line-height:20px}
 .admin-center-messages .center-message>.message-replies>.message-reply-form{grid-column:1 / -1;grid-row:2}
 @media(max-width:600px){.admin-center-messages .center-message>.message-replies{grid-row:4}}
+.center-message[data-sender=admin]{background:#eef8ff;border-color:#c7e3f4}
+.center-message-compose{margin-top:16px;padding-top:14px;border-top:1px solid #dce7f1}
+.center-message-compose label{display:grid;gap:8px;font-size:13px;color:#385e79}
+.center-message-compose textarea{box-sizing:border-box;width:100%;resize:vertical}
+.center-message-history-toggle>small{font-size:11px;color:#337da4;margin-left:auto}

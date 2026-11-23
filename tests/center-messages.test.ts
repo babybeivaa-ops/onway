@@ -54,3 +54,13 @@ test('admin replies append without replacing messages, persist in backups and re
  assert.throws(()=>replyToCenterMessage(next,id,' '));assert.throws(()=>replyToCenterMessage(next,id,'가'.repeat(2001)));assert.throws(()=>replyToCenterMessage(next,'missing','답변'));
  const invalid=structuredClone(w);invalid.groups[0].state.centerMessages![0].replies![0].at='bad';assert.throws(()=>parseBackup(backupText(invalid)));
 });
+
+
+test('center can start conversation without an incoming message and keep sender in backups',()=>{
+ const group=createGroup(input);group.state=addCenterMessage(group.state,'입소 안내입니다.','admin');
+ assert.equal(group.state.centerMessages![0].sender,'admin');
+ const workspace={version:2 as const,view:'admin' as const,activeGroupId:group.id,groups:[group]};
+ assert.equal(parseBackup(backupText(workspace)).groups[0].state.centerMessages![0].sender,'admin');
+ assert.ok(recordsCsv(workspace).includes('센터 발신'));
+ assert.equal(addCenterMessage(group.state,'확인했습니다.').centerMessages![1].sender,undefined);
+});

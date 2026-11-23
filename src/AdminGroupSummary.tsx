@@ -17,7 +17,7 @@ import type {DemoGroup} from './workspace';
 import {formatGroupName,formatSchoolGroupName} from './groupName';
 import {adminJourney} from './adminJourney';
 
-export function AdminGroupSummary({onAdminCheckpointCheck,onEditCounts,group,archived=false,onReplyMessage,onAcknowledgeMessage,onSetPlannedArrival}:{onAdminCheckpointCheck?:(id:string,time?:string)=>void;onEditCounts?:()=>void;group:DemoGroup;onSetPlannedArrival?:(time:string)=>void;archived?:boolean;onReplyMessage?:(id:string,text:string)=>void;onAcknowledgeMessage?:(id:string)=>void}){
+export function AdminGroupSummary({onSendMessage,onAdminCheckpointCheck,onEditCounts,group,archived=false,onReplyMessage,onAcknowledgeMessage,onSetPlannedArrival}:{onSendMessage?:(text:string)=>void;onAdminCheckpointCheck?:(id:string,time?:string)=>void;onEditCounts?:()=>void;group:DemoGroup;onSetPlannedArrival?:(time:string)=>void;archived?:boolean;onReplyMessage?:(id:string,text:string)=>void;onAcknowledgeMessage?:(id:string)=>void}){
  const notes=group.state.organization.notes;const position=group.state.sharedPosition;const {steps}=adminJourney(group.state),counts=group.state.counts;
 
  return <section className={'school-visit-summary'+(archived?' archived-visit-summary':'')} aria-label="선택 학교·단체 입소 현황">{notes&&<div className="group-special-notes"><strong>특이사항</strong><p>{notes}</p></div>}<ReceivedPosition position={position} archived={archived}/>
@@ -25,7 +25,7 @@ export function AdminGroupSummary({onAdminCheckpointCheck,onEditCounts,group,arc
 
   {!archived&&<AdminCheckpointChecks state={group.state} onToggle={onAdminCheckpointCheck}/>}
   <dl className="school-visit-facts"><div className="visit-date-program" data-program={normalizeProgramType(group.state.organization.programType)}><dt><CalendarCloudIcon/>입소 일정</dt><dd className="visit-date-value"><FittedGroupName name={visitDateRange(group.travelDate,group.state.organization.visitDuration)}/></dd><dd className="visit-date-arrival"><PlannedArrivalCard compact state={group.state} date={group.travelDate} onSave={archived?undefined:onSetPlannedArrival}/></dd></div><div className="visit-count-cell visit-count-integrated"><dt><SpaceFriendsIcon/>입소 인원</dt><dd><div className="visit-count-top-summary" aria-label="입소 인원 요약"><strong>총 {counts.youth+counts.leaders}명</strong><span className="visit-summary-youth">{participantCountLabel(counts)} {counts.youth}명</span><span>인솔교사 {counts.leaders}명</span>{onEditCounts&&<button type="button" className="secondary visit-count-edit" onClick={onEditCounts}>인원 수정</button>}</div><VisitCounts counts={counts} hideOverview/></dd></div></dl>
-  <CenterMessages onReply={onReplyMessage} messages={group.state.centerMessages} onAcknowledge={onAcknowledgeMessage}/>
+  <CenterMessages onSend={onSendMessage} onReply={onReplyMessage} messages={group.state.centerMessages} onAcknowledge={onAcknowledgeMessage}/>
 
   <RecentChanges state={group.state}/>
  </section>;
