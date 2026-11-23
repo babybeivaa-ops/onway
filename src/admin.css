@@ -1119,3 +1119,9 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .school-sharing>summary.school-sharing-toggle::after{content:'+';flex:0 0 auto;font-size:20px;font-weight:400}
 .school-sharing[open]>summary.school-sharing-toggle::after{content:'−'}
 .school-sharing>summary.school-sharing-toggle:focus-visible{outline:3px solid #6d9fdb;outline-offset:4px;border-radius:6px}
+.group-quick-tabs button[data-program][data-upcoming=true]{background:#f1faff;border-color:#bedff0;color:#52748b;box-shadow:none}
+.group-quick-tabs button[data-upcoming-start=true]{margin-left:auto}
+.group-quick-tabs button[data-upcoming=true]>strong,.group-quick-tabs button[data-upcoming=true] .journey-status-label,.group-quick-tabs button[data-upcoming=true] .remaining-road-distance{color:#52748b}
+.group-quick-tabs button[data-upcoming=true] .journey-badge svg{opacity:.8}
+.group-quick-tabs button[data-upcoming=true][aria-selected=true]{background:#e5f5fd;border-color:#76b8da;outline:2px solid #76b8da;outline-offset:2px}
+.group-quick-tabs .upcoming-visit-label{display:block;color:#52748b;font-size:12px;line-height:1.5;margin:4px 0 0}
