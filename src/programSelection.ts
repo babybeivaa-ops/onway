@@ -14,7 +14,7 @@ function sameUniversity(group:ProgramGroup,name:string){
 }
 export function selectedProgramRegistration(groups:ProgramGroup[],name:string,date:string,registeredNames:string[]=[name],allowDateMismatch=false){
  const target=normalizedProgramName(name);
- const exact=groups.filter(g=>[g.name,...g.aliases.split(/[,\n]/)].filter(Boolean).some(alias=>normalizedProgramName(registeredProgramName(alias,registeredNames))===target));
+ const exact=groups.filter(g=>[g.name,...g.aliases.split(/[,\n]/)].filter(Boolean).some(alias=>normalizedProgramName(registeredProgramName(alias,registeredNames))===target||normalizedProgramName(registeredProgramName(alias,[name]))===target));
  const byName=exact.some(g=>g.start===date)?exact:groups.filter(g=>exact.includes(g)||sameUniversity(g,name));
  const matches=byName.filter(g=>g.start===date);
  if(matches.length>1)throw Error('같은 단체와 입소일의 영역이 여러 개입니다. 해당 단체 일정만 구분된 PNG를 사용해주세요.');

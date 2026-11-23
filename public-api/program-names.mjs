@@ -3,8 +3,10 @@ function oneEdit(a,b){if(Math.abs(a.length-b.length)>1)return false;let i=0,j=0,
 export function registeredProgramName(source,names){
  const value=normalizedProgramName(source),choices=[...new Set(names.filter(n=>n.trim()))];
  const exact=choices.filter(n=>normalizedProgramName(n)===value);if(exact.length)return exact.includes(source)?source:exact[0];
- const suffix=choices.filter(n=>{const target=normalizedProgramName(n);return Math.min(value.length,target.length)>=4&&(value.endsWith(target)||target.endsWith(value))});
- if(suffix.length)return suffix.length===1?suffix[0]:source;
+ const suffix=choices.filter(n=>{const target=normalizedProgramName(n),shorter=value.length<target.length?value:target;return (shorter.length>=4||/^[가-힣]{2,}[초중고]$/.test(shorter))&&(value.endsWith(target)||target.endsWith(value))});
+ // 초등학교 -> 초 makes ordinary two-syllable school names three characters.
+ // Different spellings of the same short name are not competing schools.
+ if(suffix.length)return new Set(suffix.map(normalizedProgramName)).size===1?suffix[0]:source;
  const close=choices.filter(n=>{const target=normalizedProgramName(n);return Math.min(value.length,target.length)>=4&&oneEdit(value,target)});
  return close.length===1?close[0]:source;
 }
