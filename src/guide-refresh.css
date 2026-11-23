@@ -37,7 +37,7 @@
 .workspace-shell.guide .app .arrival-welcome h1{font-size:21px;letter-spacing:-.7px;color:#24364a;font-weight:750}
 .workspace-shell.guide .app .arrival-card{background:#f2faff;border:0;border-radius:20px;padding:16px 12px;margin:0 0 24px;gap:8px;box-shadow:none}
 .workspace-shell.guide .app .arrival-card .arrival-info dt{font-size:15px;color:#344c60}
-.workspace-shell.guide .app .arrival-card .arrival-info dd{font-size:16px;color:#0788d3;transform:translateX(-8px)}
+.workspace-shell.guide .app .arrival-card .arrival-info dd{font-size:16px;color:#0788d3;transform:translateX(-11px)}
 .workspace-shell.guide .app .arrival-card .arrival-photo{width:108px;border-radius:16px}
 .workspace-shell.guide .app .arrival-documents{padding:0;margin-top:0;background:none;border:0;box-shadow:none}
 .workspace-shell.guide .app .arrival-document-card{border:1px solid var(--guide-line);border-radius:20px;background:#fff;box-shadow:none;margin:12px 0}
