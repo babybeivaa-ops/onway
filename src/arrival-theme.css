@@ -65,7 +65,7 @@
 
 .app:has(.arrival-welcome) .arrival-card .arrival-info dt{font-size:17px;font-weight:700;line-height:1.5;color:#202c3d}
 .app:has(.arrival-welcome) .arrival-card .arrival-info dt{grid-column:1;grid-row:1;text-align:center;word-break:keep-all}
-.app:has(.arrival-welcome) .arrival-card .arrival-info dd{grid-column:2;grid-row:1;transform:translateX(-10px);margin:0;font-size:17px;font-weight:600;text-align:center;line-height:1.5;color:#2069ed;word-break:keep-all;overflow-wrap:anywhere}
+.app:has(.arrival-welcome) .arrival-card .arrival-info dd{grid-column:2;grid-row:1;transform:translateX(-13px);margin:0;font-size:17px;font-weight:600;text-align:center;line-height:1.5;color:#2069ed;word-break:keep-all;overflow-wrap:anywhere}
 .arrival-documents .group-meal-menu .arrival-meal-settings{background:#fff9e9;color:#70551d;border:1px solid #eadfb9;border-radius:12px;padding:11px 13px;margin:0 0 12px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:0 24px}.arrival-documents .group-meal-menu .arrival-meal-settings>strong{font-size:14px;font-weight:700}.arrival-documents .group-meal-menu .arrival-meal-details p{font-size:12px;margin:0}.arrival-documents .group-meal-menu .arrival-meal-details .arrival-lunch-check{font-size:12px;margin-top:4px}@media(max-width:400px){.arrival-documents .group-meal-menu .arrival-meal-settings{column-gap:12px}.arrival-documents .group-meal-menu .arrival-meal-settings>strong{font-size:13px}.arrival-documents .group-meal-menu .arrival-meal-details p,.arrival-documents .group-meal-menu .arrival-meal-details .arrival-lunch-check{font-size:11px}}
 
 
