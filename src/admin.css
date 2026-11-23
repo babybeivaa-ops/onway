@@ -1111,5 +1111,5 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .group-quick-tabs button[data-program] .journey-badge-compact{gap:4px}
 .group-quick-tabs button[data-program] .journey-badge-compact .journey-status-label{font-size:14px}
 
-.group-quick-tabs button[data-program]>strong[data-short-name=true]{font-size:18px}
+.group-quick-tabs button[data-program]>strong[data-short-name=true]{font-size:20px}
 
