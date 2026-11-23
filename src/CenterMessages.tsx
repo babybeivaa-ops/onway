@@ -33,14 +33,14 @@ export function CenterMessages({messages=[],onAcknowledge,onReply,onSend}:{onSen
  </section>;
 }
 
-export function CenterMessageForm({state,setState,shared,open,onClose,saving=false,saveFailed=false}:{state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
+export function CenterMessageForm({messages,state,setState,shared,open,onClose,saving=false,saveFailed=false}:{messages?:CenterMessage[];state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
  const [text,setText]=useState(''),[error,setError]=useState(''),[notice,setNotice]=useState('');
  const dialog=useRef<HTMLDialogElement>(null),formId=useId();
  useEffect(()=>{const element=dialog.current;if(!element)return;if(open&&!element.open)element.showModal();if(!open&&element.open)element.close();},[open]);
  return <dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
   <div className="onway-chat-shell"><header className="onway-chat-header"><HeartMessageIcon/><div><span>ON:WAY</span><h2 id={formId+'-title'}>{state.organization.name}</h2></div><button type="button" className="onway-chat-close" aria-label="채팅 닫기" onClick={onClose} autoFocus><X size={22}/></button></header>
   <div className="onway-chat-history" aria-label="센터와 주고받은 메시지" tabIndex={0}>
-   {(state.centerMessages?.length??0)>0?<ChatTimeline messages={state.centerMessages??[]} open={open} organizationName={state.organization.name}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
+   {((messages??state.centerMessages)?.length??0)>0?<ChatTimeline messages={messages??state.centerMessages??[]} open={open} organizationName={state.organization.name}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
   </div>
   <form className="onway-chat-compose" onSubmit={event=>{event.preventDefault();if(saving||saveFailed)return;setError('');setNotice('');try{setState(previous=>addCenterMessage(previous,text));setText('');setNotice(shared?'저장 요청을 보냈어요.':'메시지를 저장했어요.')}catch(error){setError(error instanceof Error?error.message:'저장하지 못했어요. 다시 시도해주세요.')}}}>
    <div className="onway-chat-input-row"><textarea aria-label="센터에 보낼 메시지" id={formId+'-text'} rows={1} value={text} placeholder="메시지를 입력해주세요." onChange={event=>{setText(event.target.value);setNotice('')}}/>

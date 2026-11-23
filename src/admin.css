@@ -1311,3 +1311,13 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .workspace-shell.admin .admin-heading-footer>.admin-push-settings{flex:0 1 auto;min-width:0;max-width:100%;margin-left:auto;justify-content:flex-end;text-align:right}
 .workspace-shell.admin .admin-heading-footer .admin-push-settings small{flex-basis:100%;overflow-wrap:anywhere}
 @media(max-width:759px){.workspace-shell.admin .admin-heading-footer{flex-basis:auto}}
+
+.admin-settings-card{margin-top:34px;padding:20px 24px;border:1px solid #dce3eb;border-radius:16px;background:#eef2f6}
+.admin-settings-heading{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.admin-settings-heading h2{font-size:16px;color:#435d77;margin:0}
+.admin-settings-heading p{font-size:13px;color:#61758e;margin-top:7px;line-height:1.6}
+.admin-settings-heading>.secondary{width:auto;white-space:nowrap;min-height:44px;padding:10px 15px;margin:0}
+.admin-settings-content{margin-top:16px;padding-top:16px;border-top:1px solid #dce3eb;min-width:0}
+.admin-settings-content summary{cursor:pointer;color:#435d77;font-weight:700}
+.admin-settings-card+.past-visits-entry{margin-top:14px}
+@media(max-width:600px){.admin-settings-card{padding:16px}.admin-settings-heading{flex-wrap:wrap}.admin-settings-heading>.secondary{margin-left:auto}.admin-settings-content input{max-width:100%;min-width:0}}

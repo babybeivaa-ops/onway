@@ -7,7 +7,7 @@ dialog.onway-chat-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px
 .onway-chat-header span{font-size:11px;font-weight:800;color:#1598d4;letter-spacing:.8px}
 .onway-chat-header h2{margin:3px 0;font-size:20px;color:#24516c}
 .onway-chat-header p{margin:4px 0 0;font-size:12px;color:#638298;overflow-wrap:anywhere}
-.onway-chat-dialog .onway-chat-close{display:grid;place-items:center;align-self:flex-start;flex:0 0 36px;width:36px;height:36px;padding:0;border:1px solid #cfe5f0;border-radius:50%;background:#ffffffd9;color:#54798f;cursor:pointer}
+.onway-chat-dialog .onway-chat-close{display:grid;place-items:center;align-self:flex-start;flex:0 0 36px;width:36px;min-width:36px;height:36px;min-height:36px;max-height:36px;aspect-ratio:1;padding:0;border:1px solid #cfe5f0;border-radius:50%;background:#ffffffd9;color:#54798f;cursor:pointer}
 .onway-chat-history{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px;background:#f7fbfe}
 .onway-chat-history .center-message{margin:0 0 12px;padding:12px 14px;border:1px solid #dbeaf4;border-radius:16px;background:#fff;box-shadow:0 2px 5px #22456004}
 .onway-chat-history .center-message[data-sender=admin]{background:#eaf7ff;border-color:#cee8f8}
@@ -76,3 +76,15 @@ dialog.onway-chat-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px
 @media(max-width:759px){.admin-heading>.admin-header-actions{flex-wrap:wrap}.admin-header-actions>.admin-chat-inbox-toggle{flex:1;min-width:0}.admin-heading>.admin-header-actions>.admin-refresh{flex:0 0 50px}}
 
 .admin-push-settings{flex-basis:100%;display:flex;align-items:center;flex-wrap:wrap;gap:8px}.admin-push-settings small{font-size:12px;color:#52788e}
+
+@media(max-width:600px){
+ dialog.onway-chat-dialog{width:calc(100vw - 12px)}
+ .onway-chat-history{padding:12px 10px}
+ .onway-chat-history .chat-line{width:max-content;max-width:100%;gap:6px}
+ .onway-chat-history .chat-avatar{flex-basis:32px;height:32px}
+ .onway-chat-history .chat-line-content{flex:1;min-width:0}
+ .onway-chat-history .chat-bubble{max-width:100%;box-sizing:border-box;padding:9px 11px;word-break:normal;overflow-wrap:anywhere}
+}
+
+.guide-chat-arrival-notice{position:fixed;z-index:100;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);box-sizing:border-box;width:min(440px,calc(100vw - 24px));display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid #acd9ee;border-radius:16px;background:#eaf8ff;box-shadow:0 5px 20px #234b6826;color:#24516c}
+.guide-chat-arrival-notice strong{font-size:14px;min-width:0}.guide-chat-arrival-notice button{flex-shrink:0;padding:8px 12px;border-radius:12px;background:#148fdb;color:white;font-size:13px}
