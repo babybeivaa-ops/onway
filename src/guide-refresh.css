@@ -150,3 +150,7 @@
 .workspace-shell.guide .app>main>footer b{display:inline-block;margin-top:4px;line-height:1.4}
 .workspace-shell.guide .app>main>footer .demo-settings-button{margin:6px auto 0;min-height:32px;padding:4px 8px}
 .workspace-shell.guide .app{padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+
+.workspace-shell.guide .app>main>footer{text-align:center}.workspace-shell.guide .app>main>footer .footer-center-brand{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}.workspace-shell.guide .app>main>footer .demo-settings-button{display:flex;width:max-content}
+
+.workspace-shell.guide .app>main>footer .footer-tagline{margin:5px 0 0;font-size:11px;line-height:1.5}
