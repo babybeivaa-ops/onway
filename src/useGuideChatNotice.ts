@@ -16,8 +16,7 @@ export function useGuideChatNotice(groupId:string,messages:CenterMessage[],token
  useEffect(()=>{if(!pendingKey)return;
  const check=()=>{if(document.visibilityState!=='visible')return;
  if(open){const next=[...new Set([...read,...pending.map(m=>m.id)])];setRead(next);try{localStorage.setItem(storageKey,JSON.stringify(next))}catch{};return;}
- if(document.querySelector('dialog[open]')||document.activeElement?.matches('input,textarea,select'))return;
- onOpen();};
+};
  check();const timer=setInterval(check,1500);return()=>clearInterval(timer);
  },[pendingKey,open,storageKey]);
  return {messages:merged,unread:pending.length};

@@ -133,3 +133,18 @@ test('admin initiates a message; guide receives it and cannot forge or alter sen
  const saved=(await request(h,'workspace',admin)).body.workspace.groups[0].state.centerMessages;
  assert.equal(saved.length,2);assert.equal(saved[0].sender,'admin');
 });
+
+test('guide can mark a center message read but cannot alter it or clear its receipt',async t=>{
+ const {handler:h}=fixture(t,true),group=makeGroup();
+ group.state.centerMessages=[{id:'center-read',sender:'admin',text:'센터 안내',at:new Date().toISOString()}];
+ await request(h,'publish',admin,'POST',{group});
+ const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ let snapshot=(await request(h,'workspace',token)).body;
+ const forged=structuredClone(snapshot.workspace);forged.groups[0].state.centerMessages[0].text='수정';forged.groups[0].state.centerMessages[0].acknowledgedAt=new Date().toISOString();
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:forged,revision:snapshot.revision})).status,403);
+ snapshot.workspace.groups[0].state.centerMessages[0].acknowledgedAt=new Date().toISOString();
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:snapshot.workspace,revision:snapshot.revision})).status,200);
+ assert.ok((await request(h,'workspace',admin)).body.workspace.groups[0].state.centerMessages[0].acknowledgedAt);
+ snapshot=(await request(h,'workspace',token)).body;delete snapshot.workspace.groups[0].state.centerMessages[0].acknowledgedAt;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:snapshot.workspace,revision:snapshot.revision})).status,403);
+});

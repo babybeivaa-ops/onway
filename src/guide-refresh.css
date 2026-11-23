@@ -160,3 +160,9 @@
 .next-leg-estimate{display:grid;gap:4px;margin:12px 0;padding:12px 14px;border:1px solid #cfe9f6;border-radius:14px;background:#ffffffd9;color:#285575}.next-leg-estimate>span{font-size:12px}.next-leg-estimate>strong{font-size:19px;color:#167cb2}.next-leg-estimate>small{font-size:10px;color:#6c8799}
 
 .workspace-shell.guide .action-card .speech{text-align:center}
+
+.guide-chat-notice-slot{display:inline-flex;min-width:0;margin-right:auto}
+.guide-chat-notice-slot:empty{display:none}
+.workspace-shell.guide .usage-guide-toolbar{gap:8px;flex-wrap:wrap}
+.workspace-shell.guide .usage-guide-open.guide-chat-notice-button{display:inline-flex;align-items:center;gap:5px;white-space:normal;text-align:left}
+.guide-chat-unread{display:inline-grid;place-items:center;min-width:17px;height:17px;border-radius:50%;padding:0 3px;background:#e7799d;color:white;font-size:10px}

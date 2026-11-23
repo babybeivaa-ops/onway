@@ -36,6 +36,12 @@ export function CenterMessages({messages=[],onAcknowledge,onReply,onSend}:{onSen
 export function CenterMessageForm({messages,state,setState,shared,open,onClose,saving=false,saveFailed=false}:{messages?:CenterMessage[];state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
  const [text,setText]=useState(''),[error,setError]=useState(''),[notice,setNotice]=useState('');
  const dialog=useRef<HTMLDialogElement>(null),formId=useId();
+ const unreadKey=(state.centerMessages??[]).filter(m=>m.sender==='admin'&&!m.acknowledgedAt).map(m=>m.id).join('|');
+ useEffect(()=>{if(!open||saving||saveFailed||!unreadKey)return;
+ const read=()=>{if(document.visibilityState!=='visible'||!dialog.current?.open)return;setState(previous=>{const at=new Date().toISOString();return {...previous,centerMessages:(previous.centerMessages??[]).map(m=>m.sender==='admin'&&!m.acknowledgedAt?{...m,acknowledgedAt:at}:m)}})};
+ const timer=setTimeout(read,100);document.addEventListener('visibilitychange',read);return()=>{clearTimeout(timer);document.removeEventListener('visibilitychange',read)};
+ },[open,saving,saveFailed,unreadKey]);
+
  useEffect(()=>{const element=dialog.current;if(!element)return;if(open&&!element.open)element.showModal();if(!open&&element.open)element.close();},[open]);
  return <dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
   <div className="onway-chat-shell"><header className="onway-chat-header"><HeartMessageIcon/><div><span>ON:WAY</span><h2 id={formId+'-title'}>{state.organization.name}</h2></div><button type="button" className="onway-chat-close" aria-label="채팅 닫기" onClick={onClose} autoFocus><X size={22}/></button></header>
