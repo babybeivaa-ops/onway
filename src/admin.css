@@ -1113,3 +1113,9 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 
 .group-quick-tabs button[data-program]>strong[data-short-name=true]{font-size:20px}
 
+.school-sharing>summary.school-sharing-toggle{display:flex;align-items:center;gap:10px;list-style:none;cursor:pointer;font-size:16px;line-height:1.5;color:#385e89}
+.school-sharing>summary.school-sharing-toggle::-webkit-details-marker{display:none}
+.school-sharing>summary.school-sharing-toggle>strong{flex:1;min-width:0}
+.school-sharing>summary.school-sharing-toggle::after{content:'+';flex:0 0 auto;font-size:20px;font-weight:400}
+.school-sharing[open]>summary.school-sharing-toggle::after{content:'−'}
+.school-sharing>summary.school-sharing-toggle:focus-visible{outline:3px solid #6d9fdb;outline-offset:4px;border-radius:6px}

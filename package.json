@@ -12,6 +12,7 @@
     "prepare:menus": "node scripts/prepare-menu-assets.mjs"
   },
   "dependencies": {
+    "html-to-image": "^1.11.13",
     "lucide-react": "^0.468.0",
     "pdfjs-dist": "5.4.624",
     "react": "^19.1.0",

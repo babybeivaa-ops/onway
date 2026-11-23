@@ -1,0 +1,6 @@
+.document-save-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}
+.document-save-footer>p.fine{flex:1;min-width:0;margin:0;font-size:10px;line-height:1.6;word-break:keep-all}
+.document-save-footer>.table-image-save{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;margin:0;max-width:42%}
+.document-save-footer .table-image-save>button.secondary{width:auto;min-width:0;min-height:28px;margin:0;padding:5px 8px;border:1px solid #d9ccec;border-radius:8px;background:#eee6f7;color:#69468c;font-size:10px;line-height:1.5;white-space:nowrap;box-shadow:none}
+.document-save-footer-meal .table-image-save>button.secondary{border-color:#efd6ae;background:#fff0d9;color:#925718}
+.table-image-save>p{margin:4px 0 0;font-size:11px;color:#a83838;text-align:right}
