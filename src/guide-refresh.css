@@ -159,7 +159,7 @@
 
 .next-leg-estimate{display:grid;gap:4px;margin:12px 0;padding:12px 14px;border:1px solid #cfe9f6;border-radius:14px;background:#ffffffd9;color:#285575}.next-leg-estimate>span{font-size:12px}.next-leg-estimate>strong{font-size:19px;color:#167cb2}.next-leg-estimate>small{font-size:10px;color:#6c8799}
 
-.workspace-shell.guide .action-card .speech{text-align:center}
+.workspace-shell.guide .action-card .speech{text-align:center;line-height:1.5}
 
 .guide-chat-notice-slot{display:inline-flex;min-width:0;margin-right:auto}
 .guide-chat-notice-slot:empty{display:none}
@@ -170,3 +170,9 @@
 /* Pastel accents for guide actions and status. */
 .workspace-shell.guide .usage-guide-open.guide-chat-notice-button{background:#fffdee;border:1px solid #eee6b7;color:#6b643e;font-weight:700;box-shadow:0 2px 5px #9f987b0d}
 .workspace-shell.guide .usage-guide-open.guide-chat-notice-button:hover{background:#fff9df;border-color:#e6dca5}
+
+.workspace-shell.guide .action-card .speech .speech-line{line-height:1.35}
+
+/* Keep the speech bubble compact beside its mascot. */
+.workspace-shell.guide .action-card .mascot-row{justify-content:center;gap:16px;margin-left:0;margin-right:0}
+.workspace-shell.guide .action-card .speech{flex:0 1 250px;max-width:250px;min-width:0}
