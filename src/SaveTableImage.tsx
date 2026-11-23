@@ -10,10 +10,23 @@ export function SaveTableImage({label,targetSelector}:{label:string;targetSelect
    await document.fonts.ready;
    const target=host.current?.closest<HTMLElement>(targetSelector);
    if(!target)throw Error('저장할 화면을 찾지 못했어요.');
-   const {toBlob}=await import('html-to-image');
-   const width=target.getBoundingClientRect().width,height=Math.max(target.scrollHeight,target.getBoundingClientRect().height);
+   const {toBlob,toCanvas}=await import('html-to-image');
+   const isSchedule=target.matches('.program-display-table');
+   const width=Math.ceil(Math.max(target.scrollWidth,target.getBoundingClientRect().width)),height=Math.ceil(Math.max(target.scrollHeight,target.getBoundingClientRect().height));
    const pixelRatio=Math.min(2,Math.sqrt(12000000/(width*height)),16000/height);
-   const blob=await toBlob(target,{backgroundColor:'#ffffff',pixelRatio,filter:node=>!(node instanceof Element)||!node.matches('.table-image-save, .program-banner-edit, .weekly-menu-manager, .arrival-lunch-check, .meal-demo-notice button'),preferredFontFormat:'woff2'});
+   const options={backgroundColor:'#ffffff',pixelRatio,filter:(node:HTMLElement)=>!(node instanceof Element)||!node.matches('.table-image-save, .program-banner-edit, .weekly-menu-manager, .arrival-lunch-check, .meal-demo-notice button'),preferredFontFormat:'woff2'};
+   let blob:Blob|null;
+   if(isSchedule){
+    const image=await toCanvas(target,{...options,width,height});
+    // Add space outside the captured layout so neither text nor table widths change.
+    const padding=Math.ceil(20*pixelRatio),canvas=document.createElement('canvas');
+    canvas.width=image.width+padding*2;canvas.height=image.height+padding*2;
+    const context=canvas.getContext('2d');
+    if(!context)throw Error('이미지를 만들 수 없어요.');
+    context.fillStyle='#ffffff';context.fillRect(0,0,canvas.width,canvas.height);
+    context.drawImage(image,padding,padding);
+    blob=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,'image/png'));
+   }else blob=await toBlob(target,options);
    if(!blob)throw Error('이미지 생성에 실패했어요.');
    const title=label.replace(' 저장하기','')+'_'+new Date().toISOString().slice(0,10);
    const file=new File([blob],title+'.png',{type:'image/png'});
