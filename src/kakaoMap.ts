@@ -10,7 +10,7 @@ export function loadKakaoMap():Promise<any>{
   return new Promise((resolve,reject)=>{
    const script=document.createElement('script');const timeout=setTimeout(()=>fail(),15000);
    const fail=()=>{clearTimeout(timeout);script.remove();reject(Error('카카오 지도를 불러오지 못했어요. 키와 웹 도메인 등록을 확인해주세요.'));};
-   script.src='https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey='+encodeURIComponent(javascriptKey);
+   script.src='https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&libraries=services&appkey='+encodeURIComponent(javascriptKey);
    script.onload=()=>{if(!window.kakao?.maps?.load){fail();return;}window.kakao.maps.load(()=>{clearTimeout(timeout);resolve(window.kakao.maps);});};script.onerror=fail;document.head.append(script);
   });
  })().catch(e=>{library=null;throw e;});return library;

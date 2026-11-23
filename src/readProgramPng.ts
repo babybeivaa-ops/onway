@@ -72,6 +72,18 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
     const text=await crop(x+unit*.08,box.y+row*unit*.95,box.right-x-unit*.16,unit*.88);
     if(text)lines.push(text);
    }
+   // A wide merged school header has large colored margins. OCR can turn
+   // its border into a line of invented characters. Retry the centered title
+   // without those margins, but accept only a complete institution name.
+   if(!/(?:초등학교|중학교|고등학교|대학교)/.test(programRegistrationIdentity(lines).name)&&box.right-x>unit*18){
+    const width=box.right-x;
+    for(const fraction of [1/3,1/2,2/3]){
+     const title=await crop(x+width*(1-fraction)/2,box.y,width*fraction,box.bottom-box.y+1);
+     if(/^[가-힣\s]+(?:초등학교|중학교|고등학교|대학교)$/.test(title)){
+      lines.unshift(title);break;
+     }
+    }
+   }
    const identity=programRegistrationIdentity(lines);
    if(!/[가-힣]{2}/.test(identity.name))continue;
    registrations.push({box:{...box,x},group:{...identity,start:date,end:date,sessions:[]}});
@@ -84,7 +96,7 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
   for(const row of divisionRows){
    const x=Math.max(row.x,labelRight+2),cells=splitCells({...row,x});
    const text=await crop(x,row.y-1,row.right-x,unit);
-   const labelsFrom=(text:string)=>[...text.matchAll(/(\d+(?:\s*[,·]\s*\d+)*)\s*반\s*[（(]/g)].map(m=>m[1].replace(/\s/g,'').replace(/,/g,'·')+'반');
+   const labelsFrom=(text:string)=>[...text.matchAll(/(\d+(?:\s*[,·]\s*\d+)*)\s*[반받]\s*[（(\[]/g)].map(m=>m[1].replace(/\s/g,'').replace(/,/g,'·')+'반');
    let labels=labelsFrom(text);
    if(labels.length!==cells.length){const registration=[...registrations].reverse().find(r=>r.box.y<row.y&&r.box.x<=x&&r.box.right>=row.right-unit);if(registration){const headerLabels=labelsFrom(registration.group.aliases);if(headerLabels.length===cells.length)labels=headerLabels;}}
    for(let i=0;i<cells.length;i++){
