@@ -75,3 +75,6 @@
 .group-meal-menu .meal-service-times{display:grid;gap:4px;margin:0 0 16px;padding:0 4px;color:#60758b;font-size:12px;line-height:1.6}.group-meal-menu .meal-service-times p{display:flex;gap:12px;margin:0;font-size:inherit}.group-meal-menu .meal-service-times strong{flex-shrink:0;font-size:inherit;font-weight:600}.group-meal-menu .meal-service-times small{font-size:11px;white-space:nowrap}
 
 .group-meal-menu .arrival-meal-details .meal-service-times{margin:8px 0 0;padding:0}.arrival-documents .group-meal-menu .arrival-meal-settings{align-items:start}.arrival-documents .group-meal-menu .arrival-meal-details .meal-service-times p{font-size:11px;gap:10px}
+
+/* Keep equal, compact spacing around the meal publication notice. */
+.arrival-documents .group-meal-menu .arrival-meal-settings{margin-bottom:8px}.group-meal-menu .meal-publish-note{margin:8px 0;padding:8px 12px}.group-meal-menu .meal-publish-note+.group-meal-table-scroll .group-meal-table{margin-top:0}
