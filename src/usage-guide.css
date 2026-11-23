@@ -62,3 +62,5 @@
 .app .usage-guide-toolbar{display:flex;align-items:center;justify-content:flex-end;margin-top:12px;padding:0 2px}
 
 .usage-guide .usage-push-guide{margin-top:10px;padding-top:8px;border-top:1px solid #e7eef4;font-size:11px;line-height:1.5;color:#687f92}.usage-guide .usage-push-guide strong{font-size:11px;font-weight:600}.usage-guide .usage-push-guide p{margin:2px 0;font-size:11px;line-height:1.5;word-break:keep-all}
+
+.usage-guide .usage-location-guide{margin-top:14px;padding:10px 0 0;border-top:1px solid #e7eef4}

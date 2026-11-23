@@ -163,6 +163,10 @@
 
 .guide-chat-notice-slot{display:inline-flex;min-width:0;margin-right:auto}
 .guide-chat-notice-slot:empty{display:none}
-.workspace-shell.guide .usage-guide-toolbar{gap:8px;flex-wrap:wrap}
+.workspace-shell.guide .usage-guide-toolbar{gap:8px;flex-wrap:wrap;background:#f5f8fb;border-radius:12px;padding:12px 8px}
 .workspace-shell.guide .usage-guide-open.guide-chat-notice-button{display:inline-flex;align-items:center;gap:5px;white-space:normal;text-align:left}
 .guide-chat-unread{display:inline-grid;place-items:center;min-width:17px;height:17px;border-radius:50%;padding:0 3px;background:#e7799d;color:white;font-size:10px}
+
+/* Pastel accents for guide actions and status. */
+.workspace-shell.guide .usage-guide-open.guide-chat-notice-button{background:#fffdee;border:1px solid #eee6b7;color:#6b643e;font-weight:700;box-shadow:0 2px 5px #9f987b0d}
+.workspace-shell.guide .usage-guide-open.guide-chat-notice-button:hover{background:#fff9df;border-color:#e6dca5}
