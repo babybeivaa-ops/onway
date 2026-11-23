@@ -17,9 +17,6 @@ export function SaveTableImage({label,targetSelector}:{label:string;targetSelect
    if(!blob)throw Error('이미지 생성에 실패했어요.');
    const title=label.replace(' 저장하기','')+'_'+new Date().toISOString().slice(0,10);
    const file=new File([blob],title+'.png',{type:'image/png'});
-   if(navigator.canShare?.({files:[file]})){
-    try{await navigator.share({files:[file],title});return;}catch(e){if((e as Error).name==='AbortError')return;}
-   }
    const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=file.name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
   }catch(e){setError((e as Error).message)}finally{setBusy(false)}
  }
