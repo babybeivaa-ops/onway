@@ -148,3 +148,5 @@ test('guide can mark a center message read but cannot alter it or clear its rece
  snapshot=(await request(h,'workspace',token)).body;delete snapshot.workspace.groups[0].state.centerMessages[0].acknowledgedAt;
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:snapshot.workspace,revision:snapshot.revision})).status,403);
 });
+
+test('emoji-only and compound emoji messages survive guide save and server read',async t=>{const {handler:h}=fixture(t,true),group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;const snapshot=(await request(h,'workspace',token)).body;const text='😀 🥹 ❤️ 👨‍👩‍👧‍👦 👍🏽';snapshot.workspace.groups[0].state.centerMessages=[{id:'emoji',text,at:new Date().toISOString()}];assert.equal((await request(h,'workspace',token,'PUT',{workspace:snapshot.workspace,revision:snapshot.revision})).status,200);assert.equal((await request(h,'workspace',admin)).body.workspace.groups[0].state.centerMessages[0].text,text)});

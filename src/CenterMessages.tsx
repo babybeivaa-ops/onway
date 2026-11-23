@@ -1,3 +1,4 @@
+import {createPortal} from 'react-dom';
 import {ChatTimeline} from './ChatTimeline';
 import './center-chat.css';
 import {MessageReplies} from './MessageReplies';
@@ -38,12 +39,12 @@ export function CenterMessageForm({messages,state,setState,shared,open,onClose,s
  const dialog=useRef<HTMLDialogElement>(null),formId=useId();
  const unreadKey=(state.centerMessages??[]).filter(m=>m.sender==='admin'&&!m.acknowledgedAt).map(m=>m.id).join('|');
  useEffect(()=>{if(!open||saving||saveFailed||!unreadKey)return;
- const read=()=>{if(document.visibilityState!=='visible'||!dialog.current?.open)return;setState(previous=>{const at=new Date().toISOString();return {...previous,centerMessages:(previous.centerMessages??[]).map(m=>m.sender==='admin'&&!m.acknowledgedAt?{...m,acknowledgedAt:at}:m)}})};
+ const read=()=>{if(document.visibilityState!=='visible'||!dialog.current?.open)return;try{setState(previous=>{const at=new Date().toISOString();return {...previous,centerMessages:(previous.centerMessages??[]).map(m=>m.sender==='admin'&&!m.acknowledgedAt?{...m,acknowledgedAt:at}:m)}})}catch{/* Retry after the active save completes. */}};
  const timer=setTimeout(read,100);document.addEventListener('visibilitychange',read);return()=>{clearTimeout(timer);document.removeEventListener('visibilitychange',read)};
  },[open,saving,saveFailed,unreadKey]);
 
  useEffect(()=>{const element=dialog.current;if(!element)return;if(open&&!element.open)element.showModal();if(!open&&element.open)element.close();},[open]);
- return <dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
+ return createPortal(<dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
   <div className="onway-chat-shell"><header className="onway-chat-header"><HeartMessageIcon/><div><span>ON:WAY</span><h2 id={formId+'-title'}>{state.organization.name}</h2></div><button type="button" className="onway-chat-close" aria-label="채팅 닫기" onClick={onClose} autoFocus><X size={22}/></button></header>
   <div className="onway-chat-history" aria-label="센터와 주고받은 메시지" tabIndex={0}>
    {((messages??state.centerMessages)?.length??0)>0?<ChatTimeline messages={messages??state.centerMessages??[]} open={open} organizationName={state.organization.name}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
@@ -53,5 +54,5 @@ export function CenterMessageForm({messages,state,setState,shared,open,onClose,s
    <button className="onway-chat-send-icon" type="submit" aria-label={saving?'저장 중':'메시지 보내기'} title="보내기" disabled={saving||saveFailed||!text.trim()}><Send size={19} aria-hidden="true"/></button></div>
    {(error||saveFailed)&&<p className="form-error" role="alert">{error||'저장하지 못했어요. 화면 상단의 서버 저장 상태를 확인해주세요.'}</p>}{notice&&!error&&!saveFailed&&<p className="onway-chat-notice" role="status">{saving?'서버에 저장 중이에요.':notice}</p>}
   </form></div>
- </dialog>;
+ </dialog>,document.body);
 }
