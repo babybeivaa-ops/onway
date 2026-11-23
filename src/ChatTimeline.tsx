@@ -10,7 +10,23 @@ export function ChatTimeline({messages,open,organizationName,viewer='guide',onAc
  const rows=chatTimeline(messages),end=useRef<HTMLDivElement>(null);
  const unread=viewer==='admin'?messages.find(m=>m.sender!=='admin'&&!m.acknowledgedAt)?.id:undefined;
  useEffect(()=>{if(!open||!unread||!onAcknowledge)return;const read=()=>{if(document.visibilityState==='visible')onAcknowledge(unread)};const timer=setTimeout(read,300);document.addEventListener('visibilitychange',read);return()=>{clearTimeout(timer);document.removeEventListener('visibilitychange',read)}},[open,unread,onAcknowledge]);
- useEffect(()=>{if(open)end.current?.scrollIntoView({block:'end'});},[open,rows.length]);
+ const contentKey=JSON.stringify(rows.map(row=>[row.id,row.at,row.text]));
+ useEffect(()=>{
+  if(!open)return;
+  const timeline=end.current?.parentElement;
+  const history=timeline?.closest<HTMLElement>('.onway-chat-history');
+  if(!timeline||!history)return;
+  let frame=0,disposed=false;
+  const scrollToLatest=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{if(!disposed)history.scrollTop=history.scrollHeight})};
+  // Wait for the dialog and message layout, and follow font/viewport changes.
+  const observer=new ResizeObserver(scrollToLatest);
+  observer.observe(timeline);observer.observe(history);
+  scrollToLatest();
+  document.fonts.ready.then(()=>{if(!disposed)scrollToLatest()});
+  const onVisible=()=>{if(document.visibilityState==='visible')scrollToLatest()};
+  document.addEventListener('visibilitychange',onVisible);
+  return()=>{disposed=true;cancelAnimationFrame(frame);observer.disconnect();document.removeEventListener('visibilitychange',onVisible)};
+ },[open,contentKey]);
  return <div className="chat-timeline">{rows.map((row,index)=><Fragment key={row.id}>
   {(index===0||day(rows[index-1].at)!==day(row.at))&&<div className="chat-day"><span>{day(row.at)}</span></div>}
   <article className="chat-line" data-sender={row.sender} data-own={row.sender===viewer} aria-label={row.sender==='admin'?'센터 메시지':`${organizationName} 메시지`}>
