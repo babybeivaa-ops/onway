@@ -136,3 +136,8 @@
 .current-position-pin>span{white-space:nowrap;font-size:12px;line-height:1.4}
 
 .received-position-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.received-position-status{font-size:11px;color:#37755c;background:#fff;border-radius:20px;padding:3px 9px}.received-position-detail,.received-position-empty{font-size:12px;color:#567565}.received-position-empty{margin:0;line-height:1.6}.received-position a.received-position-map{justify-self:start;display:inline-flex;align-items:center;min-height:36px;padding:7px 12px;box-sizing:border-box;border:1px solid #b8d7c8;border-radius:8px;background:#fff;font-size:13px;font-weight:700;text-decoration:none}.received-position small{font-size:11px;color:#567565}
+
+/* Reserve enough room for the full destination name on mobile. */
+.map-leg-heading{grid-template-columns:minmax(0,1.15fr) 20px minmax(0,1fr);column-gap:6px;padding-inline:12px}.map-leg-heading>div:last-child>.map-leg-place>span{white-space:nowrap;overflow-wrap:normal;font-size:12px}@media(max-width:380px){.map-leg-heading{padding-inline:10px;column-gap:5px}.map-leg-heading>div:last-child>.map-leg-place>span{font-size:11px}}
+
+.map-leg-heading>div>span{text-align:center}.map-leg-heading .map-leg-place{justify-content:center}.map-leg-heading .map-leg-place>span{text-align:left}
