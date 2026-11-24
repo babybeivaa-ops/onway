@@ -153,3 +153,7 @@
 
 .received-position-copy>.received-position-external{margin:4px 0 0;justify-self:start}
 
+
+/* Rose checkpoints stand apart from the blue route line. */
+.journey-map-number{background:#e7799d;border-color:#fff;box-shadow:0 0 0 1px #b94e77,0 2px 5px #9e456b33}
+.journey-map-number.is-confirmed{background:#bd6587;border-color:#fff;box-shadow:0 0 0 1px #984967,0 2px 5px #9e456b33}

@@ -17,3 +17,8 @@ test('connection diagnostics preserve nested network codes without leaking key U
  assert.deepEqual(trafficConnectionCodes(e),['UND_ERR_CONNECT_TIMEOUT','ETIMEDOUT']);
  assert.ok(!JSON.stringify(trafficConnectionCodes(e)).includes('secret'));
 });
+
+test('successful zero-event lookup returns HTTP 200 and an empty list',async()=>{
+ const h=createTrafficHandler({key:'test',fetchImpl:async()=>new Response(JSON.stringify({header:{resultCode:0},body:{items:[]}}))});
+ const result=await callTraffic(h);assert.equal(result.status,200);assert.equal(result.body.provider,'its');assert.deepEqual(result.body.events,[]);assert.equal(result.body.error,undefined);
+});
