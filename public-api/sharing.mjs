@@ -7,13 +7,16 @@ import {serveProgramPlans} from './program-plans.mjs';
 import {serveDocuments,createFileDocumentStore} from './documents.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
-import {randomBytes,createHash,timingSafeEqual} from 'node:crypto';
+import {randomBytes,createHash,timingSafeEqual,createCipheriv,createDecipheriv} from 'node:crypto';
 import {validWorkspace,validGroup} from './workspace-schema.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const eq=(a,b)=>typeof a==='string'&&typeof b==='string'&&a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
 export function createSharingHandler({directory,adminToken,now=Date.now,store,documentStore}){
  if(!store)fs.mkdirSync(directory,{recursive:true,mode:0o700});
  const pdfStore=documentStore??(!store?createFileDocumentStore(path.join(directory,'documents')):null);
+ const linkKey=createHash('sha256').update('onway-guide-link:'+adminToken).digest();
+ const sealLink=token=>{const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',linkKey,iv);const data=Buffer.concat([cipher.update(token,'utf8'),cipher.final()]);return [iv,cipher.getAuthTag(),data].map(v=>v.toString('base64url')).join('.')};
+ const openLink=value=>{try{const [iv,tag,data]=value.split('.').map(v=>Buffer.from(v,'base64url'));const decipher=createDecipheriv('aes-256-gcm',linkKey,iv);decipher.setAuthTag(tag);return Buffer.concat([decipher.update(data),decipher.final()]).toString('utf8')}catch{return null}};
  const file=path.join(directory||'.','workspace.json');
  let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};
  if(!store&&fs.existsSync(file)){db=JSON.parse(fs.readFileSync(file,'utf8'));if(!validWorkspace(db.workspace)||!Number.isSafeInteger(db.revision)||!db.links)throw Error('공유 저장 데이터가 손상되어 서버 시작을 중단합니다.');}
@@ -52,6 +55,13 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     await persist({...db,revision:db.revision+1,centerCode,links});json(res,200,{saved:true});return true;
    }
    if(actor.role==='admin-setup')throw denied();
+   // Recover only the caller's already-valid guide token; no rotation or access changes.
+   if(url.pathname==='/api/shared/link-recover'&&req.method==='POST'){
+    if(actor.role!=='guide')throw denied();
+    const token=(req.headers.authorization||'').replace(/^Bearer /,''),key=hash(token),entry=db.links[key];
+    if(!entry.sealedToken||openLink(entry.sealedToken)!==token){await persist({...db,revision:db.revision+1,links:{...db.links,[key]:{...entry,sealedToken:sealLink(token)}}});}
+    json(res,200,{restored:true,groupId:actor.groupId,expires:entry.expires});return true;
+   }
    if(url.pathname==='/api/shared/admin-setup-link'&&req.method==='POST'){
     if(!actor.owner)throw denied();const token=randomBytes(32).toString('base64url'),expires=now()+10*60_000;
     const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.role!=='admin-setup'));links[hash(token)]={role:'admin-setup',expires};
@@ -119,11 +129,19 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     if(db.workspace.groups.length>=1000)throw Object.assign(Error('공유 단체 수 한도에 도달했어요.'),{status:400});
     await persist({...db,revision:db.revision+1,workspace:{...db.workspace,activeGroupId:group.id,groups:[...db.workspace.groups,group]}});json(res,200,snapshot(actor));return true;
    }
+   if(url.pathname==='/api/shared/link'&&req.method==='GET'){
+    const groupId=url.searchParams.get('groupId'),group=db.workspace.groups.find(g=>g.id===groupId);
+    if(!group)throw Object.assign(Error('단체를 찾지 못했어요.'),{status:404});
+    const entry=Object.values(db.links).find(v=>v.groupId===groupId&&(v.role||'guide')==='guide'&&v.expires>now());
+    if(!entry||!guideVisitActive(group,now())){json(res,200,{exists:false});return true;}
+    const token=entry.sealedToken?openLink(entry.sealedToken):null;
+    json(res,200,{exists:true,token,expires:entry.expires});return true;
+   }
    if(url.pathname==='/api/shared/link'&&req.method==='POST'){
     const {groupId,revoke=false,role='guide'}=await body(req);if(role!=='guide')throw Object.assign(Error('지원하지 않는 링크 유형이에요.'),{status:400});if(!db.workspace.groups.some(g=>g.id===groupId))throw Object.assign(Error('단체를 찾지 못했어요.'),{status:404});
     const links=Object.fromEntries(Object.entries(db.links).filter(([,v])=>v.groupId!==groupId||(v.role||'guide')!==role));
     const token=randomBytes(32).toString('base64url'),expires=guideVisitExpires(db.workspace.groups.find(g=>g.id===groupId));
-    if(!revoke)links[hash(token)]={groupId,expires,role};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;
+    if(!revoke)links[hash(token)]={groupId,expires,role,sealedToken:sealLink(token)};await persist({...db,revision:db.revision+1,links});json(res,200,revoke?{revoked:true}:{token,expires});return true;
    }
    json(res,404,{error:'지원하지 않는 공유 요청이에요.'});
   }catch(e){json(res,e.status||500,{error:e.status?e.message:'공유 기록을 처리하지 못했어요. 원래 기록은 유지됩니다.'});}

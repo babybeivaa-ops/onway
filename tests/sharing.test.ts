@@ -150,3 +150,38 @@ test('guide can mark a center message read but cannot alter it or clear its rece
 });
 
 test('emoji-only and compound emoji messages survive guide save and server read',async t=>{const {handler:h}=fixture(t,true),group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;const snapshot=(await request(h,'workspace',token)).body;const text='😀 🥹 ❤️ 👨‍👩‍👧‍👦 👍🏽';snapshot.workspace.groups[0].state.centerMessages=[{id:'emoji',text,at:new Date().toISOString()}];assert.equal((await request(h,'workspace',token,'PUT',{workspace:snapshot.workspace,revision:snapshot.revision})).status,200);assert.equal((await request(h,'workspace',admin)).body.workspace.groups[0].state.centerMessages[0].text,text)});
+
+test('admin can retrieve the same encrypted guide link after restart, then revoke it',async t=>{
+ const {dir,handler:h}=fixture(t);const group=makeGroup();await request(h,'publish',admin,'POST',{group});
+ assert.equal((await request(h,'link?groupId='+group.id)).body.exists,false);
+ const issued=(await request(h,'link',admin,'POST',{groupId:group.id})).body;
+ const disk=fs.readFileSync(path.join(dir,'workspace.json'),'utf8');assert.ok(!disk.includes(issued.token));
+ const restored=createSharingHandler({directory:dir,adminToken:admin});
+ const before=(await request(restored,'workspace')).body.revision;
+ const read=await request(restored,'link?groupId='+group.id);assert.equal(read.body.token,issued.token);assert.equal(read.body.expires,issued.expires);
+ assert.equal((await request(restored,'workspace')).body.revision,before);
+ assert.equal((await request(restored,'link?groupId='+group.id,issued.token)).status,403);
+ assert.equal((await request(restored,'link?groupId='+group.id,'')).status,401);
+ await request(restored,'link',admin,'POST',{groupId:group.id,revoke:true});assert.equal((await request(restored,'link?groupId='+group.id)).body.exists,false);
+});
+test('legacy guide links report existing without rotating the original token',async t=>{
+ const {dir,handler:h}=fixture(t);const group=makeGroup();await request(h,'publish',admin,'POST',{group});
+ const issued=(await request(h,'link',admin,'POST',{groupId:group.id})).body;
+ const file=path.join(dir,'workspace.json');const db=JSON.parse(fs.readFileSync(file,'utf8'));for(const entry of Object.values(db.links))delete entry.sealedToken;fs.writeFileSync(file,JSON.stringify(db));
+ const restored=createSharingHandler({directory:dir,adminToken:admin});const result=await request(restored,'link?groupId='+group.id);
+ assert.equal(result.body.exists,true);assert.equal(result.body.token,null);assert.equal((await request(restored,'workspace',issued.token)).status,200);
+});
+
+test('legacy token owner can recover only their valid link without rotating or changing workspace',async t=>{
+ const {dir,handler:h}=fixture(t);const group=makeGroup();await request(h,'publish',admin,'POST',{group});
+ const issued=(await request(h,'link',admin,'POST',{groupId:group.id})).body;
+ const file=path.join(dir,'workspace.json'),db=JSON.parse(fs.readFileSync(file,'utf8'));for(const entry of Object.values(db.links))delete entry.sealedToken;fs.writeFileSync(file,JSON.stringify(db));
+ const restored=createSharingHandler({directory:dir,adminToken:admin});
+ assert.equal((await request(restored,'link-recover','invalid','POST')).status,401);
+ assert.equal((await request(restored,'link-recover',admin,'POST')).status,403);
+ const recovery=await request(restored,'link-recover',issued.token,'POST');assert.equal(recovery.body.groupId,group.id);assert.equal(recovery.body.restored,true);
+ assert.equal((await request(restored,'link?groupId='+group.id)).body.token,issued.token);
+ const state=(await request(restored,'workspace')).body;assert.deepEqual(state.workspace,db.workspace);
+ await request(restored,'link-recover',issued.token,'POST');assert.equal((await request(restored,'workspace')).body.revision,state.revision);
+ await request(restored,'link',admin,'POST',{groupId:group.id,revoke:true});assert.equal((await request(restored,'link-recover',issued.token,'POST')).status,401);
+});
