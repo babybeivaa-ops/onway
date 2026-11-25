@@ -36,7 +36,7 @@ dialog.onway-chat-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px
 .chat-line-content>strong{font-size:11px;color:#56748b;font-weight:500}
 .onway-chat-history .chat-bubble{margin:0;padding:10px 13px;border:1px solid #dbe9f1;border-radius:3px 16px 16px 16px;background:white;color:#29495f;font-size:14px;line-height:1.65;width:fit-content;max-width:100%;box-sizing:border-box;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;box-shadow:0 2px 4px #234b6805}
 .onway-chat-history .chat-line[data-own=true] .chat-bubble{background:#dff2ff;border-color:#c8e7f9;border-radius:16px 3px 16px 16px}
-.chat-line-meta{display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:#78909f}.chat-line-meta>span{color:#4c968e}
+.chat-line-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:10px;line-height:16px;color:#78909f}.chat-line-meta>span{color:#4c968e}
 
 .admin-chat-launch{display:flex;justify-content:flex-end;margin:16px 0}.admin-chat-launch button{display:flex;align-items:center;gap:8px}.admin-chat-launch svg{width:28px;height:28px}.chat-acknowledge{border:1px solid #b9dfed;border-radius:8px;background:#fff;color:#327796;font-size:11px;padding:3px 7px;cursor:pointer}
 
@@ -89,4 +89,4 @@ dialog.onway-chat-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px
 .guide-chat-arrival-notice{position:fixed;z-index:100;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);box-sizing:border-box;width:min(440px,calc(100vw - 24px));display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid #acd9ee;border-radius:16px;background:#eaf8ff;box-shadow:0 5px 20px #234b6826;color:#24516c}
 .guide-chat-arrival-notice strong{font-size:14px;min-width:0}.guide-chat-arrival-notice button{flex-shrink:0;padding:8px 12px;border-radius:12px;background:#148fdb;color:white;font-size:13px}
 
-.chat-bubble[data-cancelled=true]{color:#748594;font-style:italic;background:#f2f5f8}.chat-line-meta .chat-cancel{font:inherit;font-size:10px;color:#73879a;background:transparent;border:0;padding:3px;min-height:24px}
+.chat-bubble[data-cancelled=true]{color:#748594;font-style:italic;background:#f2f5f8}.chat-line-meta .chat-cancel{display:inline-flex;align-items:center;justify-content:center;align-self:center;font:inherit;line-height:16px;color:#73879a;background:transparent;border:0;margin:0;padding:4px 3px;min-height:24px}
