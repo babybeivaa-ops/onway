@@ -1321,3 +1321,10 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-settings-content summary{cursor:pointer;color:#435d77;font-weight:700}
 .admin-settings-card+.past-visits-entry{margin-top:14px}
 @media(max-width:600px){.admin-settings-card{padding:16px}.admin-settings-heading{flex-wrap:wrap}.admin-settings-heading>.secondary{margin-left:auto}.admin-settings-content input{max-width:100%;min-width:0}}
+
+/* Give change details the remaining width, including the full explanation. */
+.admin-recent-changes .recent-changes-table .change-type-column{width:132px}
+.admin-recent-changes .recent-changes-table .change-actor-column{width:68px}
+.admin-recent-changes .recent-changes-table .change-time-column{width:132px}
+.admin-recent-changes .recent-count-breakdown{width:100%;max-width:none;box-sizing:border-box}
+.admin-recent-changes .recent-count-reason{width:100%;box-sizing:border-box;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;text-align:left;line-height:1.7;margin:10px 0 0}

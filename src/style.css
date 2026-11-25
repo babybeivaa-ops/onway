@@ -391,3 +391,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .missed-points summary{gap:6px;flex-wrap:wrap}.missed-points summary>span{white-space:nowrap}.missed-points .missed-points-hint{margin-left:auto;font-size:11px;font-weight:400;line-height:1.5;color:#71849b;text-align:right}
 
 .arrival-card .arrival-program-guide{margin:8px 0 14px;font-size:12px;line-height:1.6;font-weight:400;color:#60758b;word-break:keep-all;overflow-wrap:anywhere}
+
+.group-summary .guide-count-details{display:contents}.group-summary .guide-count-details[hidden]{display:none}.group-summary .count-details-toggle{grid-column:1/-1;justify-self:end;display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:6px 0;min-height:32px;border:0;background:transparent;color:#52748b;font:inherit;font-size:12px}.group-summary .count-details-toggle:focus-visible{outline:2px solid #2463b4;outline-offset:3px}
+
+.group-summary .count-details-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}.group-summary .count-details-footer .count-details-toggle{margin-top:0}.group-summary .count-confirmed-status{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#347f64}
