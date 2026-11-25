@@ -39,7 +39,7 @@
 .schedule-agenda thead th,.app:has(.arrival-welcome) .meal-day thead th{background:#f5f7fa;font-size:12px;font-weight:500;color:#516278;padding:8px}
 .schedule-agenda .agenda-time{font-size:13px;font-weight:600;color:#285da5;font-variant-numeric:tabular-nums;white-space:nowrap}
 .agenda-time span{display:block}
-.schedule-agenda td>strong{display:block;font-size:14px;font-weight:600;color:#202c3d;word-break:keep-all;overflow-wrap:anywhere}
+.schedule-agenda .agenda-program-info>strong{display:block;font-size:14px;font-weight:600;color:#202c3d;word-break:keep-all;overflow-wrap:anywhere}
 .schedule-agenda .agenda-place{display:block;margin-top:5px;font-size:12px;font-weight:400;color:#516278;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
 .app:has(.arrival-welcome) .meal-day th,.app:has(.arrival-welcome) .meal-day td{padding:13px 8px;border-bottom:1px solid #e5e9ef}
 .app:has(.arrival-welcome) .meal-day th:first-child{width:52px}

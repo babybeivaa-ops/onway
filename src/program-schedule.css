@@ -49,3 +49,17 @@
  .program-display-table .program-trip-banner .program-class-filter{grid-column:2;grid-row:2}
  .program-display-table .program-trip-banner>.program-banner-edit{grid-column:1/-1;justify-self:end}
 }
+
+.schedule-agenda .agenda-program-row{display:grid;grid-template-columns:minmax(0,1fr) 76px;align-items:center;gap:12px}
+.schedule-agenda .agenda-program-info{min-width:0}
+.schedule-agenda .agenda-program-row>.agenda-place{margin:0;text-align:right}
+@media(max-width:420px){
+ .schedule-agenda .agenda-program-row{grid-template-columns:minmax(0,1fr);gap:5px}
+ .schedule-agenda .agenda-program-row>.agenda-place{text-align:left}
+}
+
+.program-date-tabs{display:flex;gap:6px;margin:14px 0 4px;overflow-x:auto;padding:2px 0 4px}
+.program-display-table .program-date-tabs>button{display:flex;flex:1 0 64px;align-items:center;justify-content:center;gap:5px;min-height:38px;width:auto;margin:0;padding:7px 8px;border:1px solid #e2d9ed;border-radius:9px;background:#fff;color:#79658d;font-size:12px;line-height:20px;white-space:nowrap}
+.program-display-table .program-date-tabs>button[aria-pressed=true]{background:#f0e9f7;border-color:#bba4d2;color:#594077;font-weight:700}
+.program-display-table .program-date-tabs>button strong{font-size:13px}
+.program-display-table .schedule-day[hidden]{display:none}

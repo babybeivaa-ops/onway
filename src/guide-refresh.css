@@ -53,7 +53,7 @@
 .workspace-shell.guide .app .schedule-agenda th{background:#f3f9fc;color:#526a7b;font-weight:600}
 .workspace-shell.guide .app .schedule-agenda td{border-color:#e6eff4;padding-top:16px;padding-bottom:16px}
 .workspace-shell.guide .app .schedule-agenda .agenda-time{color:#087fc6;font-size:13px}
-.workspace-shell.guide .app .schedule-agenda td>strong{color:#253c4d;font-size:14px}
+.workspace-shell.guide .app .schedule-agenda .agenda-program-info>strong{color:#253c4d;font-size:14px}
 .workspace-shell.guide .app .schedule-agenda .agenda-place{color:#586e7d;font-size:12px}
 .workspace-shell.guide .app .arrival-meal-settings,.workspace-shell.guide .app .meal-demo-notice{background:#fff9e9;border:1px solid #f0dfb1;border-radius:14px;color:#70551d}
 .workspace-shell.guide .app .group-meal-table th{background:#f0f8fc;color:#2c566f;border-color:#e0edf4}
@@ -94,7 +94,7 @@
 .workspace-shell.guide .app .arrival-card .arrival-info dd{font-size:17px;font-weight:700}
 .workspace-shell.guide .app .program-trip-banner h3{font-size:20px;font-weight:750;line-height:1.4}
 .workspace-shell.guide .app .schedule-day h4{font-size:18px;font-weight:750}
-.workspace-shell.guide .app .schedule-agenda td>strong{font-size:15px;font-weight:650;line-height:1.6}
+.workspace-shell.guide .app .schedule-agenda .agenda-program-info>strong{font-size:15px;font-weight:650;line-height:1.6}
 .workspace-shell.guide .app .schedule-agenda .agenda-place{font-size:13px;line-height:1.5}
 .workspace-shell.guide .app .group-meal-table{font-size:13px}
 .workspace-shell.guide .app .action-card .primary{font-size:20px;font-weight:750}
