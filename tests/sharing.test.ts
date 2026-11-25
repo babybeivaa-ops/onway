@@ -185,3 +185,19 @@ test('legacy token owner can recover only their valid link without rotating or c
  await request(restored,'link-recover',issued.token,'POST');assert.equal((await request(restored,'workspace')).body.revision,state.revision);
  await request(restored,'link',admin,'POST',{groupId:group.id,revoke:true});assert.equal((await request(restored,'link-recover',issued.token,'POST')).status,401);
 });
+
+test('unread cancellation checks sender and read status, keeps tombstone and rejects stale writes',async t=>{
+ const {handler:h}=fixture(t,true),g=makeGroup();await request(h,'publish',admin,'POST',{group:g});const token=(await request(h,'link',admin,'POST',{groupId:g.id})).body.token;
+ let state=(await request(h,'workspace')).body;state.workspace.groups[0].state.centerMessages=[{id:'c',sender:'admin',text:'센터',at:new Date().toISOString()},{id:'g',text:'학교',at:new Date().toISOString()}];await request(h,'workspace',admin,'PUT',{workspace:state.workspace,revision:state.revision});
+ const stale=(await request(h,'workspace')).body;
+ assert.equal((await request(h,'chat-cancel',token,'POST',{groupId:g.id,messageId:'c'})).status,403);
+ assert.equal((await request(h,'chat-cancel',admin,'POST',{groupId:g.id,messageId:'g'})).status,403);
+ assert.equal((await request(h,'chat-cancel',token,'POST',{groupId:'other',messageId:'g'})).status,403);
+ assert.equal((await request(h,'chat-cancel',token,'POST',{groupId:g.id,messageId:'g'})).status,200);
+ assert.equal((await request(h,'workspace',admin,'PUT',{workspace:stale.workspace,revision:stale.revision})).status,409);
+ const cancelled=(await request(h,'workspace')).body;const m=cancelled.workspace.groups[0].state.centerMessages.find(m=>m.id==='g');assert.ok(m.cancelledAt);assert.equal(m.text,'전송이 취소된 메시지입니다.');
+ assert.equal((await request(h,'chat-cancel',token,'POST',{groupId:g.id,messageId:'g'})).status,200);
+ state=(await request(h,'workspace',token)).body;state.workspace.groups[0].state.centerMessages.find(m=>m.id==='c').acknowledgedAt=new Date().toISOString();assert.equal((await request(h,'workspace',token,'PUT',{workspace:state.workspace,revision:state.revision})).status,200);
+ assert.equal((await request(h,'chat-cancel',admin,'POST',{groupId:g.id,messageId:'c'})).status,409);
+ const altered=(await request(h,'workspace')).body;delete altered.workspace.groups[0].state.centerMessages.find(m=>m.id==='g').cancelledAt;assert.equal((await request(h,'workspace',admin,'PUT',{workspace:altered.workspace,revision:altered.revision})).status,403);
+});

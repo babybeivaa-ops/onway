@@ -72,6 +72,12 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     if(!db.push?.keys)await persist({...db,revision:db.revision+1,push:{keys:makePushKeys(),subscriptions:[]}});
     json(res,200,{publicKey:db.push.keys.publicKey});return true;
    }
+   if(url.pathname==='/api/shared/push-status'&&req.method==='POST'){
+    if(actor.role!=='admin')throw denied();const {endpoint}=await body(req);
+    const token=(req.headers.authorization||'').replace(/^Bearer /,''),authKey=eq(hash(token),hash(adminToken))?undefined:hash(token);
+    const registered=(db.push?.subscriptions??[]).some(s=>s.subscription.endpoint===endpoint&&s.authKey===authKey&&s.expires>now()&&(!s.authKey||db.links[s.authKey]?.expires>now()));
+    json(res,200,{registered});return true;
+   }
    if(url.pathname==='/api/shared/push-subscription'&&['POST','DELETE'].includes(req.method)){
     if(actor.role!=='admin')throw denied();const input=await body(req);const subscription=input.subscription;
     if(!validPushSubscription(subscription))throw Object.assign(Error('알림 구독 정보가 올바르지 않아요.'),{status:400});
@@ -86,11 +92,29 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     if(!pdfStore)throw Object.assign(Error('PDF 저장소가 설정되지 않았어요.'),{status:503});
     await serveDocuments(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',authorize:(id,date)=>db.workspace.groups.some(g=>g.id===id&&g.travelDate===date&&(actor.role==='admin'||actor.groupId===id))});return true;
    }
+   if(url.pathname==='/api/shared/chat-cancel'&&req.method==='POST'){
+    const {groupId,messageId}=await body(req);if(actor.role==='guide'&&actor.groupId!==groupId)throw denied();
+    const group=db.workspace.groups.find(g=>g.id===groupId),message=group?.state.centerMessages?.find(m=>m.id===messageId);
+    if(!message)throw Object.assign(Error('메시지를 찾을 수 없어요.'),{status:404});
+    if((message.sender??'guide')!==actor.role)throw denied();
+    if(!message.cancelledAt){
+     if(message.acknowledgedAt||(message.replies?.length??0)>0)throw Object.assign(Error('이미 읽은 메시지는 취소할 수 없어요.'),{status:409});
+     const workspace=structuredClone(db.workspace),target=workspace.groups.find(g=>g.id===groupId).state.centerMessages.find(m=>m.id===messageId);
+     target.text='전송이 취소된 메시지입니다.';target.cancelledAt=new Date(now()).toISOString();
+     await persist({...db,revision:db.revision+1,workspace});
+    }
+    json(res,200,snapshot(actor));return true;
+   }
    if(url.pathname==='/api/shared/workspace'&&req.method==='GET'){json(res,200,snapshot(actor));return true;}
    if(url.pathname==='/api/shared/workspace'&&req.method==='PUT'){
     const input=await body(req);if(input.revision!==db.revision){json(res,409,{error:'다른 기기에서 변경했어요. 최신 기록을 불러온 뒤 다시 수정해주세요.'});return true;}
     if(!validWorkspace(input.workspace))throw Object.assign(Error('저장할 기록 형식이 올바르지 않아요.'),{status:400});
     let workspace=input.workspace;
+    // Cancellation is only permitted through the serialized chat-cancel endpoint.
+    for(const g of workspace.groups)for(const m of g.state.centerMessages??[]){
+     const old=db.workspace.groups.find(x=>x.id===g.id)?.state.centerMessages?.find(x=>x.id===m.id);
+     if(m.cancelledAt!==old?.cancelledAt||(old?.cancelledAt&&(m.text!==old.text||JSON.stringify(m.replies??[])!==JSON.stringify(old.replies??[]))))throw denied();
+    }
     if(actor.role==='guide'){
      const g=workspace.groups[0],old=db.workspace.groups.find(g=>g.id===actor.groupId);
      if(workspace.groups.length!==1||g.id!==actor.groupId||!guideVisitActive(g,now()))throw denied();

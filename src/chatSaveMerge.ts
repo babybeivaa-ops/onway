@@ -12,6 +12,7 @@ export function mergeChatSave(base:Workspace,draft:Workspace,latest:Workspace):W
  if(JSON.stringify(changed)===JSON.stringify(original))continue;
  const current=messages.find(m=>m.id===original.id);if(!current)return null;
  const core=(m:typeof original)=>JSON.stringify({...m,acknowledgedAt:undefined,replies:undefined});
+ if(current.cancelledAt&&!original.cancelledAt&&core(changed)===core(original)&&JSON.stringify(changed.replies??[])===JSON.stringify(original.replies??[]))continue;
  if(core(changed)!==core(original)||core(current)!==core(original))return null;
  if(original.acknowledgedAt&&changed.acknowledgedAt!==original.acknowledgedAt)return null;
  current.acknowledgedAt=current.acknowledgedAt??changed.acknowledgedAt;

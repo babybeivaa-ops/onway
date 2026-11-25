@@ -17,6 +17,6 @@ export interface Schedule { time:string; title:string; description:string }
 export interface Announcement { title:string; text:string }
 export interface Trip { status:TripStatus; origin:string; destination:string; plannedDeparture:string; meal:{enabled:boolean; name:string}; mealStartedAt:string|null }
 export interface SharedPosition {lat:number;lng:number;accuracy:number;measuredAt:string;sentAt:string}
-export interface CenterMessage {sender?:'admin'|'guide';id:string;text:string;at:string;acknowledgedAt?:string;replies?:{id:string;text:string;at:string;actor:'admin'}[]}
+export interface CenterMessage {cancelledAt?:string;sender?:'admin'|'guide';id:string;text:string;at:string;acknowledgedAt?:string;replies?:{id:string;text:string;at:string;actor:'admin'}[]}
 export interface ArrivalChange {id:string;date:string;before?:string;after?:string;actor:ParticipantActor;at:string;legacy?:boolean}
 export interface DemoState { adminCheckpointChecks?:{waypointId:string;confirmedAt:string}[]; arrivalChanges?:ArrivalChange[]; plannedArrival?:{date:string;time:string;actor:ParticipantActor;updatedAt:string}; centerMessages?:CenterMessage[]; sharedPosition?:SharedPosition; totalRoadDistanceKm?:number; baselineNeedsReview?:boolean; distanceNeedsReview?:boolean; version:1; scenario:string; organization:Organization; trip:Trip; waypoints:Waypoint[]; reports:CheckpointReport[]; initialCounts:ParticipantCount; counts:ParticipantCount; changes:ParticipantChange[]; confirmed:boolean; countsConfirmedAt?:string; location:LocationUpdate; summary:RouteSummary }
