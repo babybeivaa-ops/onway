@@ -1328,3 +1328,5 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-recent-changes .recent-changes-table .change-time-column{width:132px}
 .admin-recent-changes .recent-count-breakdown{width:100%;max-width:none;box-sizing:border-box}
 .admin-recent-changes .recent-count-reason{width:100%;box-sizing:border-box;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;text-align:left;line-height:1.7;margin:10px 0 0}
+
+.admin-page .recent-changes-toggle>small{color:#ed7b9d;font-weight:700}

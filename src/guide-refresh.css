@@ -176,3 +176,16 @@
 /* Keep the speech bubble compact beside its mascot. */
 .workspace-shell.guide .action-card .mascot-row{justify-content:center;gap:16px;margin-left:0;margin-right:0}
 .workspace-shell.guide .action-card .speech{flex:0 1 250px;max-width:250px;min-width:0}
+
+/* Quiet visit-day accents: only the divider and column headings vary. */
+.schedule-day[data-day-tone="0"]{--day-header:#fcf8ed;--day-line:#e6dcc0}
+.schedule-day[data-day-tone="1"]{--day-header:#f1f7f0;--day-line:#d0dfcc}
+.schedule-day[data-day-tone="2"]{--day-header:#f0f7fb;--day-line:#ccdfeb}
+.program-display-table .schedule-day[data-day-tone]>h4,
+.workspace-shell.guide .app .schedule-day[data-day-tone]>h4{background:transparent;border-bottom:2px solid var(--day-line)}
+.program-display-table .schedule-day[data-day-tone]>.schedule-agenda thead th,
+.workspace-shell.guide .app .schedule-day[data-day-tone]>.schedule-agenda thead th{background:var(--day-header);color:#607080;border-color:#e5e9ed}
+.program-display-table .schedule-day[data-day-tone]>.schedule-agenda tbody th.agenda-time,
+.workspace-shell.guide .app .schedule-day[data-day-tone]>.schedule-agenda tbody th.agenda-time{background:var(--day-header);color:#607080;border-color:#e5e9ed}
+.program-display-table .schedule-day[data-day-tone]>.schedule-agenda tbody td,
+.workspace-shell.guide .app .schedule-day[data-day-tone]>.schedule-agenda tbody td{background:#fff}
