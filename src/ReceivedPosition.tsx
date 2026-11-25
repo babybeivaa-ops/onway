@@ -47,9 +47,11 @@ function PositionMap({position}:{position:Position}){
  </div>;
 }
 
-export function ReceivedPosition({position,archived=false}:{position:DemoGroup['state']['sharedPosition'];archived?:boolean}){
+export function ReceivedPosition({position,archived=false,completed=false}:{completed?:boolean;position:DemoGroup['state']['sharedPosition'];archived?:boolean}){
+ const [expanded,setExpanded]=useState(!completed);
+ useEffect(()=>{setExpanded(!completed)},[completed]);
  return <section className="received-position" aria-label="인솔교사 전송 위치">
-  <div className="received-position-heading"><strong>인솔교사 전송 위치</strong><span className="received-position-status">{position?'수신됨':'수신 대기'}</span></div>
-  {position?<PositionMap key={`${position.lat},${position.lng}`} position={position}/>:<p className="received-position-empty">{archived?'이 방문에서 전송받은 위치가 없어요.':'인솔교사가 ‘센터에 위치 전송’을 누르면 여기에 표시돼요.'}</p>}
+  <button type="button" className="received-position-heading received-position-toggle" aria-expanded={expanded} onClick={()=>setExpanded(v=>!v)}><strong>인솔교사 전송 위치</strong><span className="received-position-status">{position?'수신됨':'수신 대기'}</span><span aria-hidden="true">{expanded?'−':'+'}</span></button>
+  {expanded&&(position?<PositionMap key={`${position.lat},${position.lng}`} position={position}/>:<p className="received-position-empty">{archived?'이 방문에서 전송받은 위치가 없어요.':'인솔교사가 ‘센터에 위치 전송’을 누르면 여기에 표시돼요.'}</p>)}
  </section>;
 }

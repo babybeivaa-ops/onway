@@ -201,3 +201,13 @@ test('unread cancellation checks sender and read status, keeps tombstone and rej
  assert.equal((await request(h,'chat-cancel',admin,'POST',{groupId:g.id,messageId:'c'})).status,409);
  const altered=(await request(h,'workspace')).body;delete altered.workspace.groups[0].state.centerMessages.find(m=>m.id==='g').cancelledAt;assert.equal((await request(h,'workspace',admin,'PUT',{workspace:altered.workspace,revision:altered.revision})).status,403);
 });
+
+test('admission completion persists for guides and cannot be changed by guides',async t=>{
+ const {handler:h}=fixture(t,true);const group=makeGroup();group.state.admissionCompletedAt='2026-11-25T04:00:00Z';
+ assert.equal((await request(h,'publish',admin,'POST',{group})).status,200);
+ const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ const read=(await request(h,'workspace',token)).body;
+ assert.equal(read.workspace.groups[0].state.admissionCompletedAt,group.state.admissionCompletedAt);
+ delete read.workspace.groups[0].state.admissionCompletedAt;
+ assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,403);
+});

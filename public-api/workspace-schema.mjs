@@ -18,6 +18,7 @@ const unique=xs=>new Set(xs.map(x=>x.id)).size===xs.length;
 export function validGroup(g){
  try{
  const s=g.state;
+ if(s.admissionCompletedAt!==undefined&&!date(s.admissionCompletedAt))return false;
  if(s.adminCheckpointChecks!==undefined&&(!Array.isArray(s.adminCheckpointChecks)||s.adminCheckpointChecks.length>100||new Set(s.adminCheckpointChecks.map(c=>c.waypointId)).size!==s.adminCheckpointChecks.length||!s.adminCheckpointChecks.every(c=>c&&text(c.waypointId,100)&&!!c.waypointId&&date(c.confirmedAt))))return false;
  if(!arrival(s?.organization?.arrival))return false;
  if(s.organization?.arrivalLunch!==undefined&&typeof s.organization.arrivalLunch!=='boolean')return false;

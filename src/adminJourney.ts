@@ -10,9 +10,9 @@ export function adminJourney(state:DemoState){
  const school=org.nameKind!=='organization'&&(/(?:초|중|고|대|학교)$/.test(displayName)||['elementary','middle','high'].includes(org.nameKind??''));
  const departureLabel=school?'학교 출발':'단체 출발';
  const label=(p:DemoState['waypoints'][number])=>p.kind==='start'?(state.organization.originMode==='other'?p.name+' 출발':departureLabel):p.kind==='meal'?'식사 장소 출발':p.name+' 통과';
- const current=state.trip.status==='도착'?'센터 도착':state.trip.status==='식사 중'?'식사 중':point?label(point):'출발 전';
- const steps=[{id:'before',at:undefined as string|undefined,label:'출발 전',done:reports.length===0,current:!last&&state.trip.status!=='도착'},...routeService.points(state).filter(p=>p.kind!=='meal'&&p.kind!=='destination').map(p=>({id:p.id,at:reports.find(r=>r.waypointId===p.id)?.at,label:label(p),done:reports.some(r=>r.waypointId===p.id),current:p.id===last?.waypointId&&state.trip.status!=='도착'}))];
- const phase=state.trip.status==='도착'?'arrived':state.trip.status==='식사 중'?'eating':!point?'waiting':point.kind==='start'?'departed':point.kind==='meal'?'mealDeparted':point.id==='ic'?'interchange':point.id==='bridge'?'bridge':point.preset==='rest'?'rest':'passed';
+ const current=state.admissionCompletedAt?'입소 완료':state.trip.status==='도착'?'센터 도착':state.trip.status==='식사 중'?'식사 중':point?label(point):'출발 전';
+ const steps=[{id:'before',at:undefined as string|undefined,label:'출발 전',done:reports.length===0,current:!state.admissionCompletedAt&&!last&&state.trip.status!=='도착'},...routeService.points(state).filter(p=>p.kind!=='meal'&&p.kind!=='destination').map(p=>({id:p.id,at:reports.find(r=>r.waypointId===p.id)?.at,label:label(p),done:reports.some(r=>r.waypointId===p.id),current:!state.admissionCompletedAt&&p.id===last?.waypointId&&state.trip.status!=='도착'}))];
+ const phase=state.admissionCompletedAt||state.trip.status==='도착'?'arrived':state.trip.status==='식사 중'?'eating':!point?'waiting':point.kind==='start'?'departed':point.kind==='meal'?'mealDeparted':point.id==='ic'?'interchange':point.id==='bridge'?'bridge':point.preset==='rest'?'rest':'passed';
  return {current,steps,phase} as const;
 }
 

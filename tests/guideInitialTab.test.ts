@@ -12,3 +12,5 @@ test('opens arrival information at cutoff and on following days',()=>{
 test('missing or invalid admission date keeps movement accessible',()=>{
  assert.equal(guideInitialTab(''),'이동');assert.equal(guideInitialTab('invalid'),'이동');
 });
+
+test('manual admission opens arrival information before the time cutoff',()=>{assert.equal(guideInitialTab('2026-11-25',Date.parse('2026-11-25T14:00:00+09:00'),'2026-11-25T04:59:00Z'),'입소안내')});
