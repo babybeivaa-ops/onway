@@ -104,7 +104,8 @@ dialog.onway-chat-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px
 .chat-attachment.chat-attachment-photo{width:max-content;max-width:min(240px,65vw,100%);align-self:flex-start}
 .chat-line[data-own=true] .chat-attachment-photo{align-self:flex-end}
 .chat-line-content[data-photo=true]{max-width:min(240px,65vw,calc(100% - 46px))}
-.chat-line-content[data-photo=true]>.chat-line-meta{align-self:flex-end}
+.chat-line-content[data-photo=true]>.chat-line-meta{align-self:flex-start}
+.chat-line[data-own=true] .chat-line-content[data-photo=true]>.chat-line-meta{align-self:flex-end}
 @media(max-width:600px){.onway-chat-history .chat-line-content[data-photo=true]{max-width:min(240px,65vw,calc(100% - 38px))}}
 .chat-attachment .chat-photo-save{align-self:flex-end;padding:5px 0 5px 10px;color:#54798f;font-size:12px;text-decoration:none}
 .chat-attachment{display:flex;flex-direction:column;gap:5px;max-width:100%;margin:6px 0;font-size:12px;overflow-wrap:anywhere}
