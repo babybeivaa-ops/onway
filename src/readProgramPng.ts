@@ -56,7 +56,7 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
    const baseline=blue.find(t=>Math.abs(t.y-b.y)<unit);
    return {...b,y:baseline?.y??b.y,right:column?.right??b.right};
   });
-  const candidates=[...blue,...green,...sideHeaders].sort((a,b)=>a.y-b.y||a.x-b.x);
+  const candidates=[...blue.flatMap(b=>splitCells(b,unit*2)),...green,...sideHeaders].sort((a,b)=>a.y-b.y||a.x-b.x);
   for(const box of candidates){
    if(registrations.some(r=>Math.abs(r.box.y-box.y)<unit&&Math.abs(r.box.x-box.x)<unit))continue;
    const x=box.x<tableLeft+unit?labelRight+2:box.x;
@@ -118,6 +118,7 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
    if(labels.length!==cells.length){const registration=[...registrations].reverse().find(r=>r.box.y<row.y&&r.box.x<=x&&r.box.right>=row.right-unit);if(registration){const headerLabels=labelsFrom(registration.group.aliases);if(headerLabels.length===cells.length)labels=headerLabels;}}
    for(let i=0;i<cells.length;i++){
     const box=cells[i],raw=labels.length===cells.length?labels[i]:await crop(box.x+2,box.y-1,box.right-box.x-3,unit);
+    if(!/[반받]/.test(raw))continue;
     const label=raw.split(/[（(]/)[0].replace(/[^0-9,·~\-반]/g,'').replace(/반/g,'').replace(/[,]/g,'·');
     const valid=label&&(label.match(/\d+/g)??[]).every(n=>+n>0&&+n<=30);
     classColumns.push({box,label:valid?label+'반':'구분 확인 필요'});
@@ -138,14 +139,19 @@ export async function readProgramPng(file:File,progress:(s:string)=>void,selecti
     for(const offset of [-unit*.15,-unit*.35,0]){time=programTime(await crop(tableLeft,anchor.y+offset,labelRight-tableLeft,unit,true));if(time)break;}
     sharedTimes.set(anchor.y,time);
    }
-   const time=sharedTimes.get(anchor.y)!;
+   let time=sharedTimes.get(anchor.y)!;
    const block=(await crop(textX+1,top,right-textX-2,unit*4,false,true)).split('\n').map(line=>line.trim()).filter(Boolean);
-   const activity=await crop(textX+2,top,right-textX-3,unit*.88);
-   let place=block.length>=3?block.at(-1)!:'';
+   const activity=(await crop(textX+2,top,right-textX-3,unit*.88)||block[0]||'').replace(/^[ㅣ.\s]+/,'');
+   let place=block.length>=2?block.at(-1)!:'';
    if(!programPlaces.some(room=>displayProgramPlace(place).includes(room))){
-    const lastLine=await crop(textX+1,top+unit*3,right-textX-2,unit*.9);
-    if(programPlaces.some(room=>displayProgramPlace(lastLine).includes(room)))place=lastLine;
+    for(const offset of [2.8,3]){const lastLine=await crop(textX+1,top+unit*offset,right-textX-2,unit*.9);if(programPlaces.some(room=>displayProgramPlace(lastLine).includes(room))){place=lastLine;break}}
    }
+   let override=programTime(place)||programTime(block.at(-1)??'');
+   if(!override){
+    let red=0;for(let y=Math.floor(top+unit*2.5);y<Math.min(canvas.height,top+unit*3.5);y++)for(let x=Math.ceil(textX);x<right;x++){const i=(y*canvas.width+x)*4;if(pixels.data[i]>pixels.data[i+1]+45&&pixels.data[i]>pixels.data[i+2]+45)red++;}
+    if(red>3)override=programTime(await crop(textX+1,top+unit*2.8,right-textX-2,unit*.9,true));
+   }
+   if(override)time=override;
    const roomNames=programPlaces.filter(room=>displayProgramPlace(place).includes(room));if(roomNames.length===1)place=roomNames[0];
    const columns=classColumns.filter(c=>c.box.y>=owner.box.y&&c.box.y<row.y&&Math.min(c.box.right,right)-Math.max(c.box.x,textX)>unit*2);
    const latest=columns.length?Math.max(...columns.map(c=>c.box.y)):0;

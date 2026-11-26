@@ -1,7 +1,20 @@
 import {useEffect,useState} from 'react';
+type InstallPrompt=Event&{prompt:()=>Promise<void>;userChoice:Promise<{outcome:string}>};
 function timeout<T>(promise:Promise<T>,label:string,ms=15000):Promise<T>{return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error(label+' 시간이 오래 걸리고 있어요. 다시 시도해주세요.')),ms);promise.then(value=>{clearTimeout(timer);resolve(value)},error=>{clearTimeout(timer);reject(error)});});}
 export function AdminPushSettings({token}:{token?:string}){
  const [message,setMessage]=useState(''),[busy,setBusy]=useState(false),[enabled,setEnabled]=useState(false);
+ const [installPrompt,setInstallPrompt]=useState<InstallPrompt|null>(null),[installHelp,setInstallHelp]=useState(false),[installed,setInstalled]=useState(()=>window.matchMedia('(display-mode: standalone)').matches||!!(navigator as Navigator&{standalone?:boolean}).standalone);
+ useEffect(()=>{
+  const available=(e:Event)=>{e.preventDefault();setInstallPrompt(e as InstallPrompt)};
+  const complete=()=>{setInstalled(true);setInstallPrompt(null);setInstallHelp(false);setMessage('관리자 앱을 설치했어요. 휴대폰 알림 켜기를 눌러 알림을 허용해주세요.')};
+  window.addEventListener('beforeinstallprompt',available);window.addEventListener('appinstalled',complete);
+  if(token&&'serviceWorker'in navigator)void navigator.serviceWorker.register('/push-sw.js').catch(()=>{});
+  return()=>{window.removeEventListener('beforeinstallprompt',available);window.removeEventListener('appinstalled',complete)};
+ },[token]);
+ async function install(){
+  if(!installPrompt){setInstallHelp(v=>!v);return;}
+  try{await installPrompt.prompt();await installPrompt.userChoice;setInstallPrompt(null)}catch{setInstallHelp(true)}
+ }
  useEffect(()=>{let alive=true;setEnabled(false);if(!token||!('serviceWorker'in navigator)||!('Notification'in window)||Notification.permission!=='granted')return;void (async()=>{try{const reg=await navigator.serviceWorker.getRegistration('/');const sub=await reg?.pushManager.getSubscription();if(!sub)return;const r=await fetch('/api/shared/push-status',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint}),signal:AbortSignal.timeout(10000)});if(!r.ok)return;const data=await r.json();if(alive){setEnabled(data.registered===true);if(!data.registered)setMessage('이 기기의 알림 연결이 필요해요. 휴대폰 알림 켜기를 눌러주세요.');}}catch{} })();return()=>{alive=false};},[token]);
  async function enable(){
   if(busy)return;if(!token){setMessage('운영 관리자 화면에 로그인한 후 켤 수 있어요.');return;}
@@ -24,5 +37,5 @@ export function AdminPushSettings({token}:{token?:string}){
    setEnabled(true);setMessage('이 기기에서 인솔교사의 새 채팅·이동·인원 확인 알림을 받아요.');
   }catch(e){setMessage((e as Error).name==='TimeoutError'?'서버 응답이 늦어지고 있어요. 다시 눌러주세요.':(e as Error).message)}finally{setBusy(false)}
  }
- return <div className="admin-push-settings"><button type="button" className="text-button" disabled={busy} onClick={()=>void enable()}>{busy?'알림 설정 중…':enabled?'휴대폰 알림 연결됨':'휴대폰 알림 켜기'}</button>{message&&<small role="status">{message}</small>}</div>;
+ return <div className="admin-push-settings">{!installed&&<button type="button" className="text-button" onClick={()=>void install()} aria-expanded={installHelp}>관리자 앱 설치</button>}<button type="button" className="text-button" disabled={busy} onClick={()=>void enable()}>{busy?'알림 설정 중…':enabled?'휴대폰 알림 연결됨':'휴대폰 알림 켜기'}</button>{installHelp&&<small className="admin-install-help">아이폰: Safari의 공유 → 홈 화면에 추가<br/>갤럭시: Chrome 메뉴 → 앱 설치 또는 홈 화면에 추가<br/>설치한 ON:WAY 관리자 앱에서 로그인 후 ‘휴대폰 알림 켜기’를 눌러주세요. 아이폰은 iOS 16.4 이상이 필요해요.</small>}{message&&<small role="status">{message}</small>}</div>;
 }

@@ -1,4 +1,4 @@
-import type {DemoState} from './types';
+import type {DemoState,ChatAttachment} from './types';
 
 export function acknowledgeCenterMessage(state:DemoState,id:string):DemoState{
  const message=state.centerMessages?.find(message=>message.id===id);
@@ -7,12 +7,12 @@ export function acknowledgeCenterMessage(state:DemoState,id:string):DemoState{
  return {...state,centerMessages:state.centerMessages!.map(message=>message.id===id?{...message,acknowledgedAt:new Date().toISOString()}:message)};
 }
 
-export function addCenterMessage(state:DemoState,content:string,sender:'admin'|'guide'='guide'):DemoState{
+export function addCenterMessage(state:DemoState,content:string,sender:'admin'|'guide'='guide',attachment?:ChatAttachment):DemoState{
  const text=content.trim();
- if(!text)throw Error('전달할 내용을 입력해주세요.');
+ if(!text&&!attachment)throw Error('전달할 내용을 입력하거나 파일을 첨부해주세요.');
  const previous=state.centerMessages??[];
  if(previous.length>=1000)throw Error('전달사항을 더 이상 추가할 수 없어요.');
- return {...state,centerMessages:[...previous,{id:crypto.randomUUID(),text,at:new Date().toISOString(),...(sender==='admin'?{sender}: {})}]};
+ return {...state,centerMessages:[...previous,{id:crypto.randomUUID(),text:text||(attachment!.mime.startsWith('image/')?'사진을 보냈습니다.':'파일을 보냈습니다.'),...(attachment?{attachment}:{}),at:new Date().toISOString(),...(sender==='admin'?{sender}: {})}]};
 }
 
 export function replyToCenterMessage(state:DemoState,id:string,content:string):DemoState{

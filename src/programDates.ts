@@ -1,7 +1,7 @@
 /** Resolve the printed dates, including a week crossing December/January. */
 export function programDates(labels:string[],fallbackYear:number){
  const parts=labels.map(label=>{
-  const text=label.replace(/\s/g,'');
+  const text=label.replace(/\s/g,'').replace(/(\d{1,2})뭘(?=\d{1,2}일)/g,'$1월');
   const match=text.match(/(?:(\d{4})년)?(\d{1,2})월(\d{1,2})일/)??text.match(/(\d{4})[./-](\d{1,2})[./-](\d{1,2})/);
   if(!match)throw Error('일부 날짜를 읽지 못했어요. 날짜가 선명한 원본 PNG를 선택해주세요.');
   return {year:match[1]?Number(match[1]):undefined,month:Number(match[2]),day:Number(match[3])};

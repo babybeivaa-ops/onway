@@ -1,0 +1,3 @@
+export const CHAT_FILE_LIMIT=5*1024*1024;
+const mime={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',webp:'image/webp',pdf:'application/pdf',txt:'text/plain',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',hwp:'application/octet-stream',hwpx:'application/octet-stream'};
+export function validChatAttachment(a){return !!a&&/^[a-f0-9-]{36}$/.test(a.id)&&typeof a.name==='string'&&a.name.length>0&&a.name.length<=180&&!/[\x00-\x1f/\\]/.test(a.name)&&mime[a.name.split('.').at(-1).toLowerCase()]===a.mime&&Number.isSafeInteger(a.size)&&a.size>0&&a.size<=CHAT_FILE_LIMIT;}

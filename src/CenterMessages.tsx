@@ -1,3 +1,4 @@
+import {ChatComposer} from './ChatComposer';
 import {createPortal} from 'react-dom';
 import {ChatTimeline} from './ChatTimeline';
 import './center-chat.css';
@@ -34,8 +35,8 @@ export function CenterMessages({messages=[],onAcknowledge,onReply,onSend}:{onSen
  </section>;
 }
 
-export function CenterMessageForm({messages,state,setState,shared,open,onClose,saving=false,saveFailed=false,sender='guide',onCancel}:{sender?:'admin'|'guide';onCancel:(id:string)=>Promise<void>;messages?:CenterMessage[];state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
- const [text,setText]=useState(''),[error,setError]=useState(''),[notice,setNotice]=useState('');
+export function CenterMessageForm({groupId,token,messages,state,setState,shared,open,onClose,saving=false,saveFailed=false,sender='guide',onCancel}:{groupId:string;token?:string;sender?:'admin'|'guide';onCancel:(id:string)=>Promise<void>;messages?:CenterMessage[];state:DemoState;setState:Dispatch<SetStateAction<DemoState>>;shared:boolean;open:boolean;onClose:()=>void;saving?:boolean;saveFailed?:boolean}){
+ const [error,setError]=useState('');
  const dialog=useRef<HTMLDialogElement>(null),formId=useId();
  const unreadKey=(state.centerMessages??[]).filter(m=>(m.sender??'guide')!==sender&&!m.acknowledgedAt&&!m.cancelledAt).map(m=>m.id).join('|');
  useEffect(()=>{if(!open||saving||saveFailed||!unreadKey)return;
@@ -47,12 +48,8 @@ export function CenterMessageForm({messages,state,setState,shared,open,onClose,s
  return createPortal(<dialog ref={dialog} className="onway-chat-dialog" aria-labelledby={formId+'-title'} onCancel={event=>{event.preventDefault();onClose()}} onClose={onClose} onClick={event=>{if(event.target!==event.currentTarget)return;const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)onClose()}}>
   <div className="onway-chat-shell"><header className="onway-chat-header"><HeartMessageIcon/><div><span>ON:WAY</span><h2 id={formId+'-title'}>{state.organization.name}</h2></div><button type="button" className="onway-chat-close" aria-label="채팅 닫기" onClick={onClose} autoFocus><X size={22}/></button></header>
   <div className="onway-chat-history" aria-label="센터와 주고받은 메시지" tabIndex={0}>
-   {((messages??state.centerMessages)?.length??0)>0?<ChatTimeline messages={messages??state.centerMessages??[]} open={open} organizationName={state.organization.name} viewer={sender} onCancel={saving||saveFailed?undefined:id=>{void onCancel(id).catch(e=>setError((e as Error).message))}}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
+   {((messages??state.centerMessages)?.length??0)>0?<ChatTimeline groupId={groupId} token={token} messages={messages??state.centerMessages??[]} open={open} organizationName={state.organization.name} viewer={sender} onCancel={saving||saveFailed?undefined:id=>{void onCancel(id).catch(e=>setError((e as Error).message))}}/>:<div className="onway-chat-empty"><HeartMessageIcon/><strong>센터에 편하게 말씀해주세요</strong><p>이동 상황이나 궁금한 내용을 남겨주세요.<br/>담당자가 확인 후 답변드립니다.</p></div>}
   </div>
-  <form className="onway-chat-compose" onSubmit={event=>{event.preventDefault();if(saving||saveFailed)return;setError('');setNotice('');try{setState(previous=>addCenterMessage(previous,text,sender));setText('');setNotice(shared?'저장 요청을 보냈어요.':'메시지를 저장했어요.')}catch(error){setError(error instanceof Error?error.message:'저장하지 못했어요. 다시 시도해주세요.')}}}>
-   <div className="onway-chat-input-row"><textarea onKeyDown={e=>{if(sender!=='admin'||e.key!=='Enter'||e.shiftKey||e.nativeEvent.isComposing||e.nativeEvent.keyCode===229)return;e.preventDefault();if(!saving&&!saveFailed&&text.trim()&&!e.repeat)e.currentTarget.form?.requestSubmit()}} aria-label={sender==='admin'?'인솔교사에게 보낼 메시지':'센터에 보낼 메시지'} id={formId+'-text'} rows={1} value={text} placeholder="메시지를 입력해주세요." onChange={event=>{setText(event.target.value);setNotice('')}}/>
-   <button className="onway-chat-send-icon" type="submit" aria-label={saving?'저장 중':'메시지 보내기'} title="보내기" disabled={saving||saveFailed||!text.trim()}><Send size={19} aria-hidden="true"/></button></div>
-   {(error||saveFailed)&&<p className="form-error" role="alert">{error||'저장하지 못했어요. 화면 상단의 서버 저장 상태를 확인해주세요.'}</p>}{notice&&!error&&!saveFailed&&<p className="onway-chat-notice" role="status">{saving?'서버에 저장 중이에요.':notice}</p>}
-  </form></div>
+  <ChatComposer groupId={groupId} token={token} active={open} saving={saving} saveFailed={saveFailed} enterToSend={sender==="admin"} onSend={(text,attachment)=>setState(previous=>addCenterMessage(previous,text,sender,attachment))}/>{error&&<p className="form-error" role="alert">{error}</p>}</div>
  </dialog>,document.body);
 }

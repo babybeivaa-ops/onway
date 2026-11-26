@@ -1,4 +1,5 @@
 export function displayProgramPlace(value:string,activity=''){
+ value=value.replace(/위성뮬럭실/g,'위성블럭실').replace(/^명상관(?=\(|$)/,'영상관').replace(/^(영상관|위성블럭실)\([^)]*\)$/,'$1');
  if(activity.replace(/\s/g,'')==='천체투영관에서본하늘')return '천체투영관';
  // Staff timetable prefixes identify the room; trailing text lists equipment.
  const prefix=value.normalize('NFKC').trim().match(/^[([{]?\s*(소세|영|명|염|앵|팀|됨|세|소)\s*[)\]}]/)?.[1];

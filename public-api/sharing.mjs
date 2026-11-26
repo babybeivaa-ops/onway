@@ -1,3 +1,4 @@
+import {serveChatAttachments,validateChatAttachments} from './chat-attachments.mjs';
 import {solapiConfig,solapiReady,normalizeRecipient,validateQr,sendSolapi} from './solapi.mjs';
 import {guideMessageText} from './guide-message.mjs';
 import {guideVisitExpires,guideVisitActive} from './visit-access.mjs';
@@ -119,6 +120,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     if(!pdfStore)throw Object.assign(Error('PDF 저장소가 설정되지 않았어요.'),{status:503});
     await serveDocuments(req,res,url,{store:pdfStore,canEdit:actor.role==='admin',authorize:(id,date)=>db.workspace.groups.some(g=>g.id===id&&g.travelDate===date&&(actor.role==='admin'||actor.groupId===id))});return true;
    }
+   if(url.pathname==='/api/shared/chat-attachments'){await serveChatAttachments(req,res,url,{store:pdfStore,actor,groups:db.workspace.groups});return true;}
    if(url.pathname==='/api/shared/chat-cancel'&&req.method==='POST'){
     const {groupId,messageId}=await body(req);if(actor.role==='guide'&&actor.groupId!==groupId)throw denied();
     const group=db.workspace.groups.find(g=>g.id===groupId),message=group?.state.centerMessages?.find(m=>m.id===messageId);
@@ -136,7 +138,7 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
    if(url.pathname==='/api/shared/workspace'&&req.method==='PUT'){
     const input=await body(req);if(input.revision!==db.revision){json(res,409,{error:'다른 기기에서 변경했어요. 최신 기록을 불러온 뒤 다시 수정해주세요.'});return true;}
     if(!validWorkspace(input.workspace))throw Object.assign(Error('저장할 기록 형식이 올바르지 않아요.'),{status:400});
-    let workspace=input.workspace;
+    let workspace=input.workspace;await validateChatAttachments(db.workspace,workspace,pdfStore,actor);
     // Cancellation is only permitted through the serialized chat-cancel endpoint.
     for(const g of workspace.groups)for(const m of g.state.centerMessages??[]){
      const old=db.workspace.groups.find(x=>x.id===g.id)?.state.centerMessages?.find(x=>x.id===m.id);
