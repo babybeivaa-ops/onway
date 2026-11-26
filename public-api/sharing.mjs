@@ -1,3 +1,5 @@
+import {solapiConfig,solapiReady,normalizeRecipient,validateQr,sendSolapi} from './solapi.mjs';
+import {guideMessageText} from './guide-message.mjs';
 import {guideVisitExpires,guideVisitActive} from './visit-access.mjs';
 import {makePushKeys,validPushSubscription,guidePushNotice,sendAdminPush} from './push.mjs';
 import {setTimeout as delay} from 'node:timers/promises';
@@ -11,7 +13,7 @@ import {randomBytes,createHash,timingSafeEqual,createCipheriv,createDecipheriv} 
 import {validWorkspace,validGroup} from './workspace-schema.mjs';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const eq=(a,b)=>typeof a==='string'&&typeof b==='string'&&a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b));
-export function createSharingHandler({directory,adminToken,now=Date.now,store,documentStore}){
+export function createSharingHandler({directory,adminToken,now=Date.now,store,documentStore,smsSender=sendSolapi,smsConfig=solapiConfig}){
  if(!store)fs.mkdirSync(directory,{recursive:true,mode:0o700});
  const pdfStore=documentStore??(!store?createFileDocumentStore(path.join(directory,'documents')):null);
  const linkKey=createHash('sha256').update('onway-guide-link:'+adminToken).digest();
@@ -55,6 +57,31 @@ export function createSharingHandler({directory,adminToken,now=Date.now,store,do
     await persist({...db,revision:db.revision+1,centerCode,links});json(res,200,{saved:true});return true;
    }
    if(actor.role==='admin-setup')throw denied();
+   if(url.pathname==='/api/shared/sms-status'&&req.method==='GET'){
+    if(actor.role!=='admin')throw denied();const config=smsConfig();json(res,200,{configured:solapiReady(config),sender:config.from});return true;
+   }
+   if(url.pathname==='/api/shared/sms-send'&&req.method==='POST'){
+    if(actor.role!=='admin')throw denied();const config=smsConfig();if(!solapiReady(config))throw Object.assign(Error('솔라피 서버 설정이 아직 완료되지 않았어요.'),{status:503});
+    const input=await body(req),to=normalizeRecipient(input.to);validateQr(input.image);
+    if(typeof input.requestId!=='string'||!/^[-a-zA-Z0-9]{16,80}$/.test(input.requestId))throw Object.assign(Error('발송 요청을 다시 열어주세요.'),{status:400});
+    const group=db.workspace.groups.find(g=>g.id===input.groupId);
+    if(!group||!guideVisitActive(group,now()))throw Object.assign(Error('현재 이용 가능한 단체가 아닙니다.'),{status:400});
+    const entry=Object.values(db.links).find(v=>v.groupId===group.id&&(v.role||'guide')==='guide'&&v.expires>now());
+    const token=entry?.sealedToken?openLink(entry.sealedToken):null;
+    if(!token)throw Object.assign(Error('먼저 인솔교사 링크·QR을 생성해주세요.'),{status:400});
+    const link=new URL('/#guide='+token,config.origin).href;
+    if(input.url!==link)throw Object.assign(Error('링크가 변경됐어요. 새로고침 후 다시 확인해주세요.'),{status:409});
+    const requests=db.smsRequests??[],fingerprint=hash(group.id+':'+to+':'+token);
+    const previous=requests.find(r=>r.id===input.requestId);
+    if(previous?.status==='accepted'){json(res,200,{accepted:true,duplicate:true});return true;}
+    if(previous||requests.some(r=>r.fingerprint===fingerprint&&now()-r.at<300000))throw Object.assign(Error('이미 요청한 문자입니다. 솔라피 발송 내역을 먼저 확인해주세요. 같은 번호 재전송은 5분 후 가능합니다.'),{status:409});
+    if(requests.filter(r=>now()-r.at<3600000).length>=100)throw Object.assign(Error('시간당 발송 한도에 도달했어요. 잠시 후 다시 시도해주세요.'),{status:429});
+    const reservation={id:input.requestId,fingerprint,at:now(),status:'pending'};
+    await persist({...db,revision:db.revision+1,smsRequests:[...requests.filter(r=>now()-r.at<7*86400000),reservation]});
+    const result=await smsSender({config,to,text:guideMessageText(link),image:input.image,requestId:input.requestId});
+    await persist({...db,revision:db.revision+1,smsRequests:db.smsRequests.map(r=>r.id===input.requestId?{...r,status:'accepted',providerGroupId:result.groupId}:r)});
+    json(res,200,{accepted:true});return true;
+   }
    // Recover only the caller's already-valid guide token; no rotation or access changes.
    if(url.pathname==='/api/shared/link-recover'&&req.method==='POST'){
     if(actor.role!=='guide')throw denied();

@@ -45,7 +45,7 @@ test('guide center messages reach admin and cannot overwrite or remove earlier m
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,200);
 });
 const makeGroup=()=>createGroup({name:'공유 학교',travelDate:'2099-01-01',origin:'학교',youth:30,leaders:3,ic:true,bridge:true});
-function fixture(t,memory=false){if(memory){let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};const store={async load(){return structuredClone(db)},async save(next,revision){assert.equal(revision,db.revision);db=structuredClone(next)}};return {handler:createSharingHandler({adminToken:admin,store})};}fs.mkdirSync(path.resolve('work'),{recursive:true});const dir=fs.mkdtempSync(path.resolve('work/onway-sharing-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true,maxRetries:5,retryDelay:100}));return {dir,handler:createSharingHandler({directory:dir,adminToken:admin})};}
+function fixture(t,memory=false,options={}){if(memory){let db={revision:0,workspace:{version:2,view:'admin',activeGroupId:'',groups:[]},links:{}};const store={async load(){return structuredClone(db)},async save(next,revision){assert.equal(revision,db.revision);db=structuredClone(next)}};return {handler:createSharingHandler({adminToken:admin,store,...options})};}fs.mkdirSync(path.resolve('work'),{recursive:true});const dir=fs.mkdtempSync(path.resolve('work/onway-sharing-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true,maxRetries:5,retryDelay:100}));return {dir,handler:createSharingHandler({directory:dir,adminToken:admin})};}
 async function request(h,endpoint,token=admin,method='GET',value,origin){let status,body;const req=Readable.from(value?[JSON.stringify(value)]:[]);req.method=method;req.headers={authorization:'Bearer '+token,host:'localhost',...(origin?{origin}:{})};await h(req,{writeHead(s){status=s},end(b){body=JSON.parse(b)}},new URL('/api/shared/'+endpoint,'http://localhost'));return {status,body};}
 test('duration uses rounded minutes and hours without ETA countdown',()=>{assert.equal(durationLabel(3919),'1시간 6분');assert.equal(durationLabel(60),'1분');assert.equal(durationLabel(3600),'1시간');assert.equal(durationLabel(NaN),'')});
 test('backup roundtrip validates corruption, merges without overwriting and CSV neutralizes formulas',()=>{const g=makeGroup();const w={version:2,view:'admin',activeGroupId:g.id,groups:[g]};assert.deepEqual(parseBackup(backupText(w)),w);assert.throws(()=>parseBackup('{bad'));const bad=structuredClone(w);bad.groups[0].state.counts.youth=-1;assert.throws(()=>parseBackup(backupText(bad)));const merged=mergeBackup(w,w);assert.equal(merged.groups.length,2);assert.deepEqual(merged.groups[0],g);assert.notEqual(merged.groups[1].id,g.id);g.state.organization.name='=HYPERLINK("example")';assert.ok(recordsCsv(w).includes("'="));assert.ok(recordsCsv(w).startsWith('\uFEFF'));});
@@ -210,4 +210,20 @@ test('admission completion persists for guides and cannot be changed by guides',
  assert.equal(read.workspace.groups[0].state.admissionCompletedAt,group.state.admissionCompletedAt);
  delete read.workspace.groups[0].state.admissionCompletedAt;
  assert.equal((await request(h,'workspace',token,'PUT',{workspace:read.workspace,revision:read.revision})).status,403);
+});
+
+test('SMS requires admin and a current link, and duplicate requests do not resend',async t=>{
+ let sends=0;const origin='https://onway-demo.onrender.com';
+ const {handler:h}=fixture(t,true,{smsConfig:()=>({key:'test',secret:'test',from:'0618301588',origin}),smsSender:async()=>{sends++;return {accepted:true,groupId:'provider-group'}}});
+ const group=makeGroup();await request(h,'publish',admin,'POST',{group});const token=(await request(h,'link',admin,'POST',{groupId:group.id})).body.token;
+ const input={groupId:group.id,to:'01012345678',url:origin+'/#guide='+token,image:'data:image/jpeg;base64,'+Buffer.from([255,216,0,255,217]).toString('base64'),requestId:'request-1234567890'};
+ assert.equal((await request(h,'sms-status',token)).status,403);
+ assert.equal((await request(h,'sms-send',token,'POST',input)).status,403);
+ assert.equal((await request(h,'sms-send',admin,'POST',{...input,url:origin+'/#guide=wrong'})).status,409);
+ assert.equal(sends,0);
+ assert.equal((await request(h,'sms-send',admin,'POST',input)).status,200);
+ assert.equal((await request(h,'sms-send',admin,'POST',input)).body.duplicate,true);
+ assert.equal((await request(h,'sms-send',admin,'POST',{...input,requestId:'another-request-1234'})).status,409);
+ assert.equal(sends,1);
+ assert.equal((await request(h,'workspace',token)).body.smsRequests,undefined);
 });
