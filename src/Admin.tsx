@@ -1,5 +1,5 @@
 import type {ChatAttachment} from './types';
-import {unreadAdminChats,incomingAdminChats} from './adminChatInbox';
+import {unreadAdminChats,queueAdminChats} from './adminChatInbox';
 import {RecentChanges} from './RecentChanges';
 import {AdminPushSettings} from './AdminPushSettings';
 import {MessageCircle} from 'lucide-react';
@@ -56,9 +56,8 @@ export function Admin({onCompleteAdmission,onCancelMessage,onSendMessage,onArriv
  const [chatGroupId,setChatGroupId]=useState<string|null>(null);
  const seenChatMessages=useRef<Set<string>|null>(null),chatQueue=useRef<string[]>([]);
  useEffect(()=>{
-  const incoming=incomingAdminChats(groups);
-  if(!seenChatMessages.current){seenChatMessages.current=new Set(incoming.map(m=>m.key));return;}
-  for(const m of incoming)if(!seenChatMessages.current.has(m.key)){seenChatMessages.current.add(m.key);if(m.groupId!==chatGroupId&&!chatQueue.current.includes(m.groupId))chatQueue.current.push(m.groupId);}
+  if(!seenChatMessages.current)seenChatMessages.current=new Set();
+  chatQueue.current=queueAdminChats(groups,seenChatMessages.current,chatQueue.current,chatGroupId);
   if(!chatGroupId&&chatQueue.current.length)setChatGroupId(chatQueue.current.shift()!);
  },[groups,referenceDate,chatGroupId]);
  const unreadChats=unreadAdminChats(groups);
@@ -85,6 +84,7 @@ const dateDialog=useRef<HTMLDialogElement>(null);const [newDate,setNewDate]=useS
  useEffect(()=>{
   if(!notificationTarget)return;
   const target=groups.find(g=>g.id===notificationTarget.groupId);if(!target)return;
+  if(notificationTarget.kind==='message'){chatQueue.current=chatQueue.current.filter(id=>id!==target.id);setChatGroupId(target.id);onNotificationHandled?.();return;}
   groupScrollTarget.current=null;
   const past=isPastJourney(target,referenceDate);setArchive(past);
   if(past){setArchiveMonth(target.travelDate.slice(0,7));setArchiveDate(target.travelDate)}
