@@ -30,3 +30,8 @@
 .workspace-shell.guide .app .center-weather .info-section-toggle{height:auto;min-height:40px;display:flex;flex-wrap:wrap;row-gap:8px}
 .workspace-shell.guide .app .center-weather .info-section-toggle>.weather-header-summary{position:static;transform:none;flex:0 0 100%;order:5;padding:0;line-height:28px;justify-content:center}
 }
+
+@media(max-width:520px){
+.workspace-shell.guide .app main>section.center-weather:has(.info-section-toggle[aria-expanded]){height:auto;min-height:70px}
+.workspace-shell.guide .app main>section.center-weather>.section-heading:first-child{height:auto;min-height:40px}
+}
