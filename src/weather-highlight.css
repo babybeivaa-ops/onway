@@ -13,6 +13,20 @@
 .workspace-shell.guide .app main>section.center-weather:has(.info-section-toggle[aria-expanded]){height:auto;min-height:70px}
 .workspace-shell.guide .app main>section.center-weather>.section-heading:first-child{height:auto;min-height:40px}
 @media(max-width:520px){
-.workspace-shell.guide .app .center-weather .info-section-toggle{grid-template-columns:minmax(112px,1fr) auto minmax(0,1fr) 12px}
-.workspace-shell.guide .app .center-weather .info-section-toggle>.weather-location-label{grid-column:1/4;grid-row:2;justify-self:end}
+.workspace-shell.guide .app .center-weather .weather-heading-title{font-size:16px;gap:5px}
+.workspace-shell.guide .app .center-weather .weather-heading-title>svg{width:28px;height:28px;flex-basis:28px}
+.workspace-shell.guide .app .center-weather .info-section-toggle>.weather-header-summary{gap:4px}
+.workspace-shell.guide .app .center-weather .weather-header-summary>strong{font-size:16px}
+.workspace-shell.guide .app .center-weather .weather-header-summary>.weather-condition-icon{width:20px;height:20px;flex-basis:20px}
+.workspace-shell.guide .app .center-weather .info-section-toggle{grid-template-columns:auto auto minmax(0,1fr) 12px;column-gap:4px}
+.workspace-shell.guide .app .center-weather .info-section-toggle>.weather-location-label{grid-column:3;grid-row:1;justify-self:end;font-size:9.5px}
+}
+
+@media(max-width:360px){
+.workspace-shell.guide .app .center-weather .info-section-toggle{column-gap:4px}
+.workspace-shell.guide .app .center-weather .weather-heading-title{font-size:14px;gap:4px}
+.workspace-shell.guide .app .center-weather .weather-heading-title>svg{width:24px;height:24px;flex-basis:24px}
+.workspace-shell.guide .app .center-weather .weather-header-summary>strong{font-size:15px}
+.workspace-shell.guide .app .center-weather .weather-header-summary>.weather-condition-icon{width:18px;height:18px;flex-basis:18px}
+.workspace-shell.guide .app .center-weather .info-section-toggle>.weather-location-label{font-size:9px}
 }
