@@ -22,3 +22,9 @@ test('successful zero-event lookup returns HTTP 200 and an empty list',async()=>
  const h=createTrafficHandler({key:'test',fetchImpl:async()=>new Response(JSON.stringify({header:{resultCode:0},body:{items:[]}}))});
  const result=await callTraffic(h);assert.equal(result.status,200);assert.equal(result.body.provider,'its');assert.deepEqual(result.body.events,[]);assert.equal(result.body.error,undefined);
 });
+
+test('Node HTTPS abort caused by timeout is reported as timeout, not malformed ITS response',async()=>{
+ const error=Object.assign(new Error('secret relay URL'),{name:'AbortError',code:'ABORT_ERR',cause:new DOMException('secret','TimeoutError')});
+ const h=createTrafficHandler({key:'secret',fetchImpl:async()=>{throw error}});
+ const result=await callTraffic(h);assert.equal(result.status,502);assert.equal(result.body.code,'ITS_TIMEOUT');assert.ok(!JSON.stringify(result.body).includes('secret'));assert.equal(result.body.events,undefined);
+});
