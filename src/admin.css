@@ -1410,3 +1410,5 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page .school-visit-facts .visit-date-value>.fitted-group-name{letter-spacing:.4px}
 
 
+
+.workspace-shell.admin .admin-page .visit-date-arrival .planned-arrival-heading h3{color:#526477}
