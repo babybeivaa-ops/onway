@@ -32,7 +32,7 @@ function ActualMap({s,travelDate,onFail,onFindPlace,currentPosition}:{currentPos
   const timeout=setTimeout(()=>{if(!disposed)onFail()},20000);
   loadKakaoMap().then(K=>{
    if(disposed||!container)return;
-   map=new K.Map(container,{center:new K.LatLng(36.1,127.5),level:12,scrollwheel:false,draggable:true});map.addControl(new K.ZoomControl(),K.ControlPosition.LEFT);let fitView=()=>{};let lastWidth=0,lastHeight=0;let resizeFrame=0;
+   map=new K.Map(container,{center:new K.LatLng(36.1,127.5),level:12,scrollwheel:navigator.maxTouchPoints>0||window.matchMedia('(any-pointer: coarse)').matches,draggable:true});map.addControl(new K.ZoomControl(),K.ControlPosition.LEFT);let fitView=()=>{};let lastWidth=0,lastHeight=0;let resizeFrame=0;
    const resize=new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{if(disposed)return;const width=container.clientWidth,height=container.clientHeight;if(!width||!height){lastWidth=width;lastHeight=height;return}const wasHidden=!lastWidth||!lastHeight;const center=map.getCenter();map.relayout();if(wasHidden)fitView();else map.setCenter(center);lastWidth=width;lastHeight=height})});resize.observe(container);listeners.push(()=>{resize.disconnect();cancelAnimationFrame(resizeFrame)});liveMap.current=map;sdk.current=K;setMapVersion(v=>v+1);
    const loaded=()=>clearTimeout(timeout);K.event.addListener(map,'tilesloaded',loaded);listeners.push(()=>K.event.removeListener(map,'tilesloaded',loaded));
    const bounds=new K.LatLngBounds();let count=0;let popup:any;
