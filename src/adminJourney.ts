@@ -32,3 +32,8 @@ export function adminCardJourney(state:DemoState){
  const phase=p.kind==='start'?'departed':p.id==='ic'?'interchange':p.id==='bridge'?'bridge':p.preset==='rest'?'rest':'passed';
  return {...journey,current:step.label,phase,recordedAt:confirmed.check!.confirmedAt} as const;
 }
+
+export function guideJourneyStatus(state:DemoState){
+ const phase=adminCardJourney(state).phase;
+ return phase==='arrived'?'입소 완료':phase==='waiting'&&state.trip.status==='출발 전'?'출발 전':'이동 중';
+}

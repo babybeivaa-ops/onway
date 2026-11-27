@@ -325,3 +325,6 @@ dialog.notice-detail-dialog{padding:20px}
 .workspace-shell.guide .app{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
 
 .app :is(.center-weather,.road-traffic) .info-refresh-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}.app :is(.center-weather,.road-traffic) .info-refresh-row>p{margin:0;min-width:0;font-size:11px;line-height:1.5}.app .info-refresh-row>.text-button{display:inline-flex;align-items:center;justify-content:center;gap:3px;min-height:30px;padding:4px 7px;border:1px solid #b4c6dd;border-radius:8px;background:#f7faff;color:#285f9a;font-size:11px;line-height:20px;white-space:nowrap;flex-shrink:0}
+
+.app .road-traffic .info-section-toggle>.traffic-count-label{margin-left:auto;font-size:11px;font-weight:400;color:#667e99;line-height:18px;letter-spacing:normal;white-space:nowrap}
+.app .road-traffic .traffic-count-label+.info-toggle-sign{margin-left:0}

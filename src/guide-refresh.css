@@ -189,3 +189,39 @@
 .workspace-shell.guide .app .schedule-day[data-day-tone]>.schedule-agenda tbody th.agenda-time{background:var(--day-header);color:#607080;border-color:#e5e9ed}
 .program-display-table .schedule-day[data-day-tone]>.schedule-agenda tbody td,
 .workspace-shell.guide .app .schedule-day[data-day-tone]>.schedule-agenda tbody td{background:#fff}
+
+.workspace-shell.guide .record-place-name{color:var(--guide-blue,#168be3)}
+
+.record-editor-dialog{max-width:360px;padding:16px;border-radius:20px}
+.record-editor-dialog .dialog-head h2{font-size:18px}
+.record-editor-dialog .subtext{font-size:12px;line-height:1.6;margin:2px 0 10px}
+.record-editor-dialog .record-place-name{font-size:17px;color:#168be3;margin:2px 0 8px}
+.record-editor-dialog .record-time-fields{gap:8px;margin-bottom:6px}
+.record-editor-dialog .record-time-fields label{font-size:12px;gap:4px;margin-top:6px}
+.record-editor-dialog .record-time-fields input,.record-editor-dialog .record-time-fields select{height:44px;min-height:44px;padding:7px 8px;font-size:17px;border-radius:10px}
+.record-editor-dialog .record-date summary,.record-editor-dialog .edit-history summary{font-size:12px;min-height:40px}
+.record-editor-dialog .edit-history{margin:0 0 4px}
+.record-editor-dialog .primary{margin-top:8px;min-height:46px;font-size:15px;border-radius:12px}
+
+.workspace-shell.guide .record-editor-dialog .record-place-name{color:var(--guide-ink,#24364a);font-weight:500}
+.workspace-shell.guide .record-editor-dialog .primary{background:#168be3;border-color:#168be3;box-shadow:0 3px 8px #168be31a}
+.workspace-shell.guide .record-editor-dialog .primary:hover{background:#117dcc;border-color:#117dcc}
+
+/* Unified, compact time editor. */
+.record-editor-dialog .dialog-head{margin-bottom:8px}
+.record-editor-dialog .subtext{margin-bottom:12px}
+.record-editor-dialog form>.record-place-card{display:block;margin:0 0 14px;padding:10px 12px;background:#f0f8fe;border:1px solid #e1edf6;border-radius:12px;color:#71869b;font-size:11px;line-height:1.4}
+.workspace-shell.guide .record-editor-dialog .record-place-card .record-place-name{margin:4px 0 0;font-size:16px;font-weight:500;line-height:1.4;color:#24364a}
+.record-editor-dialog .record-time-caption{font-size:12px;color:#5c7490;margin:0 0 6px}
+.record-editor-dialog .record-time-unified{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:0;padding:4px;background:#fff;border:1px solid #cddfec;border-radius:12px;margin:0 0 4px;align-items:center}
+.record-editor-dialog .record-time-unified label{position:relative;display:block;min-width:0;margin:0}
+.record-editor-dialog .record-time-unified label>span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.record-editor-dialog .record-time-unified select,.record-editor-dialog .record-time-unified input{border:0;box-shadow:none;background:transparent;border-radius:8px;min-height:44px;height:44px;font-size:20px;font-weight:500;color:#30485f;text-align:center;width:100%;padding:6px 10px}
+.record-editor-dialog .record-time-unified select{font-size:15px;background:#f3f8fc;padding:6px 8px}
+.record-editor-dialog .record-time-unified label:nth-child(2)::after{content:':';position:absolute;right:-3px;top:50%;transform:translateY(-50%);font-size:20px;color:#8195a8;pointer-events:none}
+.record-editor-dialog .record-time-unified :is(input,select):focus-visible{outline:2px solid #168be3;outline-offset:-2px}
+.record-editor-dialog .record-date{margin:2px 0 10px}
+.record-editor-dialog .record-date summary{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;padding:0 2px;font-size:12px;color:#71869b;list-style:none}
+.record-editor-dialog .record-date summary::before,.record-editor-dialog .record-date summary::marker{content:none}
+.record-editor-dialog .record-date summary::-webkit-details-marker{display:none}
+.record-editor-dialog .record-date summary span{margin-left:auto;color:#168be3}

@@ -26,12 +26,12 @@ export function ArchiveCalendar({groups,referenceDate,month,selectedDate,onMonth
     if(!date)return <span className="archive-calendar-blank" aria-hidden="true" key={'blank-'+index}/>;
     const entries=byDate.get(date)??[];
     const label=`${Number(date.slice(0,4))}년 ${Number(date.slice(5,7))}월 ${Number(date.slice(8))}일`;
-    return <button type="button" key={date} className={'archive-calendar-day'+(entries.length?' has-visits':'')} disabled={date>=referenceDate} aria-pressed={selectedDate===date} aria-label={label+', 방문 '+entries.length+'개 단체'} onClick={()=>onDateSelect(date)}>
+    return <button type="button" key={date} className={'archive-calendar-day'+(entries.length?' has-visits':'')} disabled={date>referenceDate||(date===referenceDate&&!entries.length)} aria-pressed={selectedDate===date} aria-label={label+', 방문 '+entries.length+'개 단체'} onClick={()=>onDateSelect(date)}>
      <time dateTime={date}>{Number(date.slice(8))}</time>
      {!!entries.length&&<><span className="archive-day-count">{entries.length}개 단체</span><span className="archive-day-name" title={entries.map(g=>g.state.organization.name).join(', ')}>{formatSchoolGroupName(entries[0].state.organization.name,entries[0].state.counts)}{entries.length>1?' 외 '+(entries.length-1):''}</span></>}
     </button>;
    })}
   </div>
-  <p className="archive-calendar-hint">방문일 기준으로 표시해요. 날짜를 선택하면 아래에서 단체와 기록을 볼 수 있어요.</p>
+  <p className="archive-calendar-hint">입소일 기준으로 표시해요. 날짜를 선택하면 아래에서 단체와 기록을 볼 수 있어요.</p>
  </section>;
 }

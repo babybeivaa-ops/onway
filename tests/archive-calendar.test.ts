@@ -25,3 +25,5 @@ test('archive month and day filters retain all same-day groups and exclude curre
  assert.deepEqual(archivedVisits(groups,'2026-10-20','2026-08'),[]);
  assert.deepEqual(groups,original);
 });
+
+test('past admission is listed before checkout without changing the visit',()=>{const group={id:'jesan',travelDate:'2026-11-25',state:{organization:{visitDuration:'2박 3일'}}};assert.deepEqual(archivedVisits([group],'2026-11-26','2026-11','2026-11-25'),[group]);});

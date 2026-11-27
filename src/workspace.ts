@@ -1,3 +1,4 @@
+import {isVisitPast} from './visitLifecycle.ts';
 import type {PublicPlace} from './places';
 import {isNaroOrigin,NARO_BRIDGE_ID,NARO_BRIDGE_PLACE} from './naroOriginRoute.ts';
 import {programTypes} from './programTypes.ts';
@@ -86,7 +87,7 @@ export function renameCheckpoint(w:Workspace,groupId:string,pointId:string,name:
 
 export function deleteGroup(w:Workspace,id:string):Workspace {if(!w.groups.some(g=>g.id===id))throw Error('단체를 찾을 수 없어요.');const groups=w.groups.filter(g=>g.id!==id);return {...w,groups,activeGroupId:w.activeGroupId===id?(groups[0]?.id??''):w.activeGroupId,view:groups.length?w.view:'admin'};}
 
-export const isPastJourney=(g:DemoGroup,date=today())=>g.travelDate<date;
+export const isPastJourney=(g:DemoGroup,date=today())=>isVisitPast(g,date);
 export function changeTravelDate(w:Workspace,id:string,date:string):Workspace{if(!validDate(date))throw Error('올바른 이동일을 입력해주세요.');if(!w.groups.some(g=>g.id===id))throw Error('단체를 찾을 수 없어요.');return {...w,groups:w.groups.map(g=>g.id===id?{...g,travelDate:date}:g)};}
 
 export interface GroupDetails {travelDate?:string;nameKind?:import('./groupName').GroupNameKind;originMode?:'school'|'other';originPlace?:import('./places').PublicPlace;visitDuration?:'당일'|'1박 2일'|'2박 3일'|'3박 4일'|'2시간'|'4시간'|'';notes?:string;programType?:import('./programTypes').ProgramType|'';leaderDetails?:import('./types').LeaderDetails;youthDetails?:import('./types').YouthDetails;name:string;youth:number;leaders:number;arrival?:import('./types').GroupArrivalInfo}

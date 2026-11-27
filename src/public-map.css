@@ -57,7 +57,7 @@
 .journey-stop-role{color:#7c8ea4}
 .journey-stop-content strong{font-weight:600}
 
-.destination-notice{grid-column:1 / -1;margin:8px 0 12px;padding:11px 12px;border-radius:10px;background:#fff7e8;border:1px solid #f2dfbb;color:#735324;line-height:1.6}.destination-notice strong,.journey-stop-content .destination-notice strong{display:block;font-size:12px;font-weight:700;color:#735324;line-height:1.5}.destination-notice p{margin:5px 0 0;font-size:12px}.destination-notice b{color:#624315}.journey-stop-content .destination-notice{margin-bottom:0}
+.destination-notice{grid-column:1 / -1;margin:8px 0 12px;padding:11px 12px;border-radius:10px;background:#fff7e8;border:1px solid #eee5d4;color:#735324;line-height:1.6}.destination-notice strong,.journey-stop-content .destination-notice strong{display:block;font-size:12px;font-weight:700;color:#735324;line-height:1.5}.destination-notice p{margin:5px 0 0;font-size:12px}.destination-notice b{color:#624315}.journey-stop-content .destination-notice{margin-bottom:0}
 
 /* Focus on the journey, keeping the basemap readable. */
 .journey-map-pin{display:flex;align-items:center;justify-content:center}.journey-map-number{width:16px;height:16px;border:2px solid #fff;background:#426da5;color:#fff;font-size:10px;box-shadow:0 0 0 1px #426da599}.journey-map-number.is-confirmed{background:#71879e;border-color:#fff;box-shadow:0 0 0 1px #71879e66}.journey-place-popup .leaflet-popup-content{margin:10px 26px 10px 12px}.journey-place-popup .journey-map-label strong{font-size:12px}.journey-place-popup .journey-map-label span{font-size:11px}.map-view-controls{display:flex;gap:6px;justify-content:flex-end;margin:10px 0}.map-view-controls button{min-height:36px;padding:7px 12px;border:1px solid #dce5f1;border-radius:8px;color:#56718e;background:#fff;font-size:12px}.map-view-controls button[aria-pressed=true]{background:#edf3fc;border-color:#a9c3e6;color:#245da6;font-weight:700}.journey-map-frame .public-map-canvas{height:340px}.journey-map-badge{font-size:10px;padding:5px 9px}.journey-overview{background:#fff;border:1px solid #dce5f1;border-radius:16px;overflow:hidden}.journey-overview-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;background:#edf4fe;border-bottom:1px solid #e0eafa}.journey-overview-summary>div{min-width:0}.journey-overview-summary span{display:block;font-size:11px;color:#52729a;margin-bottom:4px}.journey-overview-summary strong{display:block;font-size:15px;line-height:1.4;color:#204c80;overflow-wrap:anywhere}.journey-overview-summary small{flex:none;font-size:11px;color:#52729a}.journey-overview .journey-timeline{border:0;border-radius:0;padding:6px 8px}.journey-stop.is-next{background:#f0f5fc;box-shadow:inset 3px 0 #3975c9}.journey-stop.is-next .journey-stop-content>strong{font-weight:750;color:#205a9d}.journey-stop.is-done .journey-stop-content>strong{color:#566b83}.journey-stop.is-done .journey-stop-status{color:#627d99;font-weight:500}.journey-stop-content>.journey-stop-role{font-size:10px}.journey-stop-content .timeline-edit-button{background:transparent;border:0;color:#6c819a;font-weight:400}.journey-stop-content .destination-notice{padding:8px 10px;margin-top:6px}.journey-stop-content .destination-notice p{margin-top:2px}
@@ -123,7 +123,7 @@
 
 .current-position-pin{display:flex;flex-direction:column;align-items:center;gap:2px;padding:0;border:0;background:transparent;box-shadow:none;color:#174a76}.current-position-pin svg{display:block;filter:drop-shadow(0 2px 3px #17375c30)}.current-position-pin>span{padding:4px 10px;background:white;border:2px solid #75bce9;border-radius:14px;font-size:12px;font-weight:700;box-shadow:0 2px 6px #17375c25}
 
-.weather-observation-note{text-align:center}
+.weather-observation-note{text-align:left}
 
 .current-location-actions .current-location-button,#guide-location-action .current-location-button{position:relative;min-height:36px;height:36px;padding:3px 9px 3px 4px;gap:3px;border-radius:13px;font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap}
 .current-location-button>svg{display:block;width:30px;height:26px;flex:0 0 30px}
@@ -157,3 +157,70 @@
 /* Rose checkpoints stand apart from the blue route line. */
 .journey-map-number{background:#e7799d;border-color:#fff;box-shadow:0 0 0 1px #b94e77,0 2px 5px #9e456b33}
 .journey-map-number.is-confirmed{background:#bd6587;border-color:#fff;box-shadow:0 0 0 1px #984967,0 2px 5px #9e456b33}
+
+.journey-horizontal{min-width:0;max-width:100%;margin-top:14px}
+.journey-horizontal .journey-overview{border:0;min-width:0}
+.journey-horizontal .journey-timeline{display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;padding:8px 0 12px;scroll-snap-type:x proximity}
+.journey-horizontal .journey-stop{flex:0 0 116px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:8px 10px;box-sizing:border-box;scroll-snap-align:start}
+.journey-horizontal .journey-stop:not(:last-child)::after{left:28px;right:-8px;top:16px;bottom:auto;width:auto;height:1px}
+.journey-horizontal .journey-stop-marker{margin:0;z-index:1;background:#fff}
+.journey-horizontal .journey-stop-content{display:flex;flex-direction:column;gap:3px;align-items:flex-start;width:100%;min-width:0}
+.journey-horizontal .journey-stop-content>strong{font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.journey-horizontal .journey-stop-status{font-size:11px;line-height:1.5}
+.journey-horizontal .journey-stop-role{font-size:10px}
+.journey-horizontal .journey-stop.is-next{box-shadow:none;border-radius:10px}
+.journey-horizontal .destination-notice{margin:4px 0 0}
+
+/* Fit route stops to the available width; wrap extra stops instead of scrolling. */
+.journey-horizontal .journey-timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(72px,1fr));gap:8px 0;overflow:visible;scroll-snap-type:none}
+.journey-horizontal .journey-stop{min-width:0;width:auto;max-width:100%;padding:8px 5px;flex:none}
+.journey-horizontal .journey-stop-content>strong{font-size:12px;line-height:1.45;word-break:keep-all;overflow-wrap:anywhere}
+.journey-horizontal .journey-stop-status{font-size:10px}
+.journey-horizontal .journey-stop:not(:last-child)::after{left:23px;right:0}
+
+.journey-horizontal .journey-stop.is-done{background:#eef6ff;box-shadow:none;border-radius:8px}
+.journey-horizontal .journey-stop.is-done .journey-stop-marker{background:#2485df;border-color:#2485df;color:#fff}
+.journey-horizontal .journey-stop.is-done .journey-stop-content>strong,.journey-horizontal .journey-stop.is-done .journey-stop-status{color:#2465a3}
+.journey-horizontal .journey-stop.is-done .journey-stop-role{color:#6384a5}
+.journey-horizontal .journey-stop.is-next .journey-stop-marker{background:white;border:1.5px solid #79ace0;box-shadow:none}
+
+/* Equal place columns keep the direction arrow at the card center. */
+.map-leg-heading{grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr)}
+.map-leg-heading>b{color:#7890a6;align-self:center;justify-self:center}
+.map-leg-heading>b>svg{display:block;flex-shrink:0}
+.map-leg-heading .map-leg-place>span{font-size:14px}
+.map-leg-heading>div:last-child>.map-leg-place>span{font-size:13px}
+@media(max-width:380px){.map-leg-heading .map-leg-place>span{font-size:13px}.map-leg-heading>div:last-child>.map-leg-place>span{font-size:12px}.map-leg-heading{padding-inline:8px;column-gap:4px}}
+
+.journey-horizontal .journey-stop{align-items:center;text-align:center}
+.journey-horizontal .journey-stop-content{align-items:center;text-align:center}
+.journey-horizontal .journey-stop-content>strong{width:100%;text-align:center}
+.journey-horizontal .journey-stop-status{align-self:center;text-align:center}
+.journey-horizontal .journey-stop:not(:last-child)::after{left:calc(50% + 10px);right:calc(-50% + 10px)}
+.journey-horizontal .journey-stop.is-destination .journey-stop-marker{color:#159ae5;background:transparent}
+
+/* Compact guide location result: address first, actions aligned right. */
+.public-journey .current-location-summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;width:fit-content;max-width:100%;box-sizing:border-box;margin:8px 0 12px;padding:8px 10px;border-radius:10px;background:#edf8f3;text-align:left}
+.public-journey .current-location-summary:has(.current-location-actions:empty):not(:has(.current-location-note,.current-location-address)){display:none}
+.public-journey .current-location-summary .current-location-actions{grid-column:2;grid-row:1 / span 2;margin:0;padding:0;background:none;align-self:center;gap:4px}
+.public-journey .current-location-summary .current-location-actions button{min-height:32px;padding:4px 7px;font-size:11px;white-space:nowrap}
+.public-journey .current-location-address{grid-column:1;grid-row:1;display:block;min-width:0;width:100%;padding:0;border:0;background:none;color:#245f4b;font-size:12px;line-height:1.5;font-weight:600;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.public-journey .current-location-address[aria-expanded=true]{white-space:normal;overflow-wrap:anywhere}
+.public-journey .current-location-summary .current-location-note{grid-column:1;margin:0;padding:0;background:none;border-radius:0;font-size:11px;line-height:1.5;text-align:left;overflow-wrap:anywhere}
+.public-journey .current-location-summary:has(.current-location-address){width:100%}
+@media(max-width:380px){.public-journey .current-location-summary:has(.current-location-address) .current-location-actions{grid-row:3;grid-column:1;justify-self:end}}
+
+.public-journey .current-location-summary:has(.current-location-address){grid-template-columns:minmax(0,1fr)}
+.public-journey .current-location-summary:has(.current-location-address) .current-location-actions{grid-column:1;grid-row:3;justify-self:end}
+.public-journey .current-location-detail{grid-column:1 / -1;grid-row:2;min-width:0;width:100%;margin:0;padding:0;font-size:11px;line-height:1.7;white-space:nowrap;text-align:left;color:#718ba0}
+
+.journey-map-frame{overflow:hidden;isolation:isolate;border-radius:16px}
+
+.journey-horizontal>.journey-overview>.destination-notice{position:static;margin:12px auto 0}
+
+.app .map-section .journey-horizontal .journey-timeline{padding-bottom:0;margin-bottom:0}
+.app .map-section .journey-horizontal+.journey-information-row{margin-top:12px}
+
+.checkpoint-editor .point-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.checkpoint-editor .point-presets>button{min-width:0;width:100%;min-height:40px;padding:6px 4px;white-space:nowrap;font-size:12px;margin:0}
+.checkpoint-editor .point-presets>button:last-child{grid-column:1 / -1}

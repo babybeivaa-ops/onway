@@ -578,7 +578,7 @@ dialog:has(.participant-editor){width:min(760px,calc(100vw - 32px));max-width:76
 
 
 /* Guide count editing keeps actions visible while fields scroll. */
-dialog.guide-count-dialog{width:min(540px,calc(100vw - 16px));max-width:540px;max-height:90dvh;padding:0;overflow:hidden}
+dialog.guide-count-dialog{width:min(460px,calc(100vw - 16px));max-width:460px;max-height:90dvh;padding:0;overflow:hidden}
 dialog.guide-count-dialog[open]{display:flex;flex-direction:column}
 .guide-count-dialog>.dialog-head{flex:none;padding:8px 14px;border-bottom:1px solid #e0e7ef}
 .guide-count-dialog .dialog-head h2{font-size:20px}
@@ -1352,3 +1352,35 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page .group-quick-tabs button[data-program] .journey-badge[data-admission-complete=true]{position:relative;top:-3px}
 
 .admin-page .visit-people-table thead th:first-child{text-align:center}
+
+.active-group-tabs{display:flex;gap:10px;flex-shrink:0}.active-group-tabs:empty,.admitted-group-stack:empty{display:none}
+.admitted-group-stack{display:flex;flex-direction:column;gap:8px;margin-left:auto;flex:0 0 240px;align-self:flex-start}
+.group-quick-tabs .admitted-group-stack button[data-admitted=true]{width:240px;min-width:0;min-height:56px;height:auto;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;position:relative}
+.group-quick-tabs .admitted-group-stack button>strong{font-size:14px;flex:1;min-width:0}
+.group-quick-tabs .admitted-group-stack .journey-badge{margin:0;transform:none;flex:none}
+.group-quick-tabs .admitted-group-stack .journey-badge-copy strong{font-size:12px}
+.group-quick-tabs .admitted-group-stack .journey-badge-icon{width:26px!important;flex-basis:26px!important;height:26px}
+
+/* Admitted groups form short neutral blocks, independent of journey card sizing. */
+.admin-page .group-quick-tabs .admitted-group-stack{flex:0 0 240px;gap:6px}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true]{flex:0 0 auto;width:240px;min-width:240px;max-width:240px;height:44px;min-height:44px;padding:6px 10px;border:1px solid #dce2e8;border-radius:8px;background:#f2f4f6;color:#647080;box-shadow:none;outline:none}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true][aria-selected=true]{background:#e7ecf1;border-color:#98a8b8;box-shadow:inset 0 0 0 1px #98a8b8}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true]>strong{flex:1 1 auto;min-width:0;min-height:0;width:auto;font-size:13px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#536273}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-badge[data-admission-complete=true]{flex:0 0 auto;width:auto;min-height:0;height:auto;top:0;gap:4px;transform:none;margin:0}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-badge-copy{min-height:0}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-status-label{font-size:11px;line-height:18px;color:#738092;font-weight:500}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-badge-icon{width:22px!important;height:22px!important;flex-basis:22px!important;transform:none}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-badge-icon>*{max-width:22px;max-height:22px}
+
+.admin-page .group-quick-tabs .admitted-group-stack{flex-basis:200px}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true]{width:200px;min-width:200px;max-width:200px;gap:6px}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true]>strong,
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true][data-program] .journey-badge[data-admission-complete=true] .journey-status-label{font-size:13px;line-height:20px;font-weight:600}
+
+.admin-page .group-quick-tabs .admitted-group-stack{flex-basis:240px}
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true]{width:240px;min-width:240px;max-width:240px}
+
+.admin-page .group-quick-tabs .admitted-group-stack .past-admission-status{flex:none;font-size:12px;line-height:20px;color:#738092;white-space:nowrap;font-weight:500}
+
+.admin-page .group-quick-tabs .admitted-group-stack .past-admission-status{display:inline-flex;align-items:center;gap:4px}
+.admin-page .group-quick-tabs .admitted-group-stack .past-admission-status>svg{width:22px;height:22px;flex:0 0 22px}

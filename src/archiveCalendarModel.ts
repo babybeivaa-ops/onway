@@ -1,3 +1,4 @@
+export const isPastAdmission=(group:{travelDate:string},referenceDate:string)=>group.travelDate<referenceDate;
 export function validCalendarMonth(month:string){
  return /^\d{4}-(0[1-9]|1[0-2])$/.test(month)&&month.slice(0,4)!=='0000';
 }
@@ -15,7 +16,7 @@ export function calendarDays(month:string):(string|null)[]{
  while(cells.length%7)cells.push(null);
  return cells;
 }
-export function archivedVisits<T extends {travelDate:string}>(groups:T[],referenceDate:string,month:string,date:string|null=null){
- return groups.filter(group=>group.travelDate<referenceDate&&group.travelDate.startsWith(month+'-')&&(!date||group.travelDate===date))
+export function archivedVisits<T extends {travelDate:string;state?:{organization?:{visitDuration?:string}}}>(groups:T[],referenceDate:string,month:string,date:string|null=null){
+ return groups.filter(group=>isPastAdmission(group,referenceDate)&&group.travelDate.startsWith(month+'-')&&(!date||group.travelDate===date))
   .sort((a,b)=>a.travelDate.localeCompare(b.travelDate));
 }

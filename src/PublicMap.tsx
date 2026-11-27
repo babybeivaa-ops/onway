@@ -4,8 +4,8 @@ import {createPortal} from 'react-dom';
 import {MapReadingCloudIcon} from './CloudMascot';
 import {nextDistancePoint} from './roadRoute';
 import {localDate} from './arrivalEstimate';
-import {useRoadRoute} from './useRoadRoute';
-import {MapPin} from 'lucide-react';
+import {useRoadRoute,requestRoadRoute} from './useRoadRoute';
+import {MapPin,ArrowRight} from 'lucide-react';
 import {useEffect,useRef,useState} from 'react';
 import type {Dispatch,SetStateAction} from 'react';
 import type {DemoState} from './types';
@@ -32,7 +32,8 @@ function ActualMap({s,travelDate,onFail,onFindPlace,currentPosition}:{currentPos
   const timeout=setTimeout(()=>{if(!disposed)onFail()},20000);
   loadKakaoMap().then(K=>{
    if(disposed||!container)return;
-   map=new K.Map(container,{center:new K.LatLng(36.1,127.5),level:12,scrollwheel:true,draggable:true});map.addControl(new K.ZoomControl(),K.ControlPosition.LEFT);const resize=new ResizeObserver(()=>{map.relayout()});resize.observe(container);listeners.push(()=>resize.disconnect());liveMap.current=map;sdk.current=K;setMapVersion(v=>v+1);
+   map=new K.Map(container,{center:new K.LatLng(36.1,127.5),level:12,scrollwheel:false,draggable:true});map.addControl(new K.ZoomControl(),K.ControlPosition.LEFT);let fitView=()=>{};let lastWidth=0,lastHeight=0;let resizeFrame=0;
+   const resize=new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{if(disposed)return;const width=container.clientWidth,height=container.clientHeight;if(!width||!height){lastWidth=width;lastHeight=height;return}const wasHidden=!lastWidth||!lastHeight;const center=map.getCenter();map.relayout();if(wasHidden)fitView();else map.setCenter(center);lastWidth=width;lastHeight=height})});resize.observe(container);listeners.push(()=>{resize.disconnect();cancelAnimationFrame(resizeFrame)});liveMap.current=map;sdk.current=K;setMapVersion(v=>v+1);
    const loaded=()=>clearTimeout(timeout);K.event.addListener(map,'tilesloaded',loaded);listeners.push(()=>K.event.removeListener(map,'tilesloaded',loaded));
    const bounds=new K.LatLngBounds();let count=0;let popup:any;
    const extend=(lat:number,lng:number)=>{bounds.extend(new K.LatLng(lat,lng));count++};
@@ -45,21 +46,50 @@ function ActualMap({s,travelDate,onFail,onFindPlace,currentPosition}:{currentPos
    }
    if(route.data)for(const line of route.data.paths){const poly=new K.Polyline({map,path:line.map(([lat,lng])=>new K.LatLng(lat,lng)),strokeColor:'#2166f3',strokeWeight:3,strokeOpacity:.75});overlays.push(poly);for(const [lat,lng] of line)extend(lat,lng);}
    const close=()=>popup?.setMap(null);K.event.addListener(map,'click',close);listeners.push(()=>K.event.removeListener(map,'click',close));
+   fitView=()=>{
    if(!fullView&&focusPoints.length){const focus=new K.LatLngBounds();for(const p of focusPoints)focus.extend(new K.LatLng(p.place!.lat,p.place!.lng));if(focusPoints.length===1){map.setCenter(new K.LatLng(focusPoints[0].place!.lat,focusPoints[0].place!.lng));map.setLevel(5)}else map.setBounds(focus,65,45,65,45);}
    else if(count>1)map.setBounds(bounds,65,45,65,45);else if(points.length){map.setCenter(new K.LatLng(points[0].place!.lat,points[0].place!.lng));map.setLevel(5);}
+   };
+   if(container.clientWidth&&container.clientHeight){map.relayout();fitView();lastWidth=container.clientWidth;lastHeight=container.clientHeight;}
   }).catch(()=>{if(!disposed)onFail()});
   return()=>{disposed=true;liveMap.current=null;clearTimeout(timeout);listeners.forEach(remove=>remove());overlays.forEach(o=>o.setMap(null));container?.replaceChildren();};
  },[signature]);
- return <><p className="fine map-record-basis">다음 확인 지점과 그다음 지점을 중심으로 보여드려요.</p><div className="map-leg-heading"><div><span>{fullView?'출발지':'다음 확인'}</span><strong className="map-leg-place">{(fullView?connection[0]:next)?.kind==='start'?<img src="/icons/journey-heart-face.svg" alt=""/>:<MapPin size={22} aria-hidden="true"/>}<span>{fullView?connection[0]?.name:next?.name}</span></strong></div><b aria-hidden="true">→</b><div><span>도착지</span><strong className="map-leg-place"><img src="/icons/space-center-color.svg" alt=""/><span>국립청소년우주센터</span></strong></div></div>{route.error&&<p className="fine road-route-message" role="status">{route.error} {route.missing.map(p=><button key={p.id} type="button" className="map-find-place" onClick={()=>onFindPlace(p.id,p.name)}>{p.name} 위치 찾기</button>)}{!!route.key&&<button type="button" className="map-find-place" onClick={route.retry}>경로 다시 계산</button>}</p>}{route.loading&&<p className="fine" role="status">도로 경로를 불러오고 있어요…</p>}<div className="map-view-controls"><button type="button" aria-pressed={fullView} onClick={()=>setFullView(true)}>전체 경로</button><button type="button" aria-pressed={!fullView} onClick={()=>setFullView(false)}>다음 지점 중심</button></div><p className="fine map-touch-help">두 손가락으로 확대·축소하고, 드래그해서 지도를 이동할 수 있어요.</p><div className="journey-map-frame"><div ref={host} className="public-map-canvas" aria-label="여정 지점과 추천 도로 경로 지도"/><span className="journey-map-badge">{fullView?'전체 경로':'다음 지점 중심'}</span></div></>;
+ return <><div className="map-leg-heading"><div><span>{fullView?'출발지':'다음 확인'}</span><strong className="map-leg-place">{(fullView?connection[0]:next)?.kind==='start'?<img src="/icons/journey-heart-face.svg" alt=""/>:<MapPin size={22} aria-hidden="true"/>}<span>{fullView?connection[0]?.name:next?.name}</span></strong></div><b aria-hidden="true"><ArrowRight size={17} strokeWidth={1.8}/></b><div><span>도착지</span><strong className="map-leg-place"><img src="/icons/space-center-color.svg" alt=""/><span>국립청소년우주센터</span></strong></div></div>{route.error&&<p className="fine road-route-message" role="status">{route.error} {route.missing.map(p=><button key={p.id} type="button" className="map-find-place" onClick={()=>onFindPlace(p.id,p.name)}>{p.name} 위치 찾기</button>)}{!!route.key&&<button type="button" className="map-find-place" onClick={route.retry}>경로 다시 계산</button>}</p>}{route.loading&&<p className="fine" role="status">도로 경로를 불러오고 있어요…</p>}<div className="map-view-controls"><button type="button" aria-pressed={fullView} onClick={()=>setFullView(true)}>전체 경로</button><button type="button" aria-pressed={!fullView} onClick={()=>setFullView(false)}>다음 지점 중심</button></div><p className="fine map-touch-help">지도는 드래그로 이동하고, 두 손가락 또는 +·− 버튼으로 확대·축소해요.</p><div className="journey-map-frame"><div ref={host} className="public-map-canvas" aria-label="여정 지점과 추천 도로 경로 지도"/><span className="journey-map-badge">{fullView?'전체 경로':'다음 지점 중심'}</span></div></>;
 }
-export function PublicJourneyMap({saving=false,saveFailed=false,s,travelDate,onChange,onEditReport,onLocate,onShowMap,browsingOther=false,information,routeAction,shared=false}:{saving?:boolean;saveFailed?:boolean;onShowMap:()=>void;onLocate:(id:string)=>void;routeAction?:import('react').ReactNode;shared?:boolean;information?:import('react').ReactNode;s:DemoState;travelDate:string;onEditReport:(pointId:string,reportId:string)=>void;onChange:Dispatch<SetStateAction<DemoState>>;browsingOther?:boolean}){
+export function PublicJourneyMap({saving=false,saveFailed=false,s,travelDate,onChange,onEditReport,onLocate,onShowMap,information,routeAction,shared=false}:{saving?:boolean;saveFailed?:boolean;onShowMap:()=>void;onLocate:(id:string)=>void;routeAction?:import('react').ReactNode;shared?:boolean;information?:import('react').ReactNode;s:DemoState;travelDate:string;onEditReport:(pointId:string,reportId:string)=>void;onChange:Dispatch<SetStateAction<DemoState>>;browsingOther?:boolean}){
  const [locationSlot,setLocationSlot]=useState<HTMLElement|null>(null);useEffect(()=>{setLocationSlot(document.getElementById('guide-location-action'))},[]);
- const [showReal,setShowReal]=useState(false);
+
  const [positionSent,setPositionSent]=useState(false);
  const [sendingAt,setSendingAt]=useState<string|null>(null);
- useEffect(()=>{if(!sendingAt||saving)return;if(saveFailed){setSendingAt(null);setLocationMessage('위치를 저장하지 못했어요. 상단 저장 상태를 확인해주세요.');return;}if(s.sharedPosition?.sentAt===sendingAt){setSendingAt(null);setPositionSent(true);setLocationMessage('');requestAnimationFrame(()=>document.getElementById(showReal?'journey-real-tab':'journey-overview-tab')?.focus({preventScroll:true}));}},[sendingAt,saving,saveFailed,s.sharedPosition?.sentAt,showReal]);
+ useEffect(()=>{if(!sendingAt||saving)return;if(saveFailed){setSendingAt(null);setLocationMessage('위치를 저장하지 못했어요. 상단 저장 상태를 확인해주세요.');return;}if(s.sharedPosition?.sentAt===sendingAt){setSendingAt(null);setPositionSent(true);setLocationMessage('');requestAnimationFrame(()=>document.getElementById('journey-map-panel')?.focus({preventScroll:true}));}},[sendingAt,saving,saveFailed,s.sharedPosition?.sentAt]);
 
  const [currentPosition,setCurrentPosition]=useState<CurrentPosition|null>(null);const [locating,setLocating]=useState(false);const [locationMessage,setLocationMessage]=useState('');const locationRequest=useRef(0);
+ const [locationAddress,setLocationAddress]=useState('');const [addressExpanded,setAddressExpanded]=useState(false);
+ useEffect(()=>{
+  if(!currentPosition){setLocationAddress('');return;}
+  let active=true;setLocationAddress('주소 확인 중…');setAddressExpanded(false);
+  const fallback='주소를 찾지 못했어요. 지도에서 확인해주세요.';
+  const timer=setTimeout(()=>{if(active){active=false;setLocationAddress(fallback)}},12000);
+  loadKakaoMap().then(K=>{
+   if(!active)return;if(!K.services?.Geocoder)throw Error('주소 서비스 없음');
+   new K.services.Geocoder().coord2Address(currentPosition.lng,currentPosition.lat,(results:any[],status:string)=>{
+    if(!active)return;clearTimeout(timer);active=false;
+    const result=status===K.services.Status.OK?results[0]:null;
+    setLocationAddress(result?.road_address?.address_name||result?.address?.address_name||fallback);
+   });
+  }).catch(()=>{if(active){clearTimeout(timer);active=false;setLocationAddress(fallback)}});
+  return()=>{active=false;clearTimeout(timer)};
+ },[currentPosition]);
+ const routePoints=routeService.points(s);const upcoming=nextDistancePoint(s,travelDate);const locationTarget=upcoming?.kind==='start'?routePoints[1]:upcoming;
+ const locationRouteKey=currentPosition&&locationTarget?.place?JSON.stringify([[currentPosition.lng,currentPosition.lat],[locationTarget.place.lng,locationTarget.place.lat]]):'';
+ const [locationRoute,setLocationRoute]=useState<{key:string;distance?:number;minutes?:number;failed?:boolean}>({key:''});
+ useEffect(()=>{if(!locationRouteKey)return;let active=true;setLocationRoute({key:locationRouteKey});requestRoadRoute(locationRouteKey).then(data=>{if(active)setLocationRoute({key:locationRouteKey,distance:data.distanceMeters,minutes:Math.max(1,Math.round(data.durationSeconds/60))})},()=>{if(active)setLocationRoute({key:locationRouteKey,failed:true})});return()=>{active=false}},[locationRouteKey,currentPosition?.measuredAt]);
+ const locationRouteCurrent=locationRoute.key===locationRouteKey?locationRoute:undefined;
+ const locationDistance=locationRouteCurrent?.distance;
+ const locationTravelText=typeof locationDistance==='number'?'약 '+(locationDistance<1000?Math.round(locationDistance)+'m':(locationDistance/1000).toFixed(1).replace(/\.0$/,'')+'km')+' · '+locationRouteCurrent?.minutes+'분':!locationRouteKey?'위치 미등록':locationRouteCurrent?.failed?'경로 조회 실패':'계산 중…';
+ const locationDetail=currentPosition?'다음 지점 : '+(locationTarget?.name||'국립청소년우주센터')+' · '+locationTravelText+(currentPosition.manual?' / 직접 선택':' / 오차 약 '+Math.round(currentPosition.accuracy)+'m'):'';
+ const detailRef=useRef<HTMLParagraphElement>(null);
+ useEffect(()=>{const el=detailRef.current;if(!el)return;const fit=()=>{el.style.fontSize='11px';if(el.scrollWidth>el.clientWidth&&el.clientWidth)el.style.fontSize=(11*el.clientWidth/el.scrollWidth)+'px'};const observer=new ResizeObserver(fit);observer.observe(el);fit();return()=>observer.disconnect()},[locationDetail]);
  const locationCancel=useRef<(()=>void)|null>(null);
  const [locationFailed,setLocationFailed]=useState(false);const [manualOpen,setManualOpen]=useState(false);
  useEffect(()=>()=>{locationRequest.current++;locationCancel.current?.()},[]);
@@ -67,14 +97,14 @@ export function PublicJourneyMap({saving=false,saveFailed=false,s,travelDate,onC
  function locateMe(){
   if(locating)return;
   onShowMap();
-  setPositionSent(false);
+  setPositionSent(false);setCurrentPosition(null);
   setLocationFailed(false);
   if(!window.isSecureContext||!navigator.geolocation){setLocationFailed(true);setLocationMessage('이 브라우저에서는 자동 위치 조회를 사용할 수 없어요. Chrome 또는 Edge에서 열거나 지도에서 직접 선택해주세요.');return;}
-  locationCancel.current?.();const request=++locationRequest.current;setLocating(true);setLocationMessage('브라우저의 위치 권한을 허용해주세요. 최대 25초 동안 위치를 확인해요.');
+  locationCancel.current?.();const request=++locationRequest.current;setLocating(true);setLocationMessage('위치 권한을 허용해주세요. 최대 25초 소요돼요.');
   locationCancel.current=requestCurrentLocation(navigator.geolocation,position=>{
    if(request!==locationRequest.current)return;
-   setLocating(false);setLocationFailed(false);setCurrentPosition({lat:position.coords.latitude,lng:position.coords.longitude,accuracy:position.coords.accuracy,measuredAt:new Date(position.timestamp).toISOString()});setShowReal(true);
-   setLocationMessage('조회한 내 위치예요. 오차 약 '+Math.round(position.coords.accuracy)+'m · 계속 추적하지 않아요.');
+   setLocating(false);setLocationFailed(false);setCurrentPosition({lat:position.coords.latitude,lng:position.coords.longitude,accuracy:position.coords.accuracy,measuredAt:new Date(position.timestamp).toISOString()});
+   setLocationMessage('오차 약 '+Math.round(position.coords.accuracy)+'m · 계속 추적하지 않아요.');
   },code=>{if(request!==locationRequest.current)return;setLocating(false);setLocationFailed(true);setLocationMessage(code===1?'위치 권한이 허용되지 않았어요. 아래 설정 안내를 확인하거나 지도에서 직접 선택해주세요.':'PC 또는 브라우저에서 위치 정보를 받지 못했어요. 다시 조회하거나 지도에서 직접 선택해주세요.');},()=>{if(request===locationRequest.current)setLocationMessage('다른 위치 조회 방식으로 다시 확인하고 있어요…');});
  }
 
@@ -85,10 +115,11 @@ export function PublicJourneyMap({saving=false,saveFailed=false,s,travelDate,onC
   fetch('/api/maps/status',{signal:abort.signal}).then(r=>r.ok?r.json():null).then(d=>{if(!abort.signal.aborted)setAvailable(d?.available===true);}).catch(()=>setAvailable(false)).finally(()=>{clearTimeout(timer);setChecked(true);});
   return()=>{clearTimeout(timer);abort.abort();};
  },[attempt]);
- return <div className="public-journey"><div className="current-location-actions">{locating&&<button type="button" className="text-button" onClick={()=>{cancelLocation();setLocationMessage('위치 조회를 취소했어요.')}}>조회 취소</button>}{locationSlot?createPortal(<button type="button" className="current-location-button" disabled={locating} onClick={locateMe}><MapReadingCloudIcon/>{locating?'내 위치 찾는 중…':'내 위치 보기'}</button>,locationSlot):<button type="button" className="current-location-button" disabled={locating} onClick={locateMe}><MapReadingCloudIcon/>{locating?'내 위치 찾는 중…':'내 위치 보기'}</button>}{currentPosition&&!currentPosition.manual&&!positionSent&&<button type="button" className="secondary" disabled={locating} onClick={()=>{try{const sentAt=new Date().toISOString();onChange(prev=>({...prev,sharedPosition:{...currentPosition,sentAt}}));setSendingAt(sentAt);setLocationMessage('')}catch{setLocationMessage('위치를 저장하지 못했어요. 다시 시도해주세요.')}}}>{shared?'센터에 위치 전송':'센터에 위치 전송 (시연)'}</button>}</div>{locationMessage&&<p className="fine current-location-note" role="status">{locationMessage}</p>}{locationFailed&&<div className="location-recovery"><button type="button" className="secondary" onClick={()=>{cancelLocation();setManualOpen(true)}}>지도에서 내 위치 직접 선택</button></div>}{manualOpen&&<AdminLocationPicker purpose="current-location" name="내 위치" onClose={()=>setManualOpen(false)} onSave={place=>{setCurrentPosition({lat:place.lat,lng:place.lng,accuracy:0,measuredAt:new Date().toISOString(),manual:true});setShowReal(true);setLocationMessage('지도에서 직접 선택한 위치예요. 자동 측정이나 센터 전송은 하지 않았어요.')}}/>}<div className="map-mode-switch" role="tablist" aria-label="여정 보기"><button type="button" role="tab" id="journey-overview-tab" aria-controls="journey-map-panel" aria-selected={!showReal} aria-pressed={!showReal} onClick={()=>{setShowReal(false);}}>이동 순서</button><button type="button" role="tab" id="journey-real-tab" aria-controls="journey-map-panel" aria-selected={showReal} aria-pressed={showReal} onClick={()=>{setShowReal(true);}}>실제 지도</button></div><div id="journey-map-panel" role="tabpanel" aria-labelledby={showReal?'journey-real-tab':'journey-overview-tab'}>
- {showReal&&browsingOther&&<p className="map-browsing-note" role="status">위에서 다른 지점을 보고 있어요. 지도는 마지막 확인 기록 기준으로 유지돼요.</p>}
- {!showReal?<><JourneyMap state={s} travelDate={travelDate} onEditReport={onEditReport}/></>:available&&!failed?<ActualMap currentPosition={currentPosition} s={s} travelDate={travelDate} onFail={()=>setFailed(true)} onFindPlace={onLocate}/>:checked?<><JourneyMap state={s} travelDate={travelDate} onEditReport={onEditReport}/><p className="fine" role="status">실제 지도를 불러오지 못해 이동 순서를 보여드려요.</p>{location.protocol!=='file:'&&<button type="button" className="text-button" onClick={()=>{setFailed(false);setChecked(false);setAttempt(n=>n+1);}}>지도 다시 불러오기</button>}</>:<p className="fine" role="status">지도를 불러오는 중이에요…</p>}
+ return <div className="public-journey"><div className="current-location-summary"><div className="current-location-actions">{locating&&<button type="button" className="text-button" onClick={()=>{cancelLocation();setLocationMessage('위치 조회를 취소했어요.')}}>조회 취소</button>}{locationSlot?createPortal(<button type="button" className="current-location-button" disabled={locating} onClick={locateMe}><MapReadingCloudIcon/>{locating?'내 위치 찾는 중…':'내 위치 보기'}</button>,locationSlot):<button type="button" className="current-location-button" disabled={locating} onClick={locateMe}><MapReadingCloudIcon/>{locating?'내 위치 찾는 중…':'내 위치 보기'}</button>}{currentPosition&&!currentPosition.manual&&!positionSent&&<button type="button" className="secondary" disabled={locating} onClick={()=>{try{const sentAt=new Date().toISOString();onChange(prev=>({...prev,sharedPosition:{...currentPosition,sentAt}}));setSendingAt(sentAt);setLocationMessage('')}catch{setLocationMessage('위치를 저장하지 못했어요. 다시 시도해주세요.')}}}>{shared?'센터에 위치 전송':'센터에 위치 전송 (시연)'}</button>}</div>{locationAddress&&<button type="button" className="current-location-address" aria-expanded={addressExpanded} onClick={()=>setAddressExpanded(v=>!v)} title={locationAddress}>{locationAddress}</button>}{currentPosition?<p ref={detailRef} className="fine current-location-detail" role="status" title={locationDetail+" · 카카오 길찾기 기준 · 조회 시점 위치"}>{locationDetail}</p>:locationMessage&&<p className="fine current-location-note" role="status">{locationMessage}</p>}</div>{locationFailed&&<div className="location-recovery"><button type="button" className="secondary" onClick={()=>{cancelLocation();setManualOpen(true)}}>지도에서 내 위치 직접 선택</button></div>}{manualOpen&&<AdminLocationPicker purpose="current-location" name="내 위치" onClose={()=>setManualOpen(false)} onSave={place=>{setCurrentPosition({lat:place.lat,lng:place.lng,accuracy:0,measuredAt:new Date().toISOString(),manual:true});setLocationMessage('지도에서 직접 선택한 위치예요. 자동 측정이나 센터 전송은 하지 않았어요.')}}/>}<div id="journey-map-panel" role="region" aria-label="지도와 이동 순서" tabIndex={-1}>
 
- <div className="journey-information-row"><div className="route-edit-actions">{routeAction}</div><details className="journey-information"><summary>지도 및 경로 정보</summary>{information}<p className="fine">표시를 누르면 장소·확인 시각을 볼 수 있어요.<br/>파란 선은 추천 경로로, 실제 운행과 다를 수 있어요.</p></details></div>
+ {available&&!failed?<ActualMap currentPosition={currentPosition} s={s} travelDate={travelDate} onFail={()=>setFailed(true)} onFindPlace={onLocate}/>:checked?<><p className="fine" role="status">실제 지도를 불러오지 못해 이동 순서를 보여드려요.</p>{location.protocol!=='file:'&&<button type="button" className="text-button" onClick={()=>{setFailed(false);setChecked(false);setAttempt(n=>n+1);}}>지도 다시 불러오기</button>}</>:<p className="fine" role="status">지도를 불러오는 중이에요…</p>}
+
+ <div className="journey-horizontal"><JourneyMap compact state={s} travelDate={travelDate} onEditReport={onEditReport}/></div>
+ <div className="journey-information-row"><div className="route-edit-actions">{routeAction}</div><details className="journey-information"><summary>지도 및 경로 정보</summary>{information}</details></div>
  </div></div>;
 }

@@ -1,2 +1,22 @@
 .workspace-shell.guide .app main>section.center-weather[data-precipitation=true]{background:#eaf7ff;border-color:#cde8f8}
 .app .center-weather[data-precipitation=true] .info-section-toggle>.weather-location-label{flex:1;min-width:0;white-space:normal;word-break:keep-all;text-align:right;color:#337a9e}
+
+.app .center-weather .info-section-toggle>.weather-header-summary{margin-left:auto;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0;font-size:11px;font-weight:400;letter-spacing:normal;color:#667e99}
+.app .center-weather .weather-header-summary>strong{font-size:16px;font-weight:700;color:#205a80}
+.app .center-weather .weather-header-summary>.weather-condition-icon{width:20px;height:20px;flex:0 0 20px}
+.app .center-weather .weather-header-summary+.info-toggle-sign{margin-left:0}
+.app .center-weather .weather-place-description{font-size:11px;margin:0 0 8px;color:#667e99}
+
+/* Keep location beside the toggle and forecast centered within the card. */
+.app .center-weather .info-section-toggle{position:relative;flex-wrap:wrap}
+.app .center-weather .info-section-toggle>.weather-heading-title{font:inherit;color:inherit;white-space:nowrap}
+.app .center-weather .info-section-toggle>.weather-header-summary{position:absolute;left:50%;transform:translateX(-50%);margin:0;gap:4px;font-size:12px}
+.app .center-weather .weather-header-summary>strong{font-size:19px}
+.app .center-weather .weather-header-summary>.weather-condition-icon{width:24px;height:24px;flex-basis:24px}
+.app .center-weather .info-section-toggle>.weather-location-label{margin-left:auto;flex:none;font-size:10px;white-space:nowrap;line-height:18px;color:#667e99}
+@media(max-width:520px){
+.app .center-weather .info-section-toggle{row-gap:6px}
+.app .center-weather .info-section-toggle>.weather-header-summary{position:static;transform:none;order:5;flex:0 0 100%;justify-content:center;padding:2px 0 4px}
+}
+
+.app .center-weather .info-section-toggle>.weather-header-summary{gap:7px;align-items:center;justify-content:center}

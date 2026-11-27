@@ -126,3 +126,19 @@ dialog.chat-photo-viewer{box-sizing:border-box;width:min(1000px,calc(100vw - 16p
 .chat-photo-inline-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:24px}
 .chat-photo-inline-footer>.chat-line-meta{display:flex;align-items:center;flex-wrap:nowrap;min-width:0;gap:5px;margin:0;font-size:10px;line-height:16px;white-space:nowrap;position:relative;top:2px}
 .chat-photo-inline-footer>.chat-photo-save{display:inline-flex;align-items:center;justify-content:flex-end;flex:none;align-self:center;margin:0 0 0 auto;padding:0;min-height:24px;font-size:10px;line-height:16px;white-space:nowrap}
+
+.chat-photo-viewer>header .chat-viewer-save{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border:1px solid #cfe5f0;border-radius:12px;background:#fff;color:#54798f;font-size:14px;text-decoration:none;box-sizing:border-box}
+.chat-line[data-own=true] .chat-attachment>.chat-line-meta{align-self:flex-end}
+
+/* Compact photo viewer: fitted image, close above, save below. */
+dialog.chat-photo-viewer{width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overscroll-behavior:contain}
+.chat-photo-viewer>header{justify-content:flex-end;border-bottom:0;padding:8px 10px;background:transparent}
+.chat-photo-viewer-body{display:flex;align-items:center;justify-content:center;padding:0 12px;overflow:hidden;max-height:none;touch-action:pinch-zoom}
+.chat-photo-viewer-body img{width:auto;height:auto;max-width:100%;max-height:min(60dvh,560px);object-fit:contain;margin:auto;border-radius:8px}
+.chat-photo-viewer>footer{display:flex;justify-content:flex-start;padding:8px 12px max(8px,env(safe-area-inset-bottom));background:transparent}
+.chat-photo-viewer>footer .chat-viewer-save{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border:1px solid #cfe5f0;border-radius:12px;background:white;color:#54798f;font-size:14px;text-decoration:none;box-sizing:border-box}
+
+/* Fit the dialog and its actions to the actual photo width. */
+.chat-photo-viewer>header{padding:6px 10px 4px;min-height:0}
+.chat-photo-viewer-body{padding:0 10px}
+.chat-photo-viewer>footer{padding:4px 10px max(6px,env(safe-area-inset-bottom));margin:0;min-height:0}
