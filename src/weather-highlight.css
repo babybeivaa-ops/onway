@@ -20,3 +20,13 @@
 }
 
 .app .center-weather .info-section-toggle>.weather-header-summary{gap:7px;align-items:center;justify-content:center}
+
+/* Mobile summary wraps to a second row: let the collapsed card grow with it. */
+@media(max-width:520px){
+.workspace-shell.guide .app main>section.center-weather,
+.workspace-shell.guide .app main>section.center-weather>.section-heading{height:auto;max-height:none}
+.workspace-shell.guide .app .center-weather .weather-title-line,
+.workspace-shell.guide .app .center-weather .weather-title-line h2{width:100%;min-width:0;height:auto}
+.workspace-shell.guide .app .center-weather .info-section-toggle{height:auto;min-height:40px;display:flex;flex-wrap:wrap;row-gap:8px}
+.workspace-shell.guide .app .center-weather .info-section-toggle>.weather-header-summary{position:static;transform:none;flex:0 0 100%;order:5;padding:0;line-height:28px;justify-content:center}
+}
