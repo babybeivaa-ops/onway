@@ -1403,3 +1403,6 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page .visit-date-value .visit-date-weekday{font-size:.5em;font-weight:400;margin-left:2px;color:#71839b;vertical-align:baseline}
 
 .admin-page .school-visit-facts .visit-date-value .visit-date-weekday{display:inline;width:auto;margin:0 3px;font-size:.5em;line-height:inherit;white-space:nowrap;vertical-align:baseline}
+
+.admin-page .school-visit-facts .visit-date-value .visit-date-weekday{margin-left:5px;margin-right:0}
+.admin-page .visit-date-value .visit-date-separator{display:inline;margin:0 6px}

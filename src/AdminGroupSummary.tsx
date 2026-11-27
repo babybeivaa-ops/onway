@@ -26,7 +26,7 @@ function AdmissionDates({start,duration}:{start:string;duration?:string}){
  const nights=duration==='3박 4일'?3:duration==='2박 3일'?2:duration==='1박 2일'?1:0;
  date.setUTCDate(date.getUTCDate()+nights);
  const lastDay=weekdays[date.getUTCDay()];
- return <FittedGroupName name={first+' '+firstDay+(last?'~'+last+' '+lastDay:'')}>{first}<small className="visit-date-weekday">{firstDay}</small>{last&&<>~{last}<small className="visit-date-weekday">{lastDay}</small></>}</FittedGroupName>;
+ return <FittedGroupName name={first+' '+firstDay+(last?'~'+last+' '+lastDay:'')}>{first}<small className="visit-date-weekday">{firstDay}</small>{last&&<><span className="visit-date-separator">~</span>{last}<small className="visit-date-weekday">{lastDay}</small></>}</FittedGroupName>;
 }
 
 export function AdminGroupSummary({onCompleteAdmission,onSendMessage,onAdminCheckpointCheck,onEditCounts,group,archived=false,onReplyMessage,onAcknowledgeMessage,onSetPlannedArrival}:{onCompleteAdmission?:()=>void;onSendMessage?:(text:string)=>void;onAdminCheckpointCheck?:(id:string,time?:string)=>void;onEditCounts?:()=>void;group:DemoGroup;onSetPlannedArrival?:(time:string)=>void;archived?:boolean;onReplyMessage?:(id:string,text:string)=>void;onAcknowledgeMessage?:(id:string)=>void}){
