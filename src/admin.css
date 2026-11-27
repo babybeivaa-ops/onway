@@ -1386,3 +1386,6 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page .group-quick-tabs .admitted-group-stack .past-admission-status>svg{width:22px;height:22px;flex:0 0 22px}
 
 .admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .past-admission-status{font-size:13px;line-height:20px;font-weight:600;color:#738092}
+
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .journey-badge[data-admission-complete=true] .journey-badge-icon>svg,
+.admin-page .group-quick-tabs .admitted-group-stack button[data-admitted=true] .past-admission-status>svg{width:22px;height:22px;min-width:22px;max-width:22px;max-height:22px;transform:translateX(-2px) scale(1.16);transform-origin:center;flex:0 0 22px}
