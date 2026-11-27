@@ -30,3 +30,10 @@
 .workspace-shell.guide .app .center-weather .weather-header-summary>.weather-condition-icon{width:18px;height:18px;flex-basis:18px}
 .workspace-shell.guide .app .center-weather .info-section-toggle>.weather-location-label{font-size:9px}
 }
+
+.workspace-shell.guide .app .center-weather .info-section-toggle{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+.workspace-shell.guide .app .center-weather .weather-header-end{grid-column:3;grid-row:1;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
+.workspace-shell.guide .app .center-weather .weather-header-end>.weather-location-label{margin:0;padding:0;font-size:10px;font-weight:400;white-space:nowrap;line-height:18px;color:#667e99;letter-spacing:normal}
+.workspace-shell.guide .app .center-weather .weather-header-end>.info-toggle-sign{flex:0 0 12px;margin:0}
+@media(max-width:520px){.workspace-shell.guide .app .center-weather .weather-header-end{gap:4px}.workspace-shell.guide .app .center-weather .weather-header-end>.weather-location-label{font-size:9.5px}}
+@media(max-width:360px){.workspace-shell.guide .app .center-weather .weather-header-end>.weather-location-label{font-size:9px}}
