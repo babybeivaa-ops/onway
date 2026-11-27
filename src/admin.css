@@ -1345,7 +1345,7 @@ dialog:has(>.checkpoint-editor)>.dialog-head h2{font-size:20px}
 .admin-page .admission-complete-button{position:relative;top:-3px}
 
 .admin-page .group-quick-tabs .journey-badge[data-admission-complete=true] .journey-badge-icon>svg{transform:translateX(-2px) scale(1.16);transform-origin:center}
-.admin-page .visit-date-value>.fitted-group-name{text-align:left;box-sizing:border-box;padding-left:17px;font-size:25px}
+.admin-page .visit-date-value>.fitted-group-name{text-align:left;box-sizing:border-box;padding-left:17px;font-size:27px}
 
 .admin-page .school-visit-summary .school-visit-heading h2{font-size:28px;line-height:1.3}
 
